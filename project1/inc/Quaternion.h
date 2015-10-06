@@ -7,7 +7,6 @@ public:
   Quaternion();
   Quaternion(Quaternion &other);
   ~Quaternion();
-
 };
 
 #endif

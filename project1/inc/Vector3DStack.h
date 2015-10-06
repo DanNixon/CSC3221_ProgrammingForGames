@@ -14,14 +14,14 @@ public:
   int magnitude() const;
   Vector3DStack getUnitVector() const;
 
-  Vector3DStack operator+(Vector3DStack lhs, const Vector3DStack &rhs);
-  Vector3DStack operator-(Vector3DStack lhs, constVector3DStack &rhs);
+  Vector3DStack operator+(const Vector3DStack &rhs);
+  Vector3DStack operator-(const Vector3DStack &rhs);
 
   Vector3DStack operator*(const int rhs);
   Vector3DStack operator/(const int rhs);
 
-  Vector3DStack operator*(Vector3DStack lhs, const Vector3DStack &rhs); //scaler prod
-  Vector3DStack operator%(Vector3DStack lhs, const Vector3DStack &rhs); //vector prod
+  Vector3DStack operator*(const Vector3DStack &rhs); // scaler prod
+  Vector3DStack operator%(const Vector3DStack &rhs); // vector prod
 
 private:
   int m_x;
