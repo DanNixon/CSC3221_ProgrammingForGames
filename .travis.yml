@@ -4,8 +4,8 @@ sudo: false
 
 script:
   - cd project1
-  - make
-  - make test
+  - make all
+  - make run_tests
 
 notifications:
   email:

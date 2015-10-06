@@ -8,7 +8,7 @@ clean:
 all: tests
 
 run_tests: tests
-	./runner
+	./tests
 
 tests: tests.cpp
 	$(CXX) -o $@ $<
