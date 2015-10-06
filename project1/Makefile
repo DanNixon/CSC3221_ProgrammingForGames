@@ -11,7 +11,7 @@ run_tests: tests
 	./tests
 
 tests: tests.cpp
-	$(CXX) -o $@ $<
+	$(CXX) $(CXX_FLAGS) -o $@ $<
 
 tests.cpp: $(TEST_FILES)
 	cxxtestgen -o $@ --error-printer $^

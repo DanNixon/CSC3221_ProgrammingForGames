@@ -2,8 +2,13 @@ language: cpp
 
 sudo: false
 
+before_install:
+  - git clone git@github.com:CxxTest/cxxtest.git cxxtest
+  - export PATH=$PATH:$PWD/cxxtest/bin/
+
 script:
   - cd project1
+  - export CXX_FLAGS='-I ../cxxtest/'
   - make all
   - make run_tests
 
