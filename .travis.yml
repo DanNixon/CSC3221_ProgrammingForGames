@@ -1,0 +1,13 @@
+language: cpp
+
+sudo: false
+
+script:
+  - cd project1
+  - make
+  - make test
+
+notifications:
+  email:
+    on_success: change
+    on_failure: change
