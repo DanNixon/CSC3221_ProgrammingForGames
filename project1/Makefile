@@ -2,8 +2,8 @@ TEST_DIR = 'test/'
 TEST_FILES := $(shell find $(TEST_DIR) -name '*.h')
 
 clean:
-	test -f tests.cpp & rm tests.cpp
-	test -f tests & rm tests
+	rm -f tests
+	rm -f tests.cpp
 
 all: tests
 
