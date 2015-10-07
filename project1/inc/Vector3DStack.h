@@ -20,8 +20,8 @@ public:
   Vector3DStack operator*(const int rhs);
   Vector3DStack operator/(const int rhs);
 
-  Vector3DStack operator*(const Vector3DStack &rhs); // scaler prod
-  Vector3DStack operator%(const Vector3DStack &rhs); // vector prod
+  int operator*(const Vector3DStack &rhs);
+  Vector3DStack operator%(const Vector3DStack &rhs);
 
 private:
   int m_x;

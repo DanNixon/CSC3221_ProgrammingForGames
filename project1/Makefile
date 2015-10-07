@@ -4,7 +4,7 @@ BIN_DIR = bin
 SRC_DIR = src
 INC_DIR = inc
 SRC_FILES := $(shell find $(SRC_DIR) -name '*.cpp')
-OBJECTS=$(patsubst $(SRC_DIR)/%, $(OBJ_DIR)/%, $(SRC_FILES:.cpp=.o))
+OBJECTS = $(patsubst $(SRC_DIR)/%, $(OBJ_DIR)/%, $(SRC_FILES:.cpp=.o))
 
 TEST_DIR = test
 TEST_FILES := $(shell find $(TEST_DIR) -name '*.h')
