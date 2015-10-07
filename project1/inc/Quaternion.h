@@ -5,8 +5,29 @@ class Quaternion
 {
 public:
   Quaternion();
-  Quaternion(Quaternion &other);
-  ~Quaternion();
+  Quaternion(const double w);
+  Quaternion(const double w, const double i, const double j, const double k);
+  Quaternion(const Quaternion &other);
+
+  void operator=(const Quaternion &rhs);
+  bool operator==(const Quaternion &rhs) const;
+
+  double getReal() const;
+  double getI() const;
+  double getJ() const;
+  double getK() const;
+
+  double magnitude() const;
+
+  Quaternion operator+(const Quaternion & rhs) const;
+  Quaternion operator-(const Quaternion & rhs) const;
+  Quaternion operator*(const Quaternion & rhs) const;
+
+private:
+  double m_w;
+  double m_i;
+  double m_j;
+  double m_k;
 };
 
 #endif
