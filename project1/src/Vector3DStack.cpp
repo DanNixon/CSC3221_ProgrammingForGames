@@ -9,55 +9,73 @@ Vector3DStack::Vector3DStack()
 {
 }
 
-Vector3DStack::Vector3DStack(int x, int y, int z)
+Vector3DStack::Vector3DStack(const Vector3DStack &other)
+    : m_x(other.getX())
+    , m_y(other.getY())
+    , m_z(other.getZ())
+{
+}
+
+Vector3DStack::Vector3DStack(const double x, const double y, const double z)
     : m_x(x)
     , m_y(y)
     , m_z(z)
 {
 }
 
-int Vector3DStack::getX() const
+bool Vector3DStack::operator==(const Vector3DStack &other) const
+{
+  return (m_x == other.getX() && m_y == other.getY() && m_z == other.getZ());
+}
+
+void Vector3DStack::operator=(const Vector3DStack &other)
+{
+  m_x = other.getX();
+  m_y = other.getY();
+  m_z = other.getZ();
+}
+
+double Vector3DStack::getX() const
 {
   return m_x;
 }
 
-int Vector3DStack::getY() const
+double Vector3DStack::getY() const
 {
   return m_y;
 }
 
-int Vector3DStack::getZ() const
+double Vector3DStack::getZ() const
 {
   return m_z;
 }
 
-int Vector3DStack::magnitude() const
+double Vector3DStack::magnitude() const
 {
   return sqrt(m_x * m_x + m_y * m_y + m_z * m_z);
 }
 
 Vector3DStack Vector3DStack::getUnitVector() const
 {
-  //TODO
-  return Vector3DStack();
+  return Vector3DStack(*this) / magnitude();
 }
 
-Vector3DStack Vector3DStack::operator+(const Vector3DStack &rhs)
+Vector3DStack Vector3DStack::operator+(const Vector3DStack &rhs) const
 {
   return Vector3DStack(m_x + rhs.getX(), m_y + rhs.getY(), m_z + rhs.getZ());
 }
 
-Vector3DStack Vector3DStack::operator-(const Vector3DStack &rhs)
+Vector3DStack Vector3DStack::operator-(const Vector3DStack &rhs) const
 {
   return Vector3DStack(m_x - rhs.getX(), m_y - rhs.getY(), m_z - rhs.getZ());
 }
 
-Vector3DStack Vector3DStack::operator*(const int rhs)
+Vector3DStack Vector3DStack::operator*(const double rhs) const
 {
   return Vector3DStack(m_x * rhs, m_y * rhs, m_z * rhs);
 }
 
-Vector3DStack Vector3DStack::operator/(const int rhs)
+Vector3DStack Vector3DStack::operator/(const double rhs) const
 {
   return Vector3DStack(m_x / rhs, m_y / rhs, m_z / rhs);
 }
@@ -65,7 +83,7 @@ Vector3DStack Vector3DStack::operator/(const int rhs)
 /**
  * Dot (scalar) product
  */
-int Vector3DStack::operator*(const Vector3DStack &rhs)
+double Vector3DStack::operator*(const Vector3DStack &rhs) const
 {
   return (m_x * rhs.getX() + m_y * rhs.getY() + m_z * rhs.getZ());
 }
@@ -73,7 +91,7 @@ int Vector3DStack::operator*(const Vector3DStack &rhs)
 /**
  * Cross (vector) product
  */
-Vector3DStack Vector3DStack::operator%(const Vector3DStack &rhs)
+Vector3DStack Vector3DStack::operator%(const Vector3DStack &rhs) const
 {
   return Vector3DStack(m_y * rhs.getZ() - m_z * rhs.getY(),
                        m_z * rhs.getX() - m_x * rhs.getZ(),

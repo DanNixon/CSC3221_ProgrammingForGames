@@ -5,28 +5,32 @@ class Vector3DStack
 {
 public:
   Vector3DStack();
-  Vector3DStack(int x, int y, int z);
+  Vector3DStack(const Vector3DStack &other);
+  Vector3DStack(const double x, const double y, const double z);
 
-  int getX() const;
-  int getY() const;
-  int getZ() const;
+  bool operator==(const Vector3DStack &other) const;
+  void operator=(const Vector3DStack &other);
 
-  int magnitude() const;
+  double getX() const;
+  double getY() const;
+  double getZ() const;
+
+  double magnitude() const;
   Vector3DStack getUnitVector() const;
 
-  Vector3DStack operator+(const Vector3DStack &rhs);
-  Vector3DStack operator-(const Vector3DStack &rhs);
+  Vector3DStack operator+(const Vector3DStack &rhs) const;
+  Vector3DStack operator-(const Vector3DStack &rhs) const;
 
-  Vector3DStack operator*(const int rhs);
-  Vector3DStack operator/(const int rhs);
+  Vector3DStack operator*(const double rhs) const;
+  Vector3DStack operator/(const double rhs) const;
 
-  int operator*(const Vector3DStack &rhs);
-  Vector3DStack operator%(const Vector3DStack &rhs);
+  double operator*(const Vector3DStack &rhs) const;
+  Vector3DStack operator%(const Vector3DStack &rhs) const;
 
 private:
-  int m_x;
-  int m_y;
-  int m_z;
+  double m_x;
+  double m_y;
+  double m_z;
 };
 
 #endif
