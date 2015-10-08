@@ -10,7 +10,8 @@ script:
   - cd project1
   - export CXX_FLAGS='-I ../cxxtest/'
   - make all
-  - make run_tests
+  - make run_cxxtest
+  - make run_submission_tests
 
 notifications:
   email:

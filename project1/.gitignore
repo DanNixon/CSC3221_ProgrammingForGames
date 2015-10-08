@@ -1,3 +1,4 @@
 # Unit test files
-tests
-tests.cpp
+obj/
+bin/
+cxxtests.cpp
