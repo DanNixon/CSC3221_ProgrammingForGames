@@ -1,14 +1,16 @@
 language: cpp
 
-sudo: true
+sudo: false
+
+addons:
+  apt:
+    sources:
+      - kalakris-cmake
+    packages:
+      - cmake
 
 before_install:
   - git clone git@github.com:CxxTest/cxxtest.git cxxtest
-  - yes | sudo add-apt-repository ppa:kalakris/cmake
-  - sudo apt-get update -qq
-
-install:
-  - sudo apt-get install cmake
   - cmake --version
 
 script:
