@@ -8,10 +8,12 @@ before_install:
 
 script:
   - cd project1
-  - export CXX_FLAGS='-I ../cxxtest/'
-  - make all
-  - make run_cxxtest
-  - make run_submission_tests
+  - mkdir build
+  - cd build
+  - cmake ..
+  - make
+  - ./cxxtests -v
+  - ./Test
 
 notifications:
   email:
