@@ -1,16 +1,20 @@
 language: cpp
 
-sudo: false
+sudo: true
 
 before_install:
   - git clone git@github.com:CxxTest/cxxtest.git cxxtest
-  - export PATH=$PATH:$PWD/cxxtest/bin/
+  - yes | sudo add-apt-repository ppa:kalakris/cmake
+  - sudo apt-get update -qq
+
+install:
+  - sudo apt-get install cmake
+  - cmake --version
 
 script:
-  - cd project1
-  - mkdir build
-  - cd build
-  - cmake ..
+  - mkdir -p project1/build
+  - cd project1/build
+  - cmake -DCMAKE_PREFIX_PATH=${PWD}/../../cxxtest/ ..
   - make
   - ./cxxtests -v
   - ./Test

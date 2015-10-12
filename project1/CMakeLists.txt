@@ -5,15 +5,11 @@ project (NCL_CSCCSC3221_1_DanNixon)
 add_library (Geometry
              ${CMAKE_CURRENT_SOURCE_DIR}/src/Vector3DStack.cpp
              ${CMAKE_CURRENT_SOURCE_DIR}/src/Quaternion.cpp)
-target_include_directories (Geometry
-                            PUBLIC
-                            ${CMAKE_CURRENT_SOURCE_DIR}/inc)
+include_directories (${CMAKE_CURRENT_SOURCE_DIR}/inc)
 
 find_package(CxxTest REQUIRED)
-
 if(CXXTEST_FOUND)
-  include_directories(${CXXTEST_INCLUDE_DIR}
-                      ${CMAKE_CURRENT_SOURCE_DIR}/inc)
+  include_directories(${CXXTEST_INCLUDE_DIR})
   link_libraries(Geometry)
   enable_testing()
   CXXTEST_ADD_TEST(cxxtests
