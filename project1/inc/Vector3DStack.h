@@ -10,8 +10,10 @@ public:
   Vector3DStack(const Vector3DStack &other);
   Vector3DStack(const double x, const double y, const double z);
 
-  bool operator==(const Vector3DStack &other) const;
   void operator=(const Vector3DStack &other);
+
+  bool operator==(const Vector3DStack &other) const;
+  bool operator!=(const Vector3DStack &other) const;
 
   double getX() const;
   double getY() const;

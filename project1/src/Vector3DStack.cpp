@@ -23,16 +23,21 @@ Vector3DStack::Vector3DStack(const double x, const double y, const double z)
 {
 }
 
-bool Vector3DStack::operator==(const Vector3DStack &other) const
-{
-  return (m_x == other.getX() && m_y == other.getY() && m_z == other.getZ());
-}
-
 void Vector3DStack::operator=(const Vector3DStack &other)
 {
   m_x = other.getX();
   m_y = other.getY();
   m_z = other.getZ();
+}
+
+bool Vector3DStack::operator==(const Vector3DStack &other) const
+{
+  return (m_x == other.getX() && m_y == other.getY() && m_z == other.getZ());
+}
+
+bool Vector3DStack::operator!=(const Vector3DStack &other) const
+{
+  return !operator==(other);
 }
 
 double Vector3DStack::getX() const

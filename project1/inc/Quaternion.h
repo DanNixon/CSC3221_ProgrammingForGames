@@ -12,7 +12,9 @@ public:
   Quaternion(const Quaternion &other);
 
   void operator=(const Quaternion &rhs);
+
   bool operator==(const Quaternion &rhs) const;
+  bool operator!=(const Quaternion &rhs) const;
 
   double getReal() const;
   double getI() const;

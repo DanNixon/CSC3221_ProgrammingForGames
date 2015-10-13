@@ -85,6 +85,17 @@ bool Quaternion::operator==(const Quaternion &rhs) const
 }
 
 /**
+ * Check for inequality between this quaternion and another.
+ *
+ * @param rhs Other quaternion to compare to
+ * @return True if values are not equal
+ */
+bool Quaternion::operator!=(const Quaternion &rhs) const
+{
+  return !operator==(rhs);
+}
+
+/**
  * Return the real part of the quaternion.
  *
  * @param Real part

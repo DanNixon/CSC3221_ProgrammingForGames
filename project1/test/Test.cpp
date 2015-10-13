@@ -9,6 +9,14 @@
 size_t g_testsCount = 0;
 size_t g_testsPassed = 0;
 
+// Macro for testing that an expression is true.
+#define TS_ASSERT(expr)                                                        \
+  {                                                                            \
+    g_testsCount++;                                                            \
+    if (expr)                                                                  \
+      g_testsPassed++;                                                         \
+  }
+
 // Macro for testing that two values are equal to each other.
 #define TS_ASSERT_EQUALS(a, b)                                                 \
   {                                                                            \
@@ -41,7 +49,7 @@ int main()
   // TODO: Test function calls
   TS_ASSERT_EQUALS(true, true);
   TS_ASSERT_EQUALS(true, true);
-  TS_ASSERT_EQUALS(true, false);
+  TS_ASSERT(true);
 
   // Output the test results
   std::cout << "Tests passed: " << g_testsPassed << "/" << g_testsCount << " ("

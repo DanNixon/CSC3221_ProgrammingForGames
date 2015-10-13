@@ -52,8 +52,18 @@ public:
     Vector3DStack v2(3.0, 6.0, 8.0);
     Vector3DStack v3(1.0, 6.0, 3.0);
 
-    TS_ASSERT_DIFFERS(v1, v2);
-    TS_ASSERT_EQUALS(v1, v3);
+    TS_ASSERT(v1 == v3);
+    TS_ASSERT(!(v1 == v2));
+  }
+
+  void test_Vector3DStack_Inquality(void)
+  {
+    Vector3DStack v1(1.0, 6.0, 3.0);
+    Vector3DStack v2(3.0, 6.0, 8.0);
+    Vector3DStack v3(1.0, 6.0, 3.0);
+
+    TS_ASSERT(!(v1 != v3));
+    TS_ASSERT(v1 != v2);
   }
 
   void test_Vector3DStack_Addition(void)
@@ -206,8 +216,19 @@ public:
     Quaternion q1(5.0, 2.0, 4.5, 8.9);
     Quaternion q2(16.0, 2.5, 8.3, 6.7);
     Quaternion q3(5.0, 2.0, 4.5, 8.9);
-    TS_ASSERT_EQUALS(q1, q3);
-    TS_ASSERT_DIFFERS(q1, q2);
+
+    TS_ASSERT(q1 == q3);
+    TS_ASSERT(!(q1 == q2));
+  }
+
+  void test_Quaternion_Inequality(void)
+  {
+    Quaternion q1(5.0, 2.0, 4.5, 8.9);
+    Quaternion q2(16.0, 2.5, 8.3, 6.7);
+    Quaternion q3(5.0, 2.0, 4.5, 8.9);
+
+    TS_ASSERT(!(q1 != q3));
+    TS_ASSERT(q1 != q2);
   }
 
   void test_Quaternion_Magnitude(void)
