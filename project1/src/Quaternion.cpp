@@ -177,3 +177,19 @@ Quaternion Quaternion::operator*(const Quaternion &rhs) const
 
   return Quaternion(w, i, j, k);
 }
+
+std::ostream &operator<<(std::ostream &stream, const Quaternion &q)
+{
+  stream << "[" << q.getReal() << "," << q.getI() << "," << q.getJ() << ","
+         << q.getK() << "]";
+  return stream;
+}
+
+std::istream &operator>>(std::istream &stream, Quaternion &q)
+{
+  double w, i, j, k;
+  char delim;
+  stream >> delim >> w >> delim >> i >> delim >> j >> delim >> k >> delim;
+  q = Quaternion(w, i, j, k);
+  return stream;
+}

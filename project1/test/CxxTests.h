@@ -129,6 +129,30 @@ public:
     TS_ASSERT_DELTA(unit.getZ(), 0.4423, TH);
   }
 
+  void test_Vector3DStack_StreamOutput(void)
+  {
+    Vector3DStack v(1.0, 6.0, 3.0);
+    std::stringstream stream;
+    stream << v;
+    TS_ASSERT_EQUALS(stream.str(), "[1,6,3]");
+  }
+
+  void test_Vector3DStack_StreamInput(void)
+  {
+    // Create stream with valid string
+    std::stringstream stream;
+    stream << "[1.0,6.0,3.0]";
+
+    // Read the stream
+    Vector3DStack v;
+    stream >> v;
+
+    // Validate results
+    TS_ASSERT_EQUALS(v.getX(), 1.0);
+    TS_ASSERT_EQUALS(v.getY(), 6.0);
+    TS_ASSERT_EQUALS(v.getZ(), 3.0);
+  }
+
   void test_Quaternion_Default(void)
   {
     Quaternion q;
@@ -223,5 +247,30 @@ public:
     TS_ASSERT_DELTA(q3.getI(), 0.78, TH);
     TS_ASSERT_DELTA(q3.getJ(), 122.35, TH);
     TS_ASSERT_DELTA(q3.getK(), 181.25, TH);
+  }
+
+  void test_Quaternion_StreamOutput(void)
+  {
+    Quaternion q(5.0, 2.0, 4.5, 8.9);
+    std::stringstream stream;
+    stream << q;
+    TS_ASSERT_EQUALS(stream.str(), "[5,2,4.5,8.9]");
+  }
+
+  void test_Quaternion_StreamInput(void)
+  {
+    // Create stream with valid string
+    std::stringstream stream;
+    stream << "[5.0,2.0,4.5,8.9]";
+
+    // Read the stream
+    Quaternion q;
+    stream >> q;
+
+    // Validate results
+    TS_ASSERT_EQUALS(q.getReal(), 5.0);
+    TS_ASSERT_EQUALS(q.getI(), 2.0);
+    TS_ASSERT_EQUALS(q.getJ(), 4.5);
+    TS_ASSERT_EQUALS(q.getK(), 8.9);
   }
 };

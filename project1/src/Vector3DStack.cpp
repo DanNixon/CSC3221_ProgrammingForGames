@@ -97,3 +97,18 @@ Vector3DStack Vector3DStack::operator%(const Vector3DStack &rhs) const
                        m_z * rhs.getX() - m_x * rhs.getZ(),
                        m_x * rhs.getY() - m_y * rhs.getX());
 }
+
+std::ostream &operator<<(std::ostream &stream, const Vector3DStack &v)
+{
+  stream << "[" << v.getX() << "," << v.getY() << "," << v.getZ() << "]";
+  return stream;
+}
+
+std::istream &operator>>(std::istream &stream, Vector3DStack &v)
+{
+  double x, y, z;
+  char delim;
+  stream >> delim >> x >> delim >> y >> delim >> z >> delim;
+  v = Vector3DStack(x, y, z);
+  return stream;
+}

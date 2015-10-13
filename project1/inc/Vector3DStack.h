@@ -1,6 +1,8 @@
 #ifndef _VECTOR3DSTACK_H_
 #define _VECTOR3DSTACK_H_
 
+#include <iostream>
+
 class Vector3DStack
 {
 public:
@@ -32,5 +34,8 @@ private:
   double m_y;
   double m_z;
 };
+
+std::ostream &operator<<(std::ostream &stream, const Vector3DStack &q);
+std::istream &operator>>(std::istream &stream, Vector3DStack &q);
 
 #endif

@@ -1,6 +1,8 @@
 #ifndef _QUATERNION_H_
 #define _QUATERNION_H_
 
+#include <iostream>
+
 class Quaternion
 {
 public:
@@ -19,9 +21,9 @@ public:
 
   double magnitude() const;
 
-  Quaternion operator+(const Quaternion & rhs) const;
-  Quaternion operator-(const Quaternion & rhs) const;
-  Quaternion operator*(const Quaternion & rhs) const;
+  Quaternion operator+(const Quaternion &rhs) const;
+  Quaternion operator-(const Quaternion &rhs) const;
+  Quaternion operator*(const Quaternion &rhs) const;
 
 private:
   double m_w;
@@ -29,5 +31,8 @@ private:
   double m_j;
   double m_k;
 };
+
+std::ostream &operator<<(std::ostream &stream, const Quaternion &q);
+std::istream &operator>>(std::istream &stream, Quaternion &q);
 
 #endif
