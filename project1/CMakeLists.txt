@@ -7,7 +7,7 @@ add_library (Geometry
              ${CMAKE_CURRENT_SOURCE_DIR}/src/Quaternion.cpp)
 include_directories (${CMAKE_CURRENT_SOURCE_DIR}/inc)
 
-find_package(CxxTest REQUIRED)
+find_package(CxxTest)
 if(CXXTEST_FOUND)
   include_directories(${CXXTEST_INCLUDE_DIR})
   link_libraries(Geometry)
