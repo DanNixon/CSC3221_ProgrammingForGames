@@ -18,7 +18,7 @@ script:
   - cd project1/build
   - cmake -DCMAKE_PREFIX_PATH=${PWD}/../../cxxtest/ ..
   - make
-  - ./cxxtests -v
+  - ctest -VV
   - ./Test
 
 notifications:
