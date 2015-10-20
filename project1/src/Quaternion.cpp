@@ -2,6 +2,17 @@
 
 #include <cmath>
 
+/*
+ * Optimisation notes
+ *
+ * All non primitive types are passed by const reference to avoid unnecessary
+ * copying (i.e. reference) but still avoid changing the original (i.e. const).
+ *
+ * Passing by reference is not done for primitive types as this causes aliasing
+ * which prevents the compiler optimisation doing the full extent of
+ * optimisation.
+ */
+
 /**
  * Construct a quaternion with a default value of 1.
  */
@@ -189,6 +200,13 @@ Quaternion Quaternion::operator*(const Quaternion &rhs) const
   return Quaternion(w, i, j, k);
 }
 
+/**
+ * Outputs the component values of a quaternion to a strem in the format
+ * "[w,i,j,k]".
+ *
+ * @param stream The stream to output to
+ * @param q The quaternion to output
+ */
 std::ostream &operator<<(std::ostream &stream, const Quaternion &q)
 {
   stream << "[" << q.getReal() << "," << q.getI() << "," << q.getJ() << ","
@@ -196,6 +214,12 @@ std::ostream &operator<<(std::ostream &stream, const Quaternion &q)
   return stream;
 }
 
+/**
+ * Reads component values of a quaternion from a stream in format "[w,i,j,k]".
+ *
+ * @param stream Stream to read from
+ * @param q Quaternion to store values in
+ */
 std::istream &operator>>(std::istream &stream, Quaternion &q)
 {
   double w, i, j, k;

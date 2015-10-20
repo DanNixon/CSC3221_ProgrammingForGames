@@ -2,6 +2,20 @@
 
 #include <cmath>
 
+/*
+ * Optimisation notes
+ *
+ * All non primitive types are passed by const reference to avoid unnecessary
+ * copying (i.e. reference) but still avoid changing the original (i.e. const).
+ *
+ * Passing by reference is not done for primitive types as this causes aliasing
+ * which prevents the compiler optimisation doing the full extent of
+ * optimisation.
+ */
+
+/**
+ * Instantiate a new vector will all components set to zero.
+ */
 Vector3DStack::Vector3DStack()
     : m_x(0)
     , m_y(0)
@@ -9,6 +23,11 @@ Vector3DStack::Vector3DStack()
 {
 }
 
+/**
+ * Instantiate a new vector taking values from another.
+ *
+ * @param other Vector to copy values from
+ */
 Vector3DStack::Vector3DStack(const Vector3DStack &other)
     : m_x(other.getX())
     , m_y(other.getY())
@@ -16,6 +35,13 @@ Vector3DStack::Vector3DStack(const Vector3DStack &other)
 {
 }
 
+/**
+ * Instantiate a new vector with given values.
+ *
+ * @param x Value of X component
+ * @param y Value of Y component
+ * @param z Value of Z component
+ */
 Vector3DStack::Vector3DStack(const double x, const double y, const double z)
     : m_x(x)
     , m_y(y)
@@ -23,6 +49,11 @@ Vector3DStack::Vector3DStack(const double x, const double y, const double z)
 {
 }
 
+/**
+ * Set the values of this vector to the values of another.
+ *
+ * @param other Vector to copy values from
+ */
 void Vector3DStack::operator=(const Vector3DStack &other)
 {
   m_x = other.getX();
@@ -30,63 +61,131 @@ void Vector3DStack::operator=(const Vector3DStack &other)
   m_z = other.getZ();
 }
 
+/**
+ * Check for equality between this vector and another.
+ *
+ * @param other Other vector
+ * @return True if all component values are equal
+ */
 bool Vector3DStack::operator==(const Vector3DStack &other) const
 {
   return (m_x == other.getX() && m_y == other.getY() && m_z == other.getZ());
 }
 
+/**
+ * Check for inequality between this vector and another.
+ *
+ * @param other Other vector
+ * @return True if at least one component value differs
+ */
 bool Vector3DStack::operator!=(const Vector3DStack &other) const
 {
   return !operator==(other);
 }
 
+/**
+ * Returns the X component of the vector.
+ *
+ * @return X component
+ */
 double Vector3DStack::getX() const
 {
   return m_x;
 }
 
+/**
+ * Returns the Y component of the vector.
+ *
+ * @return Y component
+ */
 double Vector3DStack::getY() const
 {
   return m_y;
 }
 
+/**
+ * Returns the Z component of the vector.
+ *
+ * @return Z component
+ */
 double Vector3DStack::getZ() const
 {
   return m_z;
 }
 
+/**
+ * Calculates the magnitude of the vector.
+ *
+ * @return Magnitude
+ */
 double Vector3DStack::magnitude() const
 {
   return sqrt(m_x * m_x + m_y * m_y + m_z * m_z);
 }
 
+/**
+ * Calculates the unit vector of this vector through scalar division by the
+ * magnitude.
+ *
+ * @return Unit vector
+ */
 Vector3DStack Vector3DStack::getUnitVector() const
 {
   return Vector3DStack(*this) / magnitude();
 }
 
+/**
+ * Adds two vectors.
+ *
+ * @param rhs Right hand side vector
+ * @return This vector plus the RHS
+ */
 Vector3DStack Vector3DStack::operator+(const Vector3DStack &rhs) const
 {
   return Vector3DStack(m_x + rhs.getX(), m_y + rhs.getY(), m_z + rhs.getZ());
 }
 
+/**
+ * Subtract a vector from this vector.
+ *
+ * @param rhs Right hand side vector
+ * @return This vector minus the RHS
+ */
 Vector3DStack Vector3DStack::operator-(const Vector3DStack &rhs) const
 {
   return Vector3DStack(m_x - rhs.getX(), m_y - rhs.getY(), m_z - rhs.getZ());
 }
 
+/**
+ * Performs multiplication by a scalar.
+ *
+ * @param rhs Scalar to multiply by
+ * @return Product vector
+ */
 Vector3DStack Vector3DStack::operator*(const double rhs) const
 {
   return Vector3DStack(m_x * rhs, m_y * rhs, m_z * rhs);
 }
 
+/**
+ * Performs division by a scalar.
+ *
+ * Note that this does not check for zero division for the sake of
+ * optimisation.
+ *
+ * @param rhs Scalar to divide by
+ * @return Quotient vector
+ */
 Vector3DStack Vector3DStack::operator/(const double rhs) const
 {
   return Vector3DStack(m_x / rhs, m_y / rhs, m_z / rhs);
 }
 
 /**
- * Dot (scalar) product
+ * Calculates dot (scalar) product of two vectors.
+ *
+ * @param rhs Right hand side vector
+ * @return Dot product
  */
 double Vector3DStack::operator*(const Vector3DStack &rhs) const
 {
@@ -94,7 +193,10 @@ double Vector3DStack::operator*(const Vector3DStack &rhs) const
 }
 
 /**
- * Cross (vector) product
+ * Calculates the cross (vector) product of two vectors.
+ *
+ * @param rhs Right hand side vector
+ * @return Cross product
  */
 Vector3DStack Vector3DStack::operator%(const Vector3DStack &rhs) const
 {
@@ -103,12 +205,24 @@ Vector3DStack Vector3DStack::operator%(const Vector3DStack &rhs) const
                        m_x * rhs.getY() - m_y * rhs.getX());
 }
 
+/**
+ * Outputs the component values of a vector to a strem in the format "[x,y,z]".
+ *
+ * @param stream The stream to output to
+ * @param v The vector to output
+ */
 std::ostream &operator<<(std::ostream &stream, const Vector3DStack &v)
 {
   stream << "[" << v.getX() << "," << v.getY() << "," << v.getZ() << "]";
   return stream;
 }
 
+/**
+ * Reads component values of a vector from a stream in format "[x,y,z]".
+ *
+ * @param stream Stream to read from
+ * @param v Vector to store values in
+ */
 std::istream &operator>>(std::istream &stream, Vector3DStack &v)
 {
   double x, y, z;
