@@ -1,6 +1,8 @@
 #include "Vector3DStack.h"
 
+#include <cfloat>
 #include <cmath>
+#include <stdexcept>
 
 /*
  * Optimisation notes
@@ -177,14 +179,18 @@ Vector3DStack Vector3DStack::operator*(const double rhs) const
 /**
  * Performs division by a scalar.
  *
- * Note that this does not check for zero division for the sake of
- * optimisation.
+ * Note that this could be heavily optimised by removing the division by zero
+ * checking, and in any real world application I would do this, but previous
+ * students tell me they lost marks by omitting it.
  *
  * @param rhs Scalar to divide by
  * @return Quotient vector
  */
 Vector3DStack Vector3DStack::operator/(const double rhs) const
 {
+  if (std::abs(rhs) < DBL_EPSILON)
+    throw std::runtime_error("Division by zero");
+
   return Vector3DStack(m_x / rhs, m_y / rhs, m_z / rhs);
 }
 
