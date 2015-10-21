@@ -45,6 +45,7 @@ size_t g_testsPassed = 0;
       g_testsPassed++;                                                         \
   }
 
+/* Macro for testing an expression throws a certain type of exception. */
 #define TS_ASSERT_THROWS(expr, type)                                           \
   {                                                                            \
     g_testsCount++;                                                            \
@@ -392,9 +393,13 @@ int main()
   test_Quaternion_StreamInput();
 
   /* Output the test results */
-  std::cout << "Test assertions: " << g_testsPassed << "/" << g_testsCount
-            << " (" << ((100 * g_testsPassed) / g_testsCount) << "%)"
-            << std::endl;
+  std::cout << "Test assertions passed: " << g_testsPassed << "/"
+            << g_testsCount << " (" << ((100 * g_testsPassed) / g_testsCount)
+            << "%)" << std::endl;
+
+  /* Warn on failure */
+  if (g_testsPassed < g_testsCount)
+    std::cout << "There are test failures!" << std::endl;
 
   /* Return 0 for no failed tests, or 1 if at least one test failed */
   return (g_testsPassed != g_testsCount);
