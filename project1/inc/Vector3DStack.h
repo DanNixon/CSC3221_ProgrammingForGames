@@ -9,6 +9,7 @@ public:
   Vector3DStack();
   Vector3DStack(const Vector3DStack &other);
   Vector3DStack(const double x, const double y, const double z);
+  ~Vector3DStack();
 
   void operator=(const Vector3DStack &other);
 

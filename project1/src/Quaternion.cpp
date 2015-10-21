@@ -71,6 +71,13 @@ Quaternion::Quaternion(const Quaternion &other)
 }
 
 /**
+ * Destructor
+ */
+Quaternion::~Quaternion()
+{
+}
+
+/**
  * Assign this quaternion the values of another.
  *
  * @param rhs Quaternion from which to take values

@@ -50,6 +50,13 @@ Vector3DStack::Vector3DStack(const double x, const double y, const double z)
 }
 
 /**
+ * Destructor
+ */
+Vector3DStack::~Vector3DStack()
+{
+}
+
+/**
  * Set the values of this vector to the values of another.
  *
  * @param other Vector to copy values from

@@ -10,6 +10,7 @@ public:
   Quaternion(const double w);
   Quaternion(const double w, const double i, const double j, const double k);
   Quaternion(const Quaternion &other);
+  ~Quaternion();
 
   void operator=(const Quaternion &rhs);
 
