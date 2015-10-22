@@ -144,6 +144,19 @@ Vector3DStack Vector3DStack::getUnitVector() const
 }
 
 /**
+ * Calculates a unit vector that is orthogonal to both this and another given
+ * vector.
+ *
+ * @param other Other vector
+ * @returns Orthogonal unit vector
+ */
+Vector3DStack Vector3DStack::getOrthogonalUnitVector(const Vector3DStack &other) const
+{
+  Vector3DStack v = (*this) % other;
+  return v.getUnitVector();
+}
+
+/**
  * Adds two vectors.
  *
  * @param rhs Right hand side vector

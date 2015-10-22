@@ -148,6 +148,18 @@ public:
     TS_ASSERT_DELTA(unit.getZ(), 0.4423, TH);
   }
 
+  void test_Vector3DStack_OrthogonalUnitVector(void)
+  {
+    Vector3DStack v1(1.0, 0.0, 1.0);
+    Vector3DStack v2(0.0, 1.0, 1.0);
+    Vector3DStack v3 = v1.getOrthogonalUnitVector(v2);
+
+    TS_ASSERT_EQUALS(v3.magnitude(), 1.0);
+    TS_ASSERT_DELTA(v3.getX(), -0.57735, TH);
+    TS_ASSERT_DELTA(v3.getY(), -0.57735, TH);
+    TS_ASSERT_DELTA(v3.getZ(), 0.57735, TH);
+  }
+
   void test_Vector3DStack_StreamOutput(void)
   {
     Vector3DStack v(1.0, 6.0, 3.0);

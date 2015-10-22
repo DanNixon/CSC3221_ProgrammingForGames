@@ -22,6 +22,7 @@ public:
 
   double magnitude() const;
   Vector3DStack getUnitVector() const;
+  Vector3DStack getOrthogonalUnitVector(const Vector3DStack &other) const;
 
   Vector3DStack operator+(const Vector3DStack &rhs) const;
   Vector3DStack operator-(const Vector3DStack &rhs) const;
