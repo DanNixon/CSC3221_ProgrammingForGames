@@ -19,9 +19,9 @@
  * Instantiate a new vector will all components set to zero.
  */
 Vector3DStack::Vector3DStack()
-    : m_x(0)
-    , m_y(0)
-    , m_z(0)
+    : m_x(0.0)
+    , m_y(0.0)
+    , m_z(0.0)
 {
 }
 
@@ -31,9 +31,9 @@ Vector3DStack::Vector3DStack()
  * @param other Vector to copy values from
  */
 Vector3DStack::Vector3DStack(const Vector3DStack &other)
-    : m_x(other.getX())
-    , m_y(other.getY())
-    , m_z(other.getZ())
+    : m_x(other.m_x)
+    , m_y(other.m_y)
+    , m_z(other.m_z)
 {
 }
 
@@ -65,9 +65,9 @@ Vector3DStack::~Vector3DStack()
  */
 void Vector3DStack::operator=(const Vector3DStack &other)
 {
-  m_x = other.getX();
-  m_y = other.getY();
-  m_z = other.getZ();
+  m_x = other.m_x;
+  m_y = other.m_y;
+  m_z = other.m_z;
 }
 
 /**
@@ -78,7 +78,7 @@ void Vector3DStack::operator=(const Vector3DStack &other)
  */
 bool Vector3DStack::operator==(const Vector3DStack &other) const
 {
-  return (m_x == other.getX() && m_y == other.getY() && m_z == other.getZ());
+  return (m_x == other.m_x && m_y == other.m_y && m_z == other.m_z);
 }
 
 /**
@@ -150,7 +150,8 @@ Vector3DStack Vector3DStack::getUnitVector() const
  * @param other Other vector
  * @returns Orthogonal unit vector
  */
-Vector3DStack Vector3DStack::getOrthogonalUnitVector(const Vector3DStack &other) const
+Vector3DStack
+Vector3DStack::getOrthogonalUnitVector(const Vector3DStack &other) const
 {
   Vector3DStack v = (*this) % other;
   return v.getUnitVector();
@@ -164,7 +165,7 @@ Vector3DStack Vector3DStack::getOrthogonalUnitVector(const Vector3DStack &other)
  */
 Vector3DStack Vector3DStack::operator+(const Vector3DStack &rhs) const
 {
-  return Vector3DStack(m_x + rhs.getX(), m_y + rhs.getY(), m_z + rhs.getZ());
+  return Vector3DStack(m_x + rhs.m_x, m_y + rhs.m_y, m_z + rhs.m_z);
 }
 
 /**
@@ -175,7 +176,7 @@ Vector3DStack Vector3DStack::operator+(const Vector3DStack &rhs) const
  */
 Vector3DStack Vector3DStack::operator-(const Vector3DStack &rhs) const
 {
-  return Vector3DStack(m_x - rhs.getX(), m_y - rhs.getY(), m_z - rhs.getZ());
+  return Vector3DStack(m_x - rhs.m_x, m_y - rhs.m_y, m_z - rhs.m_z);
 }
 
 /**
@@ -215,7 +216,7 @@ Vector3DStack Vector3DStack::operator/(const double rhs) const
  */
 double Vector3DStack::operator*(const Vector3DStack &rhs) const
 {
-  return (m_x * rhs.getX() + m_y * rhs.getY() + m_z * rhs.getZ());
+  return (m_x * rhs.m_x + m_y * rhs.m_y + m_z * rhs.m_z);
 }
 
 /**
@@ -226,9 +227,9 @@ double Vector3DStack::operator*(const Vector3DStack &rhs) const
  */
 Vector3DStack Vector3DStack::operator%(const Vector3DStack &rhs) const
 {
-  return Vector3DStack(m_y * rhs.getZ() - m_z * rhs.getY(),
-                       m_z * rhs.getX() - m_x * rhs.getZ(),
-                       m_x * rhs.getY() - m_y * rhs.getX());
+  return Vector3DStack(m_y * rhs.m_z - m_z * rhs.m_y,
+                       m_z * rhs.m_x - m_x * rhs.m_z,
+                       m_x * rhs.m_y - m_y * rhs.m_x);
 }
 
 /**
@@ -239,7 +240,7 @@ Vector3DStack Vector3DStack::operator%(const Vector3DStack &rhs) const
  */
 std::ostream &operator<<(std::ostream &stream, const Vector3DStack &v)
 {
-  stream << "[" << v.getX() << "," << v.getY() << "," << v.getZ() << "]";
+  stream << "[" << v.m_x << "," << v.m_y << "," << v.m_z << "]";
   return stream;
 }
 

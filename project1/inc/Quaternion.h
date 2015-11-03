@@ -28,6 +28,8 @@ public:
   Quaternion operator-(const Quaternion &rhs) const;
   Quaternion operator*(const Quaternion &rhs) const;
 
+  friend std::ostream &operator<<(std::ostream &stream, const Quaternion &q);
+
 private:
   double m_w;
   double m_i;
@@ -35,7 +37,6 @@ private:
   double m_k;
 };
 
-std::ostream &operator<<(std::ostream &stream, const Quaternion &q);
 std::istream &operator>>(std::istream &stream, Quaternion &q);
 
 #endif

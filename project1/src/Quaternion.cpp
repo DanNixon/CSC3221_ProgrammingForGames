@@ -63,10 +63,10 @@ Quaternion::Quaternion(const double w, const double i, const double j,
  * @param rhs Quaternion from which to take values
  */
 Quaternion::Quaternion(const Quaternion &other)
-    : m_w(other.getReal())
-    , m_i(other.getI())
-    , m_j(other.getJ())
-    , m_k(other.getK())
+    : m_w(other.m_w)
+    , m_i(other.m_i)
+    , m_j(other.m_j)
+    , m_k(other.m_k)
 {
 }
 
@@ -84,10 +84,10 @@ Quaternion::~Quaternion()
  */
 void Quaternion::operator=(const Quaternion &rhs)
 {
-  m_w = rhs.getReal();
-  m_i = rhs.getI();
-  m_j = rhs.getJ();
-  m_k = rhs.getK();
+  m_w = rhs.m_w;
+  m_i = rhs.m_i;
+  m_j = rhs.m_j;
+  m_k = rhs.m_k;
 }
 
 /**
@@ -98,8 +98,7 @@ void Quaternion::operator=(const Quaternion &rhs)
  */
 bool Quaternion::operator==(const Quaternion &rhs) const
 {
-  return (m_w == rhs.getReal() && m_i == rhs.getI() && m_j == rhs.getJ() &&
-          m_k == rhs.getK());
+  return (m_w == rhs.m_w && m_i == rhs.m_i && m_j == rhs.m_j && m_k == rhs.m_k);
 }
 
 /**
@@ -171,8 +170,7 @@ double Quaternion::magnitude() const
  */
 Quaternion Quaternion::operator+(const Quaternion &rhs) const
 {
-  return Quaternion(m_w + rhs.getReal(), m_i + rhs.getI(), m_j + rhs.getJ(),
-                    m_k + rhs.getK());
+  return Quaternion(m_w + rhs.m_w, m_i + rhs.m_i, m_j + rhs.m_j, m_k + rhs.m_k);
 }
 
 /**
@@ -183,8 +181,7 @@ Quaternion Quaternion::operator+(const Quaternion &rhs) const
  */
 Quaternion Quaternion::operator-(const Quaternion &rhs) const
 {
-  return Quaternion(m_w - rhs.getReal(), m_i - rhs.getI(), m_j - rhs.getJ(),
-                    m_k - rhs.getK());
+  return Quaternion(m_w - rhs.m_w, m_i - rhs.m_i, m_j - rhs.m_j, m_k - rhs.m_k);
 }
 
 /**
@@ -195,14 +192,10 @@ Quaternion Quaternion::operator-(const Quaternion &rhs) const
  */
 Quaternion Quaternion::operator*(const Quaternion &rhs) const
 {
-  double w = m_w * rhs.getReal() - m_i * rhs.getI() - m_j * rhs.getJ() -
-             m_k * rhs.getK();
-  double i = m_w * rhs.getI() + rhs.getReal() * m_i + m_j * rhs.getK() -
-             rhs.getJ() * m_k;
-  double j = m_w * rhs.getJ() + rhs.getReal() * m_j - m_i * rhs.getK() +
-             m_k * rhs.getI();
-  double k = m_w * rhs.getK() + rhs.getReal() * m_k + m_i * rhs.getJ() -
-             rhs.getI() * m_j;
+  double w = m_w * rhs.m_w - m_i * rhs.m_i - m_j * rhs.m_j - m_k * rhs.m_k;
+  double i = m_w * rhs.m_i + rhs.m_w * m_i + m_j * rhs.m_k - rhs.m_j * m_k;
+  double j = m_w * rhs.m_j + rhs.m_w * m_j - m_i * rhs.m_k + m_k * rhs.m_i;
+  double k = m_w * rhs.m_k + rhs.m_w * m_k + m_i * rhs.m_j - rhs.m_i * m_j;
 
   return Quaternion(w, i, j, k);
 }
@@ -216,8 +209,7 @@ Quaternion Quaternion::operator*(const Quaternion &rhs) const
  */
 std::ostream &operator<<(std::ostream &stream, const Quaternion &q)
 {
-  stream << "[" << q.getReal() << "," << q.getI() << "," << q.getJ() << ","
-         << q.getK() << "]";
+  stream << "[" << q.m_w << "," << q.m_i << "," << q.m_j << "," << q.m_k << "]";
   return stream;
 }
 
