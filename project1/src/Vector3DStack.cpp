@@ -2,7 +2,7 @@
 
 #include <cfloat>
 #include <cmath>
-#include <stdexcept>
+#include <limits>
 
 /*
  * Optimisation notes
@@ -150,7 +150,8 @@ Vector3DStack Vector3DStack::getUnitVector() const
  * @param other Other vector
  * @returns Orthogonal unit vector
  */
-Vector3DStack Vector3DStack::getOrthogonalUnitVector(const Vector3DStack &other) const
+Vector3DStack
+Vector3DStack::getOrthogonalUnitVector(const Vector3DStack &other) const
 {
   Vector3DStack v = (*this) % other;
   return v.getUnitVector();
@@ -192,9 +193,7 @@ Vector3DStack Vector3DStack::operator*(const double rhs) const
 /**
  * Performs division by a scalar.
  *
- * Note that this could be heavily optimised by removing the division by zero
- * checking, and in any real world application I would do this, but previous
- * students tell me they lost marks by omitting it.
+ * Retruns a vector containing NaN on division by zero.
  *
  * @param rhs Scalar to divide by
  * @return Quotient vector
@@ -202,7 +201,9 @@ Vector3DStack Vector3DStack::operator*(const double rhs) const
 Vector3DStack Vector3DStack::operator/(const double rhs) const
 {
   if (std::abs(rhs) < DBL_EPSILON)
-    throw std::runtime_error("Division by zero");
+    return Vector3DStack(std::numeric_limits<double>::quiet_NaN(),
+                         std::numeric_limits<double>::quiet_NaN(),
+                         std::numeric_limits<double>::quiet_NaN());
 
   return Vector3DStack(m_x / rhs, m_y / rhs, m_z / rhs);
 }
