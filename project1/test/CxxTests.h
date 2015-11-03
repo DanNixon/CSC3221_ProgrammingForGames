@@ -1,5 +1,7 @@
 #include <cxxtest/TestSuite.h>
 
+#include <stdexcept>
+
 #include "Vector3DStack.h"
 #include "Quaternion.h"
 
@@ -107,10 +109,8 @@ public:
   void test_Vector3DStack_ScalarDivisionByZero(void)
   {
     Vector3DStack v1(1.0, 6.0, 3.0);
-    Vector3DStack v2 = v1 / 0.0;
-    TS_ASSERT_IS_NAN(v2.getX());
-    TS_ASSERT_IS_NAN(v2.getY());
-    TS_ASSERT_IS_NAN(v2.getZ());
+    TS_ASSERT_THROWS(Vector3DStack v2 = v1 / 0.0,
+                     std::runtime_error);
   }
 
   void test_Vector3DStack_Magnitude(void)

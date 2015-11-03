@@ -2,7 +2,7 @@
 #include <iostream>
 
 #include <sstream>
-#include <cmath>
+#include <stdexcept>
 
 #include "Vector3DStack.h"
 #include "Quaternion.h"
@@ -45,13 +45,20 @@ size_t g_testsPassed = 0;
       g_testsPassed++;                                                         \
   }
 
-/* Macro for testing a numerical value is NaN */
-#define TS_ASSERT_IS_NAN(a)                                                    \
+/* Macro for testing an expression throws a certain type of exception. */
+#define TS_ASSERT_THROWS(expr, type)                                           \
   {                                                                            \
     g_testsCount++;                                                            \
-    if (std::isnan(a))                                                         \
+    try                                                                        \
+    {                                                                          \
+      expr;                                                                    \
+    }                                                                          \
+    catch (type &)                                                             \
     {                                                                          \
       g_testsPassed++;                                                         \
+    }                                                                          \
+    catch (...)                                                                \
+    {                                                                          \
     }                                                                          \
   }
 
@@ -155,10 +162,8 @@ void test_Vector3DStack_ScalarDivision(void)
 void test_Vector3DStack_ScalarDivisionByZero(void)
 {
   Vector3DStack v1(1.0, 6.0, 3.0);
-  Vector3DStack v2 = v1 / 0.0;
-  TS_ASSERT_IS_NAN(v2.getX());
-  TS_ASSERT_IS_NAN(v2.getY());
-  TS_ASSERT_IS_NAN(v2.getZ());
+  TS_ASSERT_THROWS(Vector3DStack v2 = v1 / 0.0,
+                   std::runtime_error);
 }
 
 void test_Vector3DStack_Magnitude(void)
