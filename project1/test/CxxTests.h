@@ -160,6 +160,20 @@ public:
     TS_ASSERT_DELTA(v3.getZ(), 0.57735, TH);
   }
 
+  void test_Vector3DStack_IndexOperator(void)
+  {
+    Vector3DStack v(1.0, 6.0, 3.0);
+    TS_ASSERT_DELTA(v[0], 1.0, TH);
+    TS_ASSERT_DELTA(v[1], 6.0, TH);
+    TS_ASSERT_DELTA(v[2], 3.0, TH);
+  }
+
+  void test_Vector3DStack_IndexOperatorOutOfRange(void)
+  {
+    Vector3DStack v(1.0, 6.0, 3.0);
+    TS_ASSERT_THROWS(v[3], std::runtime_error);
+  }
+
   void test_Vector3DStack_StreamOutput(void)
   {
     Vector3DStack v(1.0, 6.0, 3.0);
@@ -219,6 +233,18 @@ public:
     TS_ASSERT_EQUALS(q.getI(), 2.0);
     TS_ASSERT_EQUALS(q.getJ(), 4.5);
     TS_ASSERT_EQUALS(q.getK(), 8.9);
+  }
+
+  void test_Quaternion_ConstructRotation(void)
+  {
+    Vector3DStack axis(1.0, 1.0, 1.0);
+    Quaternion q(90.0, axis);
+    double c = 1.0 / sqrt(2.0);
+    double s = c / sqrt(3.0);
+    TS_ASSERT_DELTA(q.getReal(), c, TH);
+    TS_ASSERT_DELTA(q.getI(), s, TH);
+    TS_ASSERT_DELTA(q.getJ(), s, TH);
+    TS_ASSERT_DELTA(q.getK(), s, TH);
   }
 
   void test_Quaternion_Assignment(void)
@@ -289,6 +315,65 @@ public:
     TS_ASSERT_DELTA(q3.getI(), 0.78, TH);
     TS_ASSERT_DELTA(q3.getJ(), 122.35, TH);
     TS_ASSERT_DELTA(q3.getK(), 181.25, TH);
+  }
+
+  void test_Quaternion_Conjugate(void)
+  {
+    Quaternion q(5.0, 2.0, 4.5, 8.9);
+    Quaternion conj = q.conjugate();
+    TS_ASSERT_DELTA(conj.getReal(), 5.0, TH);
+    TS_ASSERT_DELTA(conj.getI(), -2.0, TH);
+    TS_ASSERT_DELTA(conj.getJ(), -4.5, TH);
+    TS_ASSERT_DELTA(conj.getK(), -8.9, TH);
+  }
+
+  void test_Quaternion_IndexOperator(void)
+  {
+    Quaternion q(5.0, 2.0, 4.5, 8.9);
+    TS_ASSERT_DELTA(q[0], 5.0, TH);
+    TS_ASSERT_DELTA(q[1], 2.0, TH);
+    TS_ASSERT_DELTA(q[2], 4.5, TH);
+    TS_ASSERT_DELTA(q[3], 8.9, TH);
+  }
+
+  void test_Quaternion_IndexOperatorOutOfRange(void)
+  {
+    Quaternion q(5.0, 2.0, 4.5, 8.9);
+    TS_ASSERT_THROWS(q[4], std::runtime_error);
+  }
+
+  void test_Quaternion_Inverse(void)
+  {
+    Quaternion q(5.0, 2.0, 4.5, 8.9);
+    Quaternion inv = q.inverse();
+
+    Quaternion r = q * inv;
+
+    TS_ASSERT_DELTA(r.getReal(), 1.0, TH);
+    TS_ASSERT_DELTA(r.getI(), 0.0, TH);
+    TS_ASSERT_DELTA(r.getJ(), 0.0, TH);
+    TS_ASSERT_DELTA(r.getK(), 0.0, TH);
+  }
+
+  void test_Quaternion_Rotation90DegY(void)
+  {
+    Quaternion q(90.0, Vector3DStack(0.0, 1.0, 0.0));
+    Vector3DStack v(1.0, 0.0, 0.0);
+    v = q.rotateVector(v);
+    TS_ASSERT_DELTA(v.getX(), 0.0, TH);
+    TS_ASSERT_DELTA(v.getY(), 0.0, TH);
+    TS_ASSERT_DELTA(v.getZ(), -1.0, TH);
+  }
+
+  void test_Quaternion_Rotation45DegZ(void)
+  {
+    Quaternion q(45.0, Vector3DStack(0.0, 0.0, 1.0));
+    Vector3DStack v(1.0, 0.0, 0.0);
+    v = q.rotateVector(v);
+    const double h = sqrt(2.0) / 2;
+    TS_ASSERT_DELTA(v.getX(), h, TH);
+    TS_ASSERT_DELTA(v.getY(), h, TH);
+    TS_ASSERT_DELTA(v.getZ(), 0.0, TH);
   }
 
   void test_Quaternion_StreamOutput(void)

@@ -1,6 +1,8 @@
 #include "Quaternion.h"
 
 #include <cmath>
+#include <stdexcept>
+#include "Vector3DStack.h"
 
 /*
  * Optimisation notes
@@ -55,6 +57,23 @@ Quaternion::Quaternion(const double w, const double i, const double j,
     , m_j(j)
     , m_k(k)
 {
+}
+
+/**
+ * Construct a quaternion to represent a rotation in a given axis.
+ *
+ * @param angle Angle in degrees.
+ * @param axis Vector defining axit to rotate in
+ */
+Quaternion::Quaternion(const double angle, const Vector3DStack &axis)
+{
+  const double DEG_2_RAD = M_PI / 180.0;
+  m_w = cos(0.5 * angle * DEG_2_RAD);
+  const double s = sin(0.5 * angle * DEG_2_RAD);
+  Vector3DStack temp = axis.getUnitVector();
+  m_i = s * temp.getX();
+  m_j = s * temp.getY();
+  m_k = s * temp.getZ();
 }
 
 /**
@@ -198,6 +217,74 @@ Quaternion Quaternion::operator*(const Quaternion &rhs) const
   double k = m_w * rhs.m_k + rhs.m_w * m_k + m_i * rhs.m_j - rhs.m_i * m_j;
 
   return Quaternion(w, i, j, k);
+}
+
+/**
+ * Return elements of the quaternion by index operator.
+ *
+ * @param index Index accessed
+ * @param Quaternion component
+ */
+double Quaternion::operator[](const int index) const
+{
+  switch(index)
+  {
+    case 0:
+      return m_w;
+    case 1:
+      return m_i;
+    case 2:
+      return m_j;
+    case 3:
+      return m_k;
+    default:
+      throw std::runtime_error("Quaternion index out of range");
+  }
+}
+
+/**
+ * Returns the complex conjugate of this quaternion.
+ *
+ * @return Complex conjugate
+ */
+Quaternion Quaternion::conjugate() const
+{
+  return Quaternion(m_w, -m_i, -m_j, -m_k);
+}
+
+/**
+ * Compute the inverse of this quaternion.
+ *
+ * @return Inverse quaternion
+ */
+Quaternion Quaternion::inverse() const
+{
+  Quaternion q = conjugate();
+
+  double m = q.magnitude();
+  m *= m;
+
+  if (m == 0.0)
+    m = 1.0;
+  else
+    m = 1.0 / m;
+
+  return Quaternion(q.m_w * m, q.m_i * m, q.m_j * m, q.m_k * m);
+}
+
+/**
+ * Rotates a given vector using this quaternion.
+ *
+ * @param vector Vector to rotate
+ * @return Rotated vector
+ */
+Vector3DStack Quaternion::rotateVector(const Vector3DStack &vector) const
+{
+  const Quaternion inv = inverse();
+  Quaternion pos(0.0, vector.getX(), vector.getY(), vector.getZ());
+  pos = pos * inv;
+  pos = (*this) * pos;
+  return Vector3DStack(pos.getI(), pos.getJ(), pos.getK());
 }
 
 /**

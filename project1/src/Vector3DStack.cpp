@@ -233,6 +233,27 @@ Vector3DStack Vector3DStack::operator%(const Vector3DStack &rhs) const
 }
 
 /**
+ * Return elements of the vector by index operator.
+ *
+ * @param index Index accessed
+ * @param Vector component
+ */
+double Vector3DStack::operator[](const int index) const
+{
+  switch(index)
+  {
+    case 0:
+      return m_x;
+    case 1:
+      return m_y;
+    case 2:
+      return m_z;
+    default:
+      throw std::runtime_error("Vector index out fo range");
+  }
+}
+
+/**
  * Outputs the component values of a vector to a strem in the format "[x,y,z]".
  *
  * @param stream The stream to output to

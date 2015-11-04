@@ -33,6 +33,8 @@ public:
   double operator*(const Vector3DStack &rhs) const;
   Vector3DStack operator%(const Vector3DStack &rhs) const;
 
+  double operator[](const int index) const;
+
   friend std::ostream &operator<<(std::ostream &stream, const Vector3DStack &q);
 
 private:
