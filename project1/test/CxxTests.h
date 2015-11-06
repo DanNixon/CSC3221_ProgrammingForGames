@@ -68,6 +68,33 @@ public:
     TS_ASSERT(v1 != v2);
   }
 
+  void test_Vector3DStack_SetX(void)
+  {
+    Vector3DStack v;
+    v.setX(1.0);
+    TS_ASSERT_EQUALS(v.getX(), 1.0);
+    TS_ASSERT_EQUALS(v.getY(), 0.0);
+    TS_ASSERT_EQUALS(v.getZ(), 0.0);
+  }
+
+  void test_Vector3DStack_SetY(void)
+  {
+    Vector3DStack v;
+    v.setY(1.0);
+    TS_ASSERT_EQUALS(v.getX(), 0.0);
+    TS_ASSERT_EQUALS(v.getY(), 1.0);
+    TS_ASSERT_EQUALS(v.getZ(), 0.0);
+  }
+
+  void test_Vector3DStack_SetZ(void)
+  {
+    Vector3DStack v;
+    v.setZ(1.0);
+    TS_ASSERT_EQUALS(v.getX(), 0.0);
+    TS_ASSERT_EQUALS(v.getY(), 0.0);
+    TS_ASSERT_EQUALS(v.getZ(), 1.0);
+  }
+
   void test_Vector3DStack_Addition(void)
   {
     Vector3DStack v1(1.0, 6.0, 3.0);
@@ -174,6 +201,27 @@ public:
     TS_ASSERT_THROWS(v[3], std::runtime_error);
   }
 
+  void test_Vector3DStack_IndexOperatorSet(void)
+  {
+    Vector3DStack v;
+    v[0] = 1.0;
+    v[1] = 6.0;
+    v[2] = 3.0;
+    TS_ASSERT_DELTA(v[0], 1.0, TH);
+    TS_ASSERT_DELTA(v[1], 6.0, TH);
+    TS_ASSERT_DELTA(v[2], 3.0, TH);
+  }
+
+  void test_Vector3DStack_IndexOperatorSetOutOfRange(void)
+  {
+    Vector3DStack v(1.0, 6.0, 3.0);
+    TS_ASSERT_THROWS(v[3] = 12.0, std::runtime_error);
+    /* Values should not change */
+    TS_ASSERT_DELTA(v.getX(), 1.0, TH);
+    TS_ASSERT_DELTA(v.getY(), 6.0, TH);
+    TS_ASSERT_DELTA(v.getZ(), 3.0, TH);
+  }
+
   void test_Vector3DStack_StreamOutput(void)
   {
     Vector3DStack v(1.0, 6.0, 3.0);
@@ -184,15 +232,15 @@ public:
 
   void test_Vector3DStack_StreamInput(void)
   {
-    // Create stream with valid string
+    /* Create stream with valid string */
     std::stringstream stream;
     stream << "[1.0,6.0,3.0]";
 
-    // Read the stream
+    /* Read the stream */
     Vector3DStack v;
     stream >> v;
 
-    // Validate results
+    /* Validate results */
     TS_ASSERT_EQUALS(v.getX(), 1.0);
     TS_ASSERT_EQUALS(v.getY(), 6.0);
     TS_ASSERT_EQUALS(v.getZ(), 3.0);
@@ -278,6 +326,46 @@ public:
     TS_ASSERT(q1 != q2);
   }
 
+  void test_Quaternion_SetReal(void)
+  {
+    Quaternion q;
+    q.setReal(10.0);
+    TS_ASSERT_DELTA(q.getReal(), 10.0, TH);
+    TS_ASSERT_DELTA(q.getI(), 0.0, TH);
+    TS_ASSERT_DELTA(q.getJ(), 0.0, TH);
+    TS_ASSERT_DELTA(q.getK(), 0.0, TH);
+  }
+
+  void test_Quaternion_SetI(void)
+  {
+    Quaternion q;
+    q.setI(1.0);
+    TS_ASSERT_DELTA(q.getReal(), 1.0, TH);
+    TS_ASSERT_DELTA(q.getI(), 1.0, TH);
+    TS_ASSERT_DELTA(q.getJ(), 0.0, TH);
+    TS_ASSERT_DELTA(q.getK(), 0.0, TH);
+  }
+
+  void test_Quaternion_SetJ(void)
+  {
+    Quaternion q;
+    q.setJ(1.0);
+    TS_ASSERT_DELTA(q.getReal(), 1.0, TH);
+    TS_ASSERT_DELTA(q.getI(), 0.0, TH);
+    TS_ASSERT_DELTA(q.getJ(), 1.0, TH);
+    TS_ASSERT_DELTA(q.getK(), 0.0, TH);
+  }
+
+  void test_Quaternion_SetK(void)
+  {
+    Quaternion q;
+    q.setK(1.0);
+    TS_ASSERT_DELTA(q.getReal(), 1.0, TH);
+    TS_ASSERT_DELTA(q.getI(), 0.0, TH);
+    TS_ASSERT_DELTA(q.getJ(), 0.0, TH);
+    TS_ASSERT_DELTA(q.getK(), 1.0, TH);
+  }
+
   void test_Quaternion_Magnitude(void)
   {
     Quaternion q(5.0, 2.0, 4.5, 8.9);
@@ -342,6 +430,30 @@ public:
     TS_ASSERT_THROWS(q[4], std::runtime_error);
   }
 
+  void test_Quaternion_IndexOperatorSet(void)
+  {
+    Quaternion q;
+    q[0] = 5.0;
+    q[1] = 2.0;
+    q[2] = 4.5;
+    q[3] = 8.9;
+    TS_ASSERT_DELTA(q[0], 5.0, TH);
+    TS_ASSERT_DELTA(q[1], 2.0, TH);
+    TS_ASSERT_DELTA(q[2], 4.5, TH);
+    TS_ASSERT_DELTA(q[3], 8.9, TH);
+  }
+
+  void test_Quaternion_IndexOperatorSetOutOfRange(void)
+  {
+    Quaternion q(5.0, 2.0, 4.5, 8.9);
+    TS_ASSERT_THROWS(q[4] = 6.0, std::runtime_error);
+    /* Values should not change */
+    TS_ASSERT_DELTA(q.getReal(), 5.0, TH);
+    TS_ASSERT_DELTA(q.getI(), 2.0, TH);
+    TS_ASSERT_DELTA(q.getJ(), 4.5, TH);
+    TS_ASSERT_DELTA(q.getK(), 8.9, TH);
+  }
+
   void test_Quaternion_Inverse(void)
   {
     Quaternion q(5.0, 2.0, 4.5, 8.9);
@@ -386,15 +498,15 @@ public:
 
   void test_Quaternion_StreamInput(void)
   {
-    // Create stream with valid string
+    /* Create stream with valid string */
     std::stringstream stream;
     stream << "[5.0,2.0,4.5,8.9]";
 
-    // Read the stream
+    /* Read the stream */
     Quaternion q;
     stream >> q;
 
-    // Validate results
+    /* Validate results */
     TS_ASSERT_EQUALS(q.getReal(), 5.0);
     TS_ASSERT_EQUALS(q.getI(), 2.0);
     TS_ASSERT_EQUALS(q.getJ(), 4.5);

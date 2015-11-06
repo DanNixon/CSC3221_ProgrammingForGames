@@ -93,6 +93,16 @@ bool Vector3DStack::operator!=(const Vector3DStack &other) const
 }
 
 /**
+ * Sets the X componen of the vector.
+ *
+ * @param x X component
+ */
+void Vector3DStack::setX(double x)
+{
+  m_x = x;
+}
+
+/**
  * Returns the X component of the vector.
  *
  * @return X component
@@ -103,6 +113,16 @@ double Vector3DStack::getX() const
 }
 
 /**
+ * Sets the Y componen of the vector.
+ *
+ * @param y Y component
+ */
+void Vector3DStack::setY(double y)
+{
+  m_y = y;
+}
+
+/**
  * Returns the Y component of the vector.
  *
  * @return Y component
@@ -110,6 +130,16 @@ double Vector3DStack::getX() const
 double Vector3DStack::getY() const
 {
   return m_y;
+}
+
+/**
+ * Sets the Z componen of the vector.
+ *
+ * @param z Z component
+ */
+void Vector3DStack::setZ(double z)
+{
+  m_z = z;
 }
 
 /**
@@ -235,10 +265,35 @@ Vector3DStack Vector3DStack::operator%(const Vector3DStack &rhs) const
 /**
  * Return elements of the vector by index operator.
  *
+ * For reading only.
+ *
  * @param index Index accessed
  * @param Vector component
  */
 double Vector3DStack::operator[](const int index) const
+{
+  switch(index)
+  {
+    case 0:
+      return m_x;
+    case 1:
+      return m_y;
+    case 2:
+      return m_z;
+    default:
+      throw std::runtime_error("Vector index out fo range");
+  }
+}
+
+/**
+ * Return elements of the vector by index operator.
+ *
+ * FOr reading and writing.
+ *
+ * @param index Index accessed
+ * @param Vector component
+ */
+double &Vector3DStack::operator[](const int index)
 {
   switch(index)
   {

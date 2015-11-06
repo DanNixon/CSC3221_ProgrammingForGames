@@ -132,6 +132,16 @@ bool Quaternion::operator!=(const Quaternion &rhs) const
 }
 
 /**
+ * Sets the real part of the quaternion.
+ *
+ * @param w Real part
+ */
+void Quaternion::setReal(double w)
+{
+  m_w = w;
+}
+
+/**
  * Return the real part of the quaternion.
  *
  * @param Real part
@@ -139,6 +149,16 @@ bool Quaternion::operator!=(const Quaternion &rhs) const
 double Quaternion::getReal() const
 {
   return m_w;
+}
+
+/**
+ * Sets the i imaginary part of the quaternion.
+ *
+ * @param i Imaginary part
+ */
+void Quaternion::setI(double i)
+{
+  m_i = i;
 }
 
 /**
@@ -152,6 +172,16 @@ double Quaternion::getI() const
 }
 
 /**
+ * Sets the j imaginary part of the quaternion.
+ *
+ * @param j Imaginary part
+ */
+void Quaternion::setJ(double j)
+{
+  m_j = j;
+}
+
+/**
  * Return the j imaginary part of the quaternion.
  *
  * @return Coefficient of j
@@ -159,6 +189,16 @@ double Quaternion::getI() const
 double Quaternion::getJ() const
 {
   return m_j;
+}
+
+/**
+ * Sets the k imaginary part of the quaternion.
+ *
+ * @param k Imaginary part
+ */
+void Quaternion::setK(double k)
+{
+  m_k = k;
 }
 
 /**
@@ -222,10 +262,37 @@ Quaternion Quaternion::operator*(const Quaternion &rhs) const
 /**
  * Return elements of the quaternion by index operator.
  *
+ * For reading only.
+ *
  * @param index Index accessed
  * @param Quaternion component
  */
 double Quaternion::operator[](const int index) const
+{
+  switch(index)
+  {
+    case 0:
+      return m_w;
+    case 1:
+      return m_i;
+    case 2:
+      return m_j;
+    case 3:
+      return m_k;
+    default:
+      throw std::runtime_error("Quaternion index out of range");
+  }
+}
+
+/**
+ * Return elements of the quaternion by index operator.
+ *
+ * For reading and writing.
+ *
+ * @param index Index accessed
+ * @param Quaternion component
+ */
+double &Quaternion::operator[](const int index)
 {
   switch(index)
   {

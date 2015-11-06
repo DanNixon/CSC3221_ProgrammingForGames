@@ -16,8 +16,13 @@ public:
   bool operator==(const Vector3DStack &other) const;
   bool operator!=(const Vector3DStack &other) const;
 
+  void setX(double x);
   double getX() const;
+
+  void setY(double y);
   double getY() const;
+
+  void setZ(double z);
   double getZ() const;
 
   double magnitude() const;
@@ -34,6 +39,7 @@ public:
   Vector3DStack operator%(const Vector3DStack &rhs) const;
 
   double operator[](const int index) const;
+  double &operator[](const int index);
 
   friend std::ostream &operator<<(std::ostream &stream, const Vector3DStack &q);
 
