@@ -67,7 +67,7 @@ Quaternion::Quaternion(const double w, const double i, const double j,
  */
 Quaternion::Quaternion(const double angle, const Vector3DStack &axis)
 {
-  const double DEG_2_RAD = M_PI / 180.0;
+  const double DEG_2_RAD = 3.1415 / 180.0;
   m_w = cos(0.5 * angle * DEG_2_RAD);
   const double s = sin(0.5 * angle * DEG_2_RAD);
   Vector3DStack temp = axis.getUnitVector();
