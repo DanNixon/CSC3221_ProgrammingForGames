@@ -20,47 +20,47 @@ size_t g_assertionPassed = 0;
 /* Macro for testing that an expression is true. */
 #define TS_ASSERT(expr)                                                        \
   {                                                                            \
-    g_assertionCount++;                                                            \
+    g_assertionCount++;                                                        \
     if (expr)                                                                  \
-      g_assertionPassed++;                                                         \
+      g_assertionPassed++;                                                     \
   }
 
 /* Macro for testing that two values are equal to each other. */
 #define TS_ASSERT_EQUALS(a, b)                                                 \
   {                                                                            \
-    g_assertionCount++;                                                            \
+    g_assertionCount++;                                                        \
     if (a == b)                                                                \
-      g_assertionPassed++;                                                         \
+      g_assertionPassed++;                                                     \
   }
 
 /* Macro for testing that two values are not equal to each other. */
 #define TS_ASSERT_DIFFERS(a, b)                                                \
   {                                                                            \
-    g_assertionCount++;                                                            \
+    g_assertionCount++;                                                        \
     if (!(a == b))                                                             \
-      g_assertionPassed++;                                                         \
+      g_assertionPassed++;                                                     \
   }
 
 /* Macro for testing two numerical values are close to each other within a */
 /* tolerance. */
 #define TS_ASSERT_DELTA(a, b, th)                                              \
   {                                                                            \
-    g_assertionCount++;                                                            \
+    g_assertionCount++;                                                        \
     if (abs(a - b) <= th)                                                      \
-      g_assertionPassed++;                                                         \
+      g_assertionPassed++;                                                     \
   }
 
 /* Macro for testing an expression throws a certain type of exception. */
 #define TS_ASSERT_THROWS(expr, type)                                           \
   {                                                                            \
-    g_assertionCount++;                                                            \
+    g_assertionCount++;                                                        \
     try                                                                        \
     {                                                                          \
       expr;                                                                    \
     }                                                                          \
     catch (type &)                                                             \
     {                                                                          \
-      g_assertionPassed++;                                                         \
+      g_assertionPassed++;                                                     \
     }                                                                          \
     catch (...)                                                                \
     {                                                                          \
