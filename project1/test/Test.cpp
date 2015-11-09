@@ -11,61 +11,67 @@
 #define TH 0.0001
 
 size_t g_testsCount = 0;
-size_t g_testsPassed = 0;
+size_t g_assertionCount = 0;
+size_t g_assertionPassed = 0;
+
+/* Macro for incrementing the test count at the start of a test function */
+#define TEST_FUNC g_testsCount++;
 
 /* Macro for testing that an expression is true. */
 #define TS_ASSERT(expr)                                                        \
   {                                                                            \
-    g_testsCount++;                                                            \
+    g_assertionCount++;                                                            \
     if (expr)                                                                  \
-      g_testsPassed++;                                                         \
+      g_assertionPassed++;                                                         \
   }
 
 /* Macro for testing that two values are equal to each other. */
 #define TS_ASSERT_EQUALS(a, b)                                                 \
   {                                                                            \
-    g_testsCount++;                                                            \
+    g_assertionCount++;                                                            \
     if (a == b)                                                                \
-      g_testsPassed++;                                                         \
+      g_assertionPassed++;                                                         \
   }
 
 /* Macro for testing that two values are not equal to each other. */
 #define TS_ASSERT_DIFFERS(a, b)                                                \
   {                                                                            \
-    g_testsCount++;                                                            \
+    g_assertionCount++;                                                            \
     if (!(a == b))                                                             \
-      g_testsPassed++;                                                         \
+      g_assertionPassed++;                                                         \
   }
 
 /* Macro for testing two numerical values are close to each other within a */
 /* tolerance. */
 #define TS_ASSERT_DELTA(a, b, th)                                              \
   {                                                                            \
-    g_testsCount++;                                                            \
+    g_assertionCount++;                                                            \
     if (abs(a - b) <= th)                                                      \
-      g_testsPassed++;                                                         \
+      g_assertionPassed++;                                                         \
   }
 
 /* Macro for testing an expression throws a certain type of exception. */
 #define TS_ASSERT_THROWS(expr, type)                                           \
   {                                                                            \
-    g_testsCount++;                                                            \
+    g_assertionCount++;                                                            \
     try                                                                        \
     {                                                                          \
       expr;                                                                    \
     }                                                                          \
     catch (type &)                                                             \
     {                                                                          \
-      g_testsPassed++;                                                         \
+      g_assertionPassed++;                                                         \
     }                                                                          \
     catch (...)                                                                \
     {                                                                          \
     }                                                                          \
   }
 
-/* Test Function */
+/* Test Functions */
 void test_Vector3DStack_Default(void)
 {
+  TEST_FUNC
+
   Vector3DStack v;
   TS_ASSERT_EQUALS(v.getX(), 0.0);
   TS_ASSERT_EQUALS(v.getY(), 0.0);
@@ -74,6 +80,8 @@ void test_Vector3DStack_Default(void)
 
 void test_Vector3DStack_CreateWithValues(void)
 {
+  TEST_FUNC
+
   Vector3DStack v(1.0, 6.0, 3.0);
   TS_ASSERT_EQUALS(v.getX(), 1.0);
   TS_ASSERT_EQUALS(v.getY(), 6.0);
@@ -82,6 +90,8 @@ void test_Vector3DStack_CreateWithValues(void)
 
 void test_Vector3DStack_CreateCopyConstructior(void)
 {
+  TEST_FUNC
+
   Vector3DStack v1(1.0, 6.0, 3.0);
   Vector3DStack v2(v1);
 
@@ -92,6 +102,8 @@ void test_Vector3DStack_CreateCopyConstructior(void)
 
 void test_Vector3DStack_Assignment(void)
 {
+  TEST_FUNC
+
   Vector3DStack v1(1.0, 6.0, 3.0);
   Vector3DStack v2(3.0, 6.0, 8.0);
 
@@ -104,6 +116,8 @@ void test_Vector3DStack_Assignment(void)
 
 void test_Vector3DStack_Equality(void)
 {
+  TEST_FUNC
+
   Vector3DStack v1(1.0, 6.0, 3.0);
   Vector3DStack v2(3.0, 6.0, 8.0);
   Vector3DStack v3(1.0, 6.0, 3.0);
@@ -114,6 +128,8 @@ void test_Vector3DStack_Equality(void)
 
 void test_Vector3DStack_Inquality(void)
 {
+  TEST_FUNC
+
   Vector3DStack v1(1.0, 6.0, 3.0);
   Vector3DStack v2(3.0, 6.0, 8.0);
   Vector3DStack v3(1.0, 6.0, 3.0);
@@ -122,8 +138,43 @@ void test_Vector3DStack_Inquality(void)
   TS_ASSERT(v1 != v2);
 }
 
+void test_Vector3DStack_SetX(void)
+{
+  TEST_FUNC
+
+  Vector3DStack v;
+  v.setX(1.0);
+  TS_ASSERT_EQUALS(v.getX(), 1.0);
+  TS_ASSERT_EQUALS(v.getY(), 0.0);
+  TS_ASSERT_EQUALS(v.getZ(), 0.0);
+}
+
+void test_Vector3DStack_SetY(void)
+{
+  TEST_FUNC
+
+  Vector3DStack v;
+  v.setY(1.0);
+  TS_ASSERT_EQUALS(v.getX(), 0.0);
+  TS_ASSERT_EQUALS(v.getY(), 1.0);
+  TS_ASSERT_EQUALS(v.getZ(), 0.0);
+}
+
+void test_Vector3DStack_SetZ(void)
+{
+  TEST_FUNC
+
+  Vector3DStack v;
+  v.setZ(1.0);
+  TS_ASSERT_EQUALS(v.getX(), 0.0);
+  TS_ASSERT_EQUALS(v.getY(), 0.0);
+  TS_ASSERT_EQUALS(v.getZ(), 1.0);
+}
+
 void test_Vector3DStack_Addition(void)
 {
+  TEST_FUNC
+
   Vector3DStack v1(1.0, 6.0, 3.0);
   Vector3DStack v2(5.0, 2.0, 9.0);
   Vector3DStack v3 = v1 + v2;
@@ -134,6 +185,8 @@ void test_Vector3DStack_Addition(void)
 
 void test_Vector3DStack_Subtraction(void)
 {
+  TEST_FUNC
+
   Vector3DStack v1(1.0, 6.0, 3.0);
   Vector3DStack v2(5.0, 2.0, 9.0);
   Vector3DStack v3 = v1 - v2;
@@ -144,6 +197,8 @@ void test_Vector3DStack_Subtraction(void)
 
 void test_Vector3DStack_ScalarMultiplication(void)
 {
+  TEST_FUNC
+
   Vector3DStack v1(1.0, 6.0, 3.0);
   Vector3DStack v2 = v1 * 6.0;
   TS_ASSERT_EQUALS(v2.getX(), 6.0);
@@ -153,6 +208,8 @@ void test_Vector3DStack_ScalarMultiplication(void)
 
 void test_Vector3DStack_ScalarDivision(void)
 {
+  TEST_FUNC
+
   Vector3DStack v1(1.0, 6.0, 3.0);
   Vector3DStack v2 = v1 / 2.0;
   TS_ASSERT_EQUALS(v2.getX(), 0.5);
@@ -162,6 +219,8 @@ void test_Vector3DStack_ScalarDivision(void)
 
 void test_Vector3DStack_ScalarDivisionByZero(void)
 {
+  TEST_FUNC
+
   Vector3DStack v1(1.0, 6.0, 3.0);
   TS_ASSERT_THROWS(Vector3DStack v2 = v1 / 0.0,
                    std::runtime_error);
@@ -169,12 +228,16 @@ void test_Vector3DStack_ScalarDivisionByZero(void)
 
 void test_Vector3DStack_Magnitude(void)
 {
+  TEST_FUNC
+
   Vector3DStack v(1.0, 6.0, 3.0);
   TS_ASSERT_DELTA(v.magnitude(), 6.7823, TH);
 }
 
 void test_Vector3DStack_DotProduct(void)
 {
+  TEST_FUNC
+
   Vector3DStack v1(1, 6, 3);
   Vector3DStack v2(5, 2, 9);
   double dotProd = v1 * v2;
@@ -183,6 +246,8 @@ void test_Vector3DStack_DotProduct(void)
 
 void test_Vector3DStack_CrossProduct(void)
 {
+  TEST_FUNC
+
   Vector3DStack v1(1.0, 6.0, 3.0);
   Vector3DStack v2(5.0, 2.0, 9.0);
   Vector3DStack v3 = v1 % v2;
@@ -193,6 +258,8 @@ void test_Vector3DStack_CrossProduct(void)
 
 void test_Vector3DStack_UnitVector(void)
 {
+  TEST_FUNC
+
   Vector3DStack v(1.0, 6.0, 3.0);
   Vector3DStack unit = v.getUnitVector();
 
@@ -204,6 +271,8 @@ void test_Vector3DStack_UnitVector(void)
 
 void test_Vector3DStack_OrthogonalUnitVector(void)
 {
+  TEST_FUNC
+
   Vector3DStack v1(1.0, 0.0, 1.0);
   Vector3DStack v2(0.0, 1.0, 1.0);
   Vector3DStack v3 = v1.getOrthogonalUnitVector(v2);
@@ -216,6 +285,8 @@ void test_Vector3DStack_OrthogonalUnitVector(void)
 
 void test_Vector3DStack_IndexOperator(void)
 {
+  TEST_FUNC
+
   Vector3DStack v(1.0, 6.0, 3.0);
   TS_ASSERT_DELTA(v[0], 1.0, TH);
   TS_ASSERT_DELTA(v[1], 6.0, TH);
@@ -224,12 +295,41 @@ void test_Vector3DStack_IndexOperator(void)
 
 void test_Vector3DStack_IndexOperatorOutOfRange(void)
 {
+  TEST_FUNC
+
   Vector3DStack v(1.0, 6.0, 3.0);
   TS_ASSERT_THROWS(v[3], std::runtime_error);
 }
 
+void test_Vector3DStack_IndexOperatorSet(void)
+{
+  TEST_FUNC
+
+  Vector3DStack v;
+  v[0] = 1.0;
+  v[1] = 6.0;
+  v[2] = 3.0;
+  TS_ASSERT_DELTA(v[0], 1.0, TH);
+  TS_ASSERT_DELTA(v[1], 6.0, TH);
+  TS_ASSERT_DELTA(v[2], 3.0, TH);
+}
+
+void test_Vector3DStack_IndexOperatorSetOutOfRange(void)
+{
+  TEST_FUNC
+
+  Vector3DStack v(1.0, 6.0, 3.0);
+  TS_ASSERT_THROWS(v[3] = 12.0, std::runtime_error);
+  /* Values should not change */
+  TS_ASSERT_DELTA(v.getX(), 1.0, TH);
+  TS_ASSERT_DELTA(v.getY(), 6.0, TH);
+  TS_ASSERT_DELTA(v.getZ(), 3.0, TH);
+}
+
 void test_Vector3DStack_StreamOutput(void)
 {
+  TEST_FUNC
+
   Vector3DStack v(1.0, 6.0, 3.0);
   std::stringstream stream;
   stream << v;
@@ -238,15 +338,17 @@ void test_Vector3DStack_StreamOutput(void)
 
 void test_Vector3DStack_StreamInput(void)
 {
-  // Create stream with valid string
+  TEST_FUNC
+
+  /* Create stream with valid string */
   std::stringstream stream;
   stream << "[1.0,6.0,3.0]";
 
-  // Read the stream
+  /* Read the stream */
   Vector3DStack v;
   stream >> v;
 
-  // Validate results
+  /* Validate results */
   TS_ASSERT_EQUALS(v.getX(), 1.0);
   TS_ASSERT_EQUALS(v.getY(), 6.0);
   TS_ASSERT_EQUALS(v.getZ(), 3.0);
@@ -254,6 +356,8 @@ void test_Vector3DStack_StreamInput(void)
 
 void test_Quaternion_Default(void)
 {
+  TEST_FUNC
+
   Quaternion q;
   TS_ASSERT_EQUALS(q.getReal(), 1.0);
   TS_ASSERT_EQUALS(q.getI(), 0.0);
@@ -263,6 +367,8 @@ void test_Quaternion_Default(void)
 
 void test_Quaternion_ConstructReal(void)
 {
+  TEST_FUNC
+
   Quaternion q(5.0);
   TS_ASSERT_EQUALS(q.getReal(), 5.0);
   TS_ASSERT_EQUALS(q.getI(), 0.0);
@@ -272,6 +378,8 @@ void test_Quaternion_ConstructReal(void)
 
 void test_Quaternion_ConstructRealInt(void)
 {
+  TEST_FUNC
+
   int real = 5;
   Quaternion q(real);
   TS_ASSERT_EQUALS(q.getReal(), real);
@@ -282,6 +390,8 @@ void test_Quaternion_ConstructRealInt(void)
 
 void test_Quaternion_ConstructImaginary(void)
 {
+  TEST_FUNC
+
   Quaternion q(5.0, 2.0, 4.5, 8.9);
   TS_ASSERT_EQUALS(q.getReal(), 5.0);
   TS_ASSERT_EQUALS(q.getI(), 2.0);
@@ -291,6 +401,8 @@ void test_Quaternion_ConstructImaginary(void)
 
 void test_Quaternion_ConstructRotation(void)
 {
+  TEST_FUNC
+
   Vector3DStack axis(1.0, 1.0, 1.0);
   Quaternion q(90.0, axis);
   double c = 1.0 / sqrt(2.0);
@@ -303,6 +415,8 @@ void test_Quaternion_ConstructRotation(void)
 
 void test_Quaternion_Assignment(void)
 {
+  TEST_FUNC
+
   Quaternion q1(5.0, 2.0, 4.5, 8.9);
   Quaternion q2(16.0, 2.5, 8.3, 6.7);
   q2 = q1;
@@ -314,6 +428,8 @@ void test_Quaternion_Assignment(void)
 
 void test_Quaternion_Equality(void)
 {
+  TEST_FUNC
+
   Quaternion q1(5.0, 2.0, 4.5, 8.9);
   Quaternion q2(16.0, 2.5, 8.3, 6.7);
   Quaternion q3(5.0, 2.0, 4.5, 8.9);
@@ -324,6 +440,8 @@ void test_Quaternion_Equality(void)
 
 void test_Quaternion_Inequality(void)
 {
+  TEST_FUNC
+
   Quaternion q1(5.0, 2.0, 4.5, 8.9);
   Quaternion q2(16.0, 2.5, 8.3, 6.7);
   Quaternion q3(5.0, 2.0, 4.5, 8.9);
@@ -332,14 +450,66 @@ void test_Quaternion_Inequality(void)
   TS_ASSERT(q1 != q2);
 }
 
+void test_Quaternion_SetReal(void)
+{
+  TEST_FUNC
+
+  Quaternion q;
+  q.setReal(10.0);
+  TS_ASSERT_DELTA(q.getReal(), 10.0, TH);
+  TS_ASSERT_DELTA(q.getI(), 0.0, TH);
+  TS_ASSERT_DELTA(q.getJ(), 0.0, TH);
+  TS_ASSERT_DELTA(q.getK(), 0.0, TH);
+}
+
+void test_Quaternion_SetI(void)
+{
+  TEST_FUNC
+
+  Quaternion q;
+  q.setI(1.0);
+  TS_ASSERT_DELTA(q.getReal(), 1.0, TH);
+  TS_ASSERT_DELTA(q.getI(), 1.0, TH);
+  TS_ASSERT_DELTA(q.getJ(), 0.0, TH);
+  TS_ASSERT_DELTA(q.getK(), 0.0, TH);
+}
+
+void test_Quaternion_SetJ(void)
+{
+  TEST_FUNC
+
+  Quaternion q;
+  q.setJ(1.0);
+  TS_ASSERT_DELTA(q.getReal(), 1.0, TH);
+  TS_ASSERT_DELTA(q.getI(), 0.0, TH);
+  TS_ASSERT_DELTA(q.getJ(), 1.0, TH);
+  TS_ASSERT_DELTA(q.getK(), 0.0, TH);
+}
+
+void test_Quaternion_SetK(void)
+{
+  TEST_FUNC
+
+  Quaternion q;
+  q.setK(1.0);
+  TS_ASSERT_DELTA(q.getReal(), 1.0, TH);
+  TS_ASSERT_DELTA(q.getI(), 0.0, TH);
+  TS_ASSERT_DELTA(q.getJ(), 0.0, TH);
+  TS_ASSERT_DELTA(q.getK(), 1.0, TH);
+}
+
 void test_Quaternion_Magnitude(void)
 {
+  TEST_FUNC
+
   Quaternion q(5.0, 2.0, 4.5, 8.9);
   TS_ASSERT_DELTA(q.magnitude(), 11.3340, TH);
 }
 
 void test_Quaternion_Addition(void)
 {
+  TEST_FUNC
+
   Quaternion q1(5.0, 2.0, 4.5, 8.9);
   Quaternion q2(16.0, 2.5, 8.3, 6.7);
   Quaternion q3 = q1 + q2;
@@ -351,6 +521,8 @@ void test_Quaternion_Addition(void)
 
 void test_Quaternion_Subtraction(void)
 {
+  TEST_FUNC
+
   Quaternion q1(5.0, 2.0, 4.5, 8.9);
   Quaternion q2(16.0, 2.5, 8.3, 6.7);
   Quaternion q3 = q1 - q2;
@@ -362,6 +534,8 @@ void test_Quaternion_Subtraction(void)
 
 void test_Quaternion_Multiplicaion(void)
 {
+  TEST_FUNC
+
   Quaternion q1(5.0, 2.0, 4.5, 8.9);
   Quaternion q2(16.0, 2.5, 8.3, 6.7);
   Quaternion q3 = q1 * q2;
@@ -373,6 +547,8 @@ void test_Quaternion_Multiplicaion(void)
 
 void test_Quaternion_Conjugate(void)
 {
+  TEST_FUNC
+
   Quaternion q(5.0, 2.0, 4.5, 8.9);
   Quaternion conj = q.conjugate();
   TS_ASSERT_DELTA(conj.getReal(), 5.0, TH);
@@ -383,6 +559,8 @@ void test_Quaternion_Conjugate(void)
 
 void test_Quaternion_Inverse(void)
 {
+  TEST_FUNC
+
   Quaternion q(5.0, 2.0, 4.5, 8.9);
   Quaternion inv = q.inverse();
 
@@ -396,6 +574,8 @@ void test_Quaternion_Inverse(void)
 
 void test_Quaternion_Rotation90DegY(void)
 {
+  TEST_FUNC
+
   Quaternion q(90.0, Vector3DStack(0.0, 1.0, 0.0));
   Vector3DStack v(1.0, 0.0, 0.0);
   v = q.rotateVector(v);
@@ -406,6 +586,8 @@ void test_Quaternion_Rotation90DegY(void)
 
 void test_Quaternion_Rotation45DegZ(void)
 {
+  TEST_FUNC
+
   Quaternion q(45.0, Vector3DStack(0.0, 0.0, 1.0));
   Vector3DStack v(1.0, 0.0, 0.0);
   v = q.rotateVector(v);
@@ -417,6 +599,8 @@ void test_Quaternion_Rotation45DegZ(void)
 
 void test_Quaternion_IndexOperator(void)
 {
+  TEST_FUNC
+
   Quaternion q(5.0, 2.0, 4.5, 8.9);
   TS_ASSERT_DELTA(q[0], 5.0, TH);
   TS_ASSERT_DELTA(q[1], 2.0, TH);
@@ -426,12 +610,44 @@ void test_Quaternion_IndexOperator(void)
 
 void test_Quaternion_IndexOperatorOutOfRange(void)
 {
+  TEST_FUNC
+
   Quaternion q(5.0, 2.0, 4.5, 8.9);
   TS_ASSERT_THROWS(q[4], std::runtime_error);
 }
 
+void test_Quaternion_IndexOperatorSet(void)
+{
+  TEST_FUNC
+
+  Quaternion q;
+  q[0] = 5.0;
+  q[1] = 2.0;
+  q[2] = 4.5;
+  q[3] = 8.9;
+  TS_ASSERT_DELTA(q[0], 5.0, TH);
+  TS_ASSERT_DELTA(q[1], 2.0, TH);
+  TS_ASSERT_DELTA(q[2], 4.5, TH);
+  TS_ASSERT_DELTA(q[3], 8.9, TH);
+}
+
+void test_Quaternion_IndexOperatorSetOutOfRange(void)
+{
+  TEST_FUNC
+
+  Quaternion q(5.0, 2.0, 4.5, 8.9);
+  TS_ASSERT_THROWS(q[4] = 6.0, std::runtime_error);
+  /* Values should not change */
+  TS_ASSERT_DELTA(q.getReal(), 5.0, TH);
+  TS_ASSERT_DELTA(q.getI(), 2.0, TH);
+  TS_ASSERT_DELTA(q.getJ(), 4.5, TH);
+  TS_ASSERT_DELTA(q.getK(), 8.9, TH);
+}
+
 void test_Quaternion_StreamOutput(void)
 {
+  TEST_FUNC
+
   Quaternion q(5.0, 2.0, 4.5, 8.9);
   std::stringstream stream;
   stream << q;
@@ -440,15 +656,17 @@ void test_Quaternion_StreamOutput(void)
 
 void test_Quaternion_StreamInput(void)
 {
-  // Create stream with valid string
+  TEST_FUNC
+
+  /* Create stream with valid string */
   std::stringstream stream;
   stream << "[5.0,2.0,4.5,8.9]";
 
-  // Read the stream
+  /* Read the stream */
   Quaternion q;
   stream >> q;
 
-  // Validate results
+  /* Validate results */
   TS_ASSERT_EQUALS(q.getReal(), 5.0);
   TS_ASSERT_EQUALS(q.getI(), 2.0);
   TS_ASSERT_EQUALS(q.getJ(), 4.5);
@@ -465,6 +683,9 @@ int main()
   test_Vector3DStack_Assignment();
   test_Vector3DStack_Equality();
   test_Vector3DStack_Inquality();
+  test_Vector3DStack_SetX();
+  test_Vector3DStack_SetY();
+  test_Vector3DStack_SetZ();
   test_Vector3DStack_Addition();
   test_Vector3DStack_Subtraction();
   test_Vector3DStack_ScalarMultiplication();
@@ -477,6 +698,8 @@ int main()
   test_Vector3DStack_OrthogonalUnitVector();
   test_Vector3DStack_IndexOperator();
   test_Vector3DStack_IndexOperatorOutOfRange();
+  test_Vector3DStack_IndexOperatorSet();
+  test_Vector3DStack_IndexOperatorSetOutOfRange();
   test_Vector3DStack_StreamOutput();
   test_Vector3DStack_StreamInput();
   test_Quaternion_Default();
@@ -487,6 +710,10 @@ int main()
   test_Quaternion_Assignment();
   test_Quaternion_Equality();
   test_Quaternion_Inequality();
+  test_Quaternion_SetReal();
+  test_Quaternion_SetI();
+  test_Quaternion_SetJ();
+  test_Quaternion_SetK();
   test_Quaternion_Magnitude();
   test_Quaternion_Addition();
   test_Quaternion_Subtraction();
@@ -494,6 +721,8 @@ int main()
   test_Quaternion_Conjugate();
   test_Quaternion_IndexOperator();
   test_Quaternion_IndexOperatorOutOfRange();
+  test_Quaternion_IndexOperatorSet();
+  test_Quaternion_IndexOperatorSetOutOfRange();
   test_Quaternion_Inverse();
   test_Quaternion_Rotation90DegY();
   test_Quaternion_Rotation45DegZ();
@@ -501,14 +730,15 @@ int main()
   test_Quaternion_StreamInput();
 
   /* Output the test results */
-  std::cout << "Test assertions passed: " << g_testsPassed << "/"
-            << g_testsCount << " (" << ((100 * g_testsPassed) / g_testsCount)
+  std::cout << "Number of test functions: " << g_testsCount << std::endl
+            << "Test assertions passed: " << g_assertionPassed << "/"
+            << g_assertionCount << " (" << ((100 * g_assertionPassed) / g_assertionCount)
             << "%)" << std::endl;
 
   /* Warn on failure */
-  if (g_testsPassed < g_testsCount)
+  if (g_assertionPassed < g_assertionCount)
     std::cout << "There are test failures!" << std::endl;
 
   /* Return 0 for no failed tests, or 1 if at least one test failed */
-  return (g_testsPassed != g_testsCount);
+  return (g_assertionPassed != g_assertionCount);
 }

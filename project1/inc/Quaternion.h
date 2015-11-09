@@ -5,7 +5,7 @@
 
 /*
  * Forward declare Vector3DStack class
- * (avoids including heders within other headers, saves compile time on much
+ * (avoids including headers within other headers, saves compile time on much
  * larger projects)
  */
 class Vector3DStack;
@@ -26,9 +26,16 @@ public:
   bool operator==(const Quaternion &rhs) const;
   bool operator!=(const Quaternion &rhs) const;
 
+  void setReal(double w);
   double getReal() const;
+
+  void setI(double i);
   double getI() const;
+
+  void setJ(double j);
   double getJ() const;
+
+  void setK(double k);
   double getK() const;
 
   double magnitude() const;
@@ -38,6 +45,7 @@ public:
   Quaternion operator*(const Quaternion &rhs) const;
 
   double operator[](const int index) const;
+  double& operator[](const int index);
 
   Quaternion conjugate() const;
   Quaternion inverse() const;
