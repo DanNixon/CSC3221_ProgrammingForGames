@@ -20,6 +20,13 @@ script:
   - make
   - ctest -VV
   - ./Test
+  - cd ../..
+  - mkdir -p project2/build
+  - cd project2/build
+  - cmake -DCMAKE_PREFIX_PATH=${PWD}/../../cxxtest/ ..
+  - make
+  - ctest -VV
+  - ./Game
 
 notifications:
   email:
