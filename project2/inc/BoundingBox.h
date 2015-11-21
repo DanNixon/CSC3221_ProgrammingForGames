@@ -4,7 +4,14 @@
 #include <iostream>
 
 class Vector2D;
-class Shape;
+
+enum BoxEnclosedState
+{
+  BE_FULL,
+  BE_UPPERLEFT_OUT,
+  BE_LOWERRIGHT_OUT,
+  BE_LARGER
+};
 
 class BoundingBox
 {
@@ -29,7 +36,7 @@ public:
   Vector2D getLowerRight() const;
   Vector2D getUpperLeft() const;
 
-  bool shapeFullyEnclosed(const Shape &shape) const;
+  BoxEnclosedState boundingBoxEnclosed(const BoundingBox &other) const;
 
   friend std::ostream &operator<<(std::ostream &stream, const BoundingBox &b);
 

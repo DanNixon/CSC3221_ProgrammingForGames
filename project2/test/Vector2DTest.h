@@ -137,6 +137,46 @@ public:
     TS_ASSERT_DELTA(v1.getY(), 1.96875, TH);
   }
 
+  void test_GreaterThan(void)
+  {
+    Vector2D v1(1.0, 2.0);
+
+    Vector2D v2(1.0, 2.0);
+    Vector2D v3(1.1, 2.1);
+    Vector2D v4(1.0, 2.1);
+    Vector2D v5(1.1, 2.0);
+
+    TS_ASSERT(v2 >= v1);
+    TS_ASSERT(v3 >= v1);
+    TS_ASSERT(v4 >= v1);
+    TS_ASSERT(v5 >= v1);
+
+    TS_ASSERT(!(v2 > v1));
+    TS_ASSERT(v3 > v1);
+    TS_ASSERT(v4 > v1);
+    TS_ASSERT(v5 > v1);
+  }
+
+  void test_LessThan(void)
+  {
+    Vector2D v1(1.0, 2.0);
+
+    Vector2D v2(1.0, 2.0);
+    Vector2D v3(0.9, 1.9);
+    Vector2D v4(1.0, 1.9);
+    Vector2D v5(0.9, 2.0);
+
+    TS_ASSERT(v2 <= v1);
+    TS_ASSERT(v3 <= v1);
+    TS_ASSERT(v4 <= v1);
+    TS_ASSERT(v5 <= v1);
+
+    TS_ASSERT(!(v2 < v1));
+    TS_ASSERT(v3 < v1);
+    TS_ASSERT(v4 < v1);
+    TS_ASSERT(v5 < v1);
+  }
+
   void test_GetByIndex(void)
   {
     Vector2D v(2.5, 8.6);

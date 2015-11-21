@@ -92,15 +92,74 @@ public:
 
   void test_AdditionOperators(void)
   {
+    BoundingBox b1(2.5, 3.5, 8.7, 9.2);
+    Vector2D offset(0.5, 0.2);
+
+    BoundingBox b2 = b1 + offset;
+
+    TS_ASSERT_DELTA(b2.getLowerRight().getX(), 3.0, TH);
+    TS_ASSERT_DELTA(b2.getLowerRight().getY(), 3.7, TH);
+    TS_ASSERT_DELTA(b2.getUpperLeft().getX(), 9.2, TH);
+    TS_ASSERT_DELTA(b2.getUpperLeft().getY(), 9.4, TH);
+
+    b1 += offset;
+
+    TS_ASSERT_DELTA(b1.getLowerRight().getX(), 3.0, TH);
+    TS_ASSERT_DELTA(b1.getLowerRight().getY(), 3.7, TH);
+    TS_ASSERT_DELTA(b1.getUpperLeft().getX(), 9.2, TH);
+    TS_ASSERT_DELTA(b1.getUpperLeft().getY(), 9.4, TH);
   }
 
   void test_SubtractionOperators(void)
   {
+    BoundingBox b1(2.5, 3.5, 8.7, 9.2);
+    Vector2D offset(0.5, 0.2);
+
+    BoundingBox b2 = b1 - offset;
+
+    TS_ASSERT_DELTA(b2.getLowerRight().getX(), 2.0, TH);
+    TS_ASSERT_DELTA(b2.getLowerRight().getY(), 3.3, TH);
+    TS_ASSERT_DELTA(b2.getUpperLeft().getX(), 8.2, TH);
+    TS_ASSERT_DELTA(b2.getUpperLeft().getY(), 9.0, TH);
+
+    b1 -= offset;
+
+    TS_ASSERT_DELTA(b1.getLowerRight().getX(), 2.0, TH);
+    TS_ASSERT_DELTA(b1.getLowerRight().getY(), 3.3, TH);
+    TS_ASSERT_DELTA(b1.getUpperLeft().getX(), 8.2, TH);
+    TS_ASSERT_DELTA(b1.getUpperLeft().getY(), 9.0, TH);
   }
 
-  void test_ShapeFullyEnclosed(void)
+  void test_BoundingBoxEnclosed_Fully(void)
   {
-    //TODO
+    BoundingBox b1(0.0, 0.0, 1.0, 1.0);
+    BoundingBox b2(0.25, 0.25, 0.75, 0.75);
+
+    TS_ASSERT_EQUALS(b1.boundingBoxEnclosed(b2), BE_FULL);
+  }
+
+  void test_BoundingBoxEnclosed_PartiallyLowerRight(void)
+  {
+    BoundingBox b1(0.0, 0.0, 1.0, 1.0);
+    BoundingBox b2(-0.25, -0.25, 0.25, 0.25);
+
+    TS_ASSERT_EQUALS(b1.boundingBoxEnclosed(b2), BE_LOWERRIGHT_OUT);
+  }
+
+  void test_BoundingBoxEnclosed_PartiallyUpperLeft(void)
+  {
+    BoundingBox b1(0.0, 0.0, 1.0, 1.0);
+    BoundingBox b2(0.75, 0.75, 1.25, 1.25);
+
+    TS_ASSERT_EQUALS(b1.boundingBoxEnclosed(b2), BE_UPPERLEFT_OUT);
+  }
+
+  void test_BoundingBoxEnclosed_Larger(void)
+  {
+    BoundingBox b1(0.0, 0.0, 1.0, 1.0);
+    BoundingBox b2(-0.25, -0.25, 1.25, 1.25);
+
+    TS_ASSERT_EQUALS(b1.boundingBoxEnclosed(b2), BE_LARGER);
   }
 
   void test_StreamOutput(void)

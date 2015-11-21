@@ -1,5 +1,7 @@
 #include "Shape.h"
 
+#include <stdexcept>
+
 Shape::Shape()
     : m_position()
 {
@@ -19,24 +21,44 @@ void Shape::operator=(const Shape &other)
   m_position = other.m_position;
 }
 
-void Shape::setPosition(Vector2D position)
+void Shape::setPosition(const Vector2D &position)
 {
   m_position = position;
 }
 
-void Shape::setPosition(Vector2D position, BoundingBox clamp)
+void Shape::setPosition(const Vector2D &position, const BoundingBox &clamp)
 {
-  // TODO
+  BoxEnclosedState state =
+      clamp.boundingBoxEnclosed(getBoundingBox() + (position - m_position));
+
+  switch (state)
+  {
+  case BE_FULL:
+    m_position = position;
+    break;
+  case BE_LOWERRIGHT_OUT:
+    // TODO
+    break;
+  case BE_UPPERLEFT_OUT:
+    // TODO
+    break;
+  case BE_LARGER:
+    throw std::runtime_error("Shape is larger than bounding box");
+    break;
+  default:
+    throw std::runtime_error("Invalid state");
+  }
 }
 
-void Shape::offsetPositionBy(Vector2D offset)
+void Shape::offsetPositionBy(const Vector2D &offset)
 {
   m_position += offset;
 }
 
-void Shape::offsetPositionBy(Vector2D offset, BoundingBox clamp)
+void Shape::offsetPositionBy(const Vector2D &offset, const BoundingBox &clamp)
 {
-  // TODO
+  Vector2D newPos = m_position + offset;
+  setPosition(newPos, clamp);
 }
 
 Vector2D Shape::getPosition() const

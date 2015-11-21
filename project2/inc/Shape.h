@@ -4,14 +4,6 @@
 #include "Vector2D.h"
 #include "BoundingBox.h"
 
-enum Direction
-{
-  DIR_UP,
-  DIR_DOWN,
-  DIR_LEFT,
-  DIR_RIGHT,
-};
-
 class Shape
 {
 public:
@@ -23,10 +15,10 @@ public:
 
   virtual BoundingBox getBoundingBox() const = 0;
 
-  void setPosition(Vector2D position);
-  void setPosition(Vector2D position, BoundingBox clamp);
-  void offsetPositionBy(Vector2D offset);
-  void offsetPositionBy(Vector2D offset, BoundingBox clamp);
+  void setPosition(const Vector2D &position);
+  void setPosition(const Vector2D &position, const BoundingBox &clamp);
+  void offsetPositionBy(const Vector2D &offset);
+  void offsetPositionBy(const Vector2D &offset, const BoundingBox &clamp);
 
   Vector2D getPosition() const;
 

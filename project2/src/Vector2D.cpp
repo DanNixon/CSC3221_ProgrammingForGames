@@ -94,6 +94,26 @@ void Vector2D::operator/=(double rhs)
   m_y /= rhs;
 }
 
+bool Vector2D::operator<(const Vector2D &other) const
+{
+  return (m_x < other.m_x) || (m_y < other.m_y);
+}
+
+bool Vector2D::operator<=(const Vector2D &other) const
+{
+  return (m_x <= other.m_x) || (m_y <= other.m_y);
+}
+
+bool Vector2D::operator>(const Vector2D &other) const
+{
+  return (m_x > other.m_x) || (m_y > other.m_y);
+}
+
+bool Vector2D::operator>=(const Vector2D &other) const
+{
+  return (m_x >= other.m_x) || (m_y >= other.m_y);
+}
+
 /**
  * Returns the X component of the vector.
  *

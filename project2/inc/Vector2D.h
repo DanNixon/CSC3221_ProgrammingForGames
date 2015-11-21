@@ -25,6 +25,11 @@ public:
   Vector2D operator/(double rhs) const;
   void operator /=(double rhs);
 
+  bool operator<(const Vector2D &other) const;
+  bool operator<=(const Vector2D &other) const;
+  bool operator>(const Vector2D &other) const;
+  bool operator>=(const Vector2D &other) const;
+
   double getX() const;
   double getY() const;
 

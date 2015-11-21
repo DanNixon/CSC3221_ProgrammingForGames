@@ -89,10 +89,19 @@ Vector2D BoundingBox::getUpperLeft() const
   return *m_upperLeft;
 }
 
-bool BoundingBox::shapeFullyEnclosed(const Shape &shape) const
+BoxEnclosedState BoundingBox::boundingBoxEnclosed(const BoundingBox &other) const
 {
-  // TODO
-  return false;
+  bool lowerRight = (*(other.m_lowerRight) >= *m_lowerRight);
+  bool upperLeft = (*(other.m_upperLeft) <= *m_upperLeft);
+
+  if (lowerRight && upperLeft)
+    return BE_FULL;
+  else if (lowerRight && !upperLeft)
+    return BE_UPPERLEFT_OUT;
+  else if (!lowerRight && upperLeft)
+    return BE_LOWERRIGHT_OUT;
+  else
+    return BE_LARGER;
 }
 
 std::ostream &operator<<(std::ostream &stream, const BoundingBox &b)
