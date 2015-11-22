@@ -17,15 +17,16 @@ script:
   - mkdir -p project1/build
   - cd project1/build
   - cmake -DCMAKE_PREFIX_PATH=${PWD}/../../cxxtest/ ..
-  - make
+  - make -j4
   - ctest -VV
   - ./Test
   - cd ../..
   - mkdir -p project2/build
   - cd project2/build
   - cmake -DCMAKE_PREFIX_PATH=${PWD}/../../cxxtest/ ..
-  - make
+  - make -j4
   - ctest -VV
+  - make all_cppcheck
   - ./Game
 
 notifications:

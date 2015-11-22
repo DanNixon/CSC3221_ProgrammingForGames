@@ -2,6 +2,13 @@ cmake_minimum_required(VERSION 2.8)
 
 project (NCL_CSC3221_2_DanNixon)
 
+set ( CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
+
+include ( CppcheckTargets )
+
+include ( EnableExtraCompilerWarnings )
+globally_enable_extra_compiler_warnings()
+
 add_library (Geometry
              ${CMAKE_CURRENT_SOURCE_DIR}/src/Vector2D.cpp
              ${CMAKE_CURRENT_SOURCE_DIR}/src/BoundingBox.cpp
@@ -9,6 +16,10 @@ add_library (Geometry
              ${CMAKE_CURRENT_SOURCE_DIR}/src/Circle.cpp
              ${CMAKE_CURRENT_SOURCE_DIR}/src/Square.cpp)
 include_directories (${CMAKE_CURRENT_SOURCE_DIR}/inc)
+
+add_cppcheck(Geometry
+             STYLE POSSIBLE_ERROR
+             FAIL_ON_WARNINGS)
 
 # Make CxxTest test suites
 find_package (CxxTest)
@@ -35,3 +46,6 @@ add_executable (Game
 target_link_libraries (Game
                        LINK_PUBLIC
                        Geometry)
+add_cppcheck(Game
+             UNUSED_FUNCTIONS STYLE POSSIBLE_ERROR
+             FAIL_ON_WARNINGS)
