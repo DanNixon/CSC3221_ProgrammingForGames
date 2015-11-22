@@ -98,22 +98,22 @@ void Vector2D::operator/=(double rhs)
 
 bool Vector2D::operator<(const Vector2D &other) const
 {
-  return (m_x < other.m_x) || (m_y < other.m_y);
+  return (m_x < other.m_x) && (m_y < other.m_y);
 }
 
 bool Vector2D::operator<=(const Vector2D &other) const
 {
-  return (m_x <= other.m_x) || (m_y <= other.m_y);
+  return (m_x <= other.m_x) && (m_y <= other.m_y);
 }
 
 bool Vector2D::operator>(const Vector2D &other) const
 {
-  return (m_x > other.m_x) || (m_y > other.m_y);
+  return (m_x > other.m_x) && (m_y > other.m_y);
 }
 
 bool Vector2D::operator>=(const Vector2D &other) const
 {
-  return (m_x >= other.m_x) || (m_y >= other.m_y);
+  return (m_x >= other.m_x) && (m_y >= other.m_y);
 }
 
 /**

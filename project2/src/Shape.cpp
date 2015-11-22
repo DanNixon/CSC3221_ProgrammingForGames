@@ -40,11 +40,19 @@ void Shape::setPosition(const Vector2D &position, const BoundingBox &clamp)
     m_position = position;
     break;
   case BE_LOWERLEFT_OUT:
-    // TODO
+  {
+    Vector2D lowerLeftClamp = clamp.getLowerLeft() + (currentBox.size() / 2.0);
+    m_position = Vector2D(std::max(position.getX(), lowerLeftClamp.getX()),
+                          std::max(position.getY(), lowerLeftClamp.getY()));
     break;
+  }
   case BE_UPPERRIGHT_OUT:
-    // TODO
+  {
+    Vector2D upperRightClamp = clamp.getUpperRight() - (currentBox.size() / 2.0);
+    m_position = Vector2D(std::min(position.getX(), upperRightClamp.getX()),
+                          std::min(position.getY(), upperRightClamp.getY()));
     break;
+  }
   case BE_LARGER:
     throw std::runtime_error("Shape is larger than bounding box");
     break;

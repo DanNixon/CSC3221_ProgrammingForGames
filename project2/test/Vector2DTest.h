@@ -153,8 +153,8 @@ public:
 
     TS_ASSERT(!(v2 > v1));
     TS_ASSERT(v3 > v1);
-    TS_ASSERT(v4 > v1);
-    TS_ASSERT(v5 > v1);
+    TS_ASSERT(!(v4 > v1));
+    TS_ASSERT(!(v5 > v1));
   }
 
   void test_LessThan(void)
@@ -173,8 +173,8 @@ public:
 
     TS_ASSERT(!(v2 < v1));
     TS_ASSERT(v3 < v1);
-    TS_ASSERT(v4 < v1);
-    TS_ASSERT(v5 < v1);
+    TS_ASSERT(!(v4 < v1));
+    TS_ASSERT(!(v5 < v1));
   }
 
   void test_GetByIndex(void)
