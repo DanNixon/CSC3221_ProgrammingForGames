@@ -8,8 +8,8 @@ class Vector2D;
 enum BoxEnclosedState
 {
   BE_FULL,
-  BE_UPPERLEFT_OUT,
-  BE_LOWERRIGHT_OUT,
+  BE_LOWERLEFT_OUT,
+  BE_UPPERRIGHT_OUT,
   BE_LARGER
 };
 
@@ -17,9 +17,9 @@ class BoundingBox
 {
 public:
   BoundingBox();
-  BoundingBox(const Vector2D &lowerRight, const Vector2D &upperLeft);
-  BoundingBox(double lowerRightX, double lowerRightY, double upperLeftX,
-              double upperLeftY);
+  BoundingBox(const Vector2D &lowerLeft, const Vector2D &upperRight);
+  BoundingBox(double lowerLeftX, double lowerLeftY, double upperRightX,
+              double upperRightY);
   BoundingBox(const BoundingBox &other);
   ~BoundingBox();
 
@@ -33,16 +33,18 @@ public:
   BoundingBox operator-(const Vector2D &rhs) const;
   void operator-=(const Vector2D &rhs);
 
-  Vector2D getLowerRight() const;
-  Vector2D getUpperLeft() const;
+  Vector2D size() const;
+
+  Vector2D getLowerLeft() const;
+  Vector2D getUpperRight() const;
 
   BoxEnclosedState boundingBoxEnclosed(const BoundingBox &other) const;
 
   friend std::ostream &operator<<(std::ostream &stream, const BoundingBox &b);
 
 private:
-  Vector2D *m_lowerRight;
-  Vector2D *m_upperLeft;
+  Vector2D *m_lowerLeft;
+  Vector2D *m_upperRight;
 };
 
 std::istream &operator>>(std::istream &stream, BoundingBox &b);

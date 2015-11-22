@@ -12,10 +12,10 @@ public:
   {
     BoundingBox b;
 
-    TS_ASSERT_EQUALS(b.getLowerRight().getX(), 0.0);
-    TS_ASSERT_EQUALS(b.getLowerRight().getY(), 0.0);
-    TS_ASSERT_EQUALS(b.getUpperLeft().getX(), 0.0);
-    TS_ASSERT_EQUALS(b.getUpperLeft().getY(), 0.0);
+    TS_ASSERT_EQUALS(b.getLowerLeft().getX(), 0.0);
+    TS_ASSERT_EQUALS(b.getLowerLeft().getY(), 0.0);
+    TS_ASSERT_EQUALS(b.getUpperRight().getX(), 0.0);
+    TS_ASSERT_EQUALS(b.getUpperRight().getY(), 0.0);
   }
 
   void test_CreateVectors(void)
@@ -25,20 +25,43 @@ public:
 
     BoundingBox b(lowerRight, upperLeft);
 
-    TS_ASSERT_EQUALS(b.getLowerRight().getX(), 2.5);
-    TS_ASSERT_EQUALS(b.getLowerRight().getY(), 3.5);
-    TS_ASSERT_EQUALS(b.getUpperLeft().getX(), 8.7);
-    TS_ASSERT_EQUALS(b.getUpperLeft().getY(), 9.2);
+    TS_ASSERT_EQUALS(b.getLowerLeft().getX(), 2.5);
+    TS_ASSERT_EQUALS(b.getLowerLeft().getY(), 3.5);
+    TS_ASSERT_EQUALS(b.getUpperRight().getX(), 8.7);
+    TS_ASSERT_EQUALS(b.getUpperRight().getY(), 9.2);
+  }
+
+  void test_CreateVectorsBadOrder(void)
+  {
+    Vector2D lowerRight(2.5, 3.5);
+    Vector2D upperLeft(8.7, 9.2);
+
+    BoundingBox b(upperLeft, lowerRight);
+
+    TS_ASSERT_EQUALS(b.getLowerLeft().getX(), 2.5);
+    TS_ASSERT_EQUALS(b.getLowerLeft().getY(), 3.5);
+    TS_ASSERT_EQUALS(b.getUpperRight().getX(), 8.7);
+    TS_ASSERT_EQUALS(b.getUpperRight().getY(), 9.2);
   }
 
   void test_CreateValues(void)
   {
     BoundingBox b(2.5, 3.5, 8.7, 9.2);
 
-    TS_ASSERT_EQUALS(b.getLowerRight().getX(), 2.5);
-    TS_ASSERT_EQUALS(b.getLowerRight().getY(), 3.5);
-    TS_ASSERT_EQUALS(b.getUpperLeft().getX(), 8.7);
-    TS_ASSERT_EQUALS(b.getUpperLeft().getY(), 9.2);
+    TS_ASSERT_EQUALS(b.getLowerLeft().getX(), 2.5);
+    TS_ASSERT_EQUALS(b.getLowerLeft().getY(), 3.5);
+    TS_ASSERT_EQUALS(b.getUpperRight().getX(), 8.7);
+    TS_ASSERT_EQUALS(b.getUpperRight().getY(), 9.2);
+  }
+
+  void test_CreateValuesBadOrder(void)
+  {
+    BoundingBox b(8.7, 9.2, 2.5, 3.5);
+
+    TS_ASSERT_EQUALS(b.getLowerLeft().getX(), 2.5);
+    TS_ASSERT_EQUALS(b.getLowerLeft().getY(), 3.5);
+    TS_ASSERT_EQUALS(b.getUpperRight().getX(), 8.7);
+    TS_ASSERT_EQUALS(b.getUpperRight().getY(), 9.2);
   }
 
   void test_CreateCopy(void)
@@ -46,10 +69,10 @@ public:
     BoundingBox b1(2.5, 3.5, 8.7, 9.2);
     BoundingBox b2(b1);
 
-    TS_ASSERT_EQUALS(b2.getLowerRight().getX(), 2.5);
-    TS_ASSERT_EQUALS(b2.getLowerRight().getY(), 3.5);
-    TS_ASSERT_EQUALS(b2.getUpperLeft().getX(), 8.7);
-    TS_ASSERT_EQUALS(b2.getUpperLeft().getY(), 9.2);
+    TS_ASSERT_EQUALS(b2.getLowerLeft().getX(), 2.5);
+    TS_ASSERT_EQUALS(b2.getLowerLeft().getY(), 3.5);
+    TS_ASSERT_EQUALS(b2.getUpperRight().getX(), 8.7);
+    TS_ASSERT_EQUALS(b2.getUpperRight().getY(), 9.2);
   }
 
   void test_Assignment(void)
@@ -57,17 +80,17 @@ public:
     BoundingBox b1(0.0, 0.0, 0.0, 0.0);
     BoundingBox b2(2.5, 3.5, 8.7, 9.2);
 
-    TS_ASSERT_EQUALS(b1.getLowerRight().getX(), 0.0);
-    TS_ASSERT_EQUALS(b1.getLowerRight().getY(), 0.0);
-    TS_ASSERT_EQUALS(b1.getUpperLeft().getX(), 0.0);
-    TS_ASSERT_EQUALS(b1.getUpperLeft().getY(), 0.0);
+    TS_ASSERT_EQUALS(b1.getLowerLeft().getX(), 0.0);
+    TS_ASSERT_EQUALS(b1.getLowerLeft().getY(), 0.0);
+    TS_ASSERT_EQUALS(b1.getUpperRight().getX(), 0.0);
+    TS_ASSERT_EQUALS(b1.getUpperRight().getY(), 0.0);
 
     b1 = b2;
 
-    TS_ASSERT_EQUALS(b1.getLowerRight().getX(), 2.5);
-    TS_ASSERT_EQUALS(b1.getLowerRight().getY(), 3.5);
-    TS_ASSERT_EQUALS(b1.getUpperLeft().getX(), 8.7);
-    TS_ASSERT_EQUALS(b1.getUpperLeft().getY(), 9.2);
+    TS_ASSERT_EQUALS(b1.getLowerLeft().getX(), 2.5);
+    TS_ASSERT_EQUALS(b1.getLowerLeft().getY(), 3.5);
+    TS_ASSERT_EQUALS(b1.getUpperRight().getX(), 8.7);
+    TS_ASSERT_EQUALS(b1.getUpperRight().getY(), 9.2);
   }
 
   void testEquality(void)
@@ -97,17 +120,17 @@ public:
 
     BoundingBox b2 = b1 + offset;
 
-    TS_ASSERT_DELTA(b2.getLowerRight().getX(), 3.0, TH);
-    TS_ASSERT_DELTA(b2.getLowerRight().getY(), 3.7, TH);
-    TS_ASSERT_DELTA(b2.getUpperLeft().getX(), 9.2, TH);
-    TS_ASSERT_DELTA(b2.getUpperLeft().getY(), 9.4, TH);
+    TS_ASSERT_DELTA(b2.getLowerLeft().getX(), 3.0, TH);
+    TS_ASSERT_DELTA(b2.getLowerLeft().getY(), 3.7, TH);
+    TS_ASSERT_DELTA(b2.getUpperRight().getX(), 9.2, TH);
+    TS_ASSERT_DELTA(b2.getUpperRight().getY(), 9.4, TH);
 
     b1 += offset;
 
-    TS_ASSERT_DELTA(b1.getLowerRight().getX(), 3.0, TH);
-    TS_ASSERT_DELTA(b1.getLowerRight().getY(), 3.7, TH);
-    TS_ASSERT_DELTA(b1.getUpperLeft().getX(), 9.2, TH);
-    TS_ASSERT_DELTA(b1.getUpperLeft().getY(), 9.4, TH);
+    TS_ASSERT_DELTA(b1.getLowerLeft().getX(), 3.0, TH);
+    TS_ASSERT_DELTA(b1.getLowerLeft().getY(), 3.7, TH);
+    TS_ASSERT_DELTA(b1.getUpperRight().getX(), 9.2, TH);
+    TS_ASSERT_DELTA(b1.getUpperRight().getY(), 9.4, TH);
   }
 
   void test_SubtractionOperators(void)
@@ -117,17 +140,26 @@ public:
 
     BoundingBox b2 = b1 - offset;
 
-    TS_ASSERT_DELTA(b2.getLowerRight().getX(), 2.0, TH);
-    TS_ASSERT_DELTA(b2.getLowerRight().getY(), 3.3, TH);
-    TS_ASSERT_DELTA(b2.getUpperLeft().getX(), 8.2, TH);
-    TS_ASSERT_DELTA(b2.getUpperLeft().getY(), 9.0, TH);
+    TS_ASSERT_DELTA(b2.getLowerLeft().getX(), 2.0, TH);
+    TS_ASSERT_DELTA(b2.getLowerLeft().getY(), 3.3, TH);
+    TS_ASSERT_DELTA(b2.getUpperRight().getX(), 8.2, TH);
+    TS_ASSERT_DELTA(b2.getUpperRight().getY(), 9.0, TH);
 
     b1 -= offset;
 
-    TS_ASSERT_DELTA(b1.getLowerRight().getX(), 2.0, TH);
-    TS_ASSERT_DELTA(b1.getLowerRight().getY(), 3.3, TH);
-    TS_ASSERT_DELTA(b1.getUpperLeft().getX(), 8.2, TH);
-    TS_ASSERT_DELTA(b1.getUpperLeft().getY(), 9.0, TH);
+    TS_ASSERT_DELTA(b1.getLowerLeft().getX(), 2.0, TH);
+    TS_ASSERT_DELTA(b1.getLowerLeft().getY(), 3.3, TH);
+    TS_ASSERT_DELTA(b1.getUpperRight().getX(), 8.2, TH);
+    TS_ASSERT_DELTA(b1.getUpperRight().getY(), 9.0, TH);
+  }
+
+  void test_Size(void)
+  {
+    BoundingBox b(2.5, 3.5, 8.7, 9.2);
+    Vector2D size = b.size();
+
+    TS_ASSERT_DELTA(size.getX(), 6.2, TH);
+    TS_ASSERT_DELTA(size.getY(), 5.7, TH);
   }
 
   void test_BoundingBoxEnclosed_Fully(void)
@@ -138,20 +170,20 @@ public:
     TS_ASSERT_EQUALS(b1.boundingBoxEnclosed(b2), BE_FULL);
   }
 
-  void test_BoundingBoxEnclosed_PartiallyLowerRight(void)
+  void test_BoundingBoxEnclosed_PartiallyLowerLeft(void)
   {
     BoundingBox b1(0.0, 0.0, 1.0, 1.0);
     BoundingBox b2(-0.25, -0.25, 0.25, 0.25);
 
-    TS_ASSERT_EQUALS(b1.boundingBoxEnclosed(b2), BE_LOWERRIGHT_OUT);
+    TS_ASSERT_EQUALS(b1.boundingBoxEnclosed(b2), BE_LOWERLEFT_OUT);
   }
 
-  void test_BoundingBoxEnclosed_PartiallyUpperLeft(void)
+  void test_BoundingBoxEnclosed_PartiallyUpperRight(void)
   {
     BoundingBox b1(0.0, 0.0, 1.0, 1.0);
     BoundingBox b2(0.75, 0.75, 1.25, 1.25);
 
-    TS_ASSERT_EQUALS(b1.boundingBoxEnclosed(b2), BE_UPPERLEFT_OUT);
+    TS_ASSERT_EQUALS(b1.boundingBoxEnclosed(b2), BE_UPPERRIGHT_OUT);
   }
 
   void test_BoundingBoxEnclosed_Larger(void)
@@ -180,9 +212,9 @@ public:
     BoundingBox b;
     stream >> b;
 
-    TS_ASSERT_EQUALS(b.getLowerRight().getX(), 2.5);
-    TS_ASSERT_EQUALS(b.getLowerRight().getY(), 3.5);
-    TS_ASSERT_EQUALS(b.getUpperLeft().getX(), 8.7);
-    TS_ASSERT_EQUALS(b.getUpperLeft().getY(), 9.2);
+    TS_ASSERT_EQUALS(b.getLowerLeft().getX(), 2.5);
+    TS_ASSERT_EQUALS(b.getLowerLeft().getY(), 3.5);
+    TS_ASSERT_EQUALS(b.getUpperRight().getX(), 8.7);
+    TS_ASSERT_EQUALS(b.getUpperRight().getY(), 9.2);
   }
 };

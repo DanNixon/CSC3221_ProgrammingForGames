@@ -28,18 +28,19 @@ void Shape::setPosition(const Vector2D &position)
 
 void Shape::setPosition(const Vector2D &position, const BoundingBox &clamp)
 {
+  BoundingBox currentBox = getBoundingBox();
   BoxEnclosedState state =
-      clamp.boundingBoxEnclosed(getBoundingBox() + (position - m_position));
+      clamp.boundingBoxEnclosed(currentBox + (position - m_position));
 
   switch (state)
   {
   case BE_FULL:
     m_position = position;
     break;
-  case BE_LOWERRIGHT_OUT:
+  case BE_LOWERLEFT_OUT:
     // TODO
     break;
-  case BE_UPPERLEFT_OUT:
+  case BE_UPPERRIGHT_OUT:
     // TODO
     break;
   case BE_LARGER:

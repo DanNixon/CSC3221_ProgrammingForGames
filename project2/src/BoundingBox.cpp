@@ -3,49 +3,53 @@
 #include "Vector2D.h"
 
 BoundingBox::BoundingBox()
-    : m_lowerRight(new Vector2D())
-    , m_upperLeft(new Vector2D())
+    : m_lowerLeft(new Vector2D())
+    , m_upperRight(new Vector2D())
 {
 }
 
 BoundingBox::BoundingBox(const Vector2D &lowerRight, const Vector2D &upperLeft)
-    : m_lowerRight(new Vector2D(lowerRight))
-    , m_upperLeft(new Vector2D(upperLeft))
+    : m_lowerLeft(new Vector2D(lowerRight))
+    , m_upperRight(new Vector2D(upperLeft))
 {
+  if (*m_lowerLeft > *m_upperRight)
+    std::swap(m_lowerLeft, m_upperRight);
 }
 
 BoundingBox::BoundingBox(double lowerRightX, double lowerRightY,
                          double upperLeftX, double upperLeftY)
-    : m_lowerRight(new Vector2D(lowerRightX, lowerRightY))
-    , m_upperLeft(new Vector2D(upperLeftX, upperLeftY))
+    : m_lowerLeft(new Vector2D(lowerRightX, lowerRightY))
+    , m_upperRight(new Vector2D(upperLeftX, upperLeftY))
 {
+  if (*m_lowerLeft > *m_upperRight)
+    std::swap(m_lowerLeft, m_upperRight);
 }
 
 BoundingBox::BoundingBox(const BoundingBox &other)
-    : m_lowerRight(new Vector2D(other.m_lowerRight))
-    , m_upperLeft(new Vector2D(other.m_upperLeft))
+    : m_lowerLeft(new Vector2D(other.m_lowerLeft))
+    , m_upperRight(new Vector2D(other.m_upperRight))
 {
 }
 
 BoundingBox::~BoundingBox()
 {
-  delete m_lowerRight;
-  delete m_upperLeft;
+  delete m_lowerLeft;
+  delete m_upperRight;
 }
 
 void BoundingBox::operator=(const BoundingBox &other)
 {
-  delete m_lowerRight;
-  delete m_upperLeft;
+  delete m_lowerLeft;
+  delete m_upperRight;
 
-  m_lowerRight = new Vector2D(other.m_lowerRight);
-  m_upperLeft = new Vector2D(other.m_upperLeft);
+  m_lowerLeft = new Vector2D(other.m_lowerLeft);
+  m_upperRight = new Vector2D(other.m_upperRight);
 }
 
 bool BoundingBox::operator==(const BoundingBox &other) const
 {
-  return (*m_lowerRight == *(other.m_lowerRight)) &&
-         (*m_upperLeft == *(other.m_upperLeft));
+  return (*m_lowerLeft == *(other.m_lowerLeft)) &&
+         (*m_upperRight == *(other.m_upperRight));
 }
 
 bool BoundingBox::operator!=(const BoundingBox &other) const
@@ -62,8 +66,8 @@ BoundingBox BoundingBox::operator+(const Vector2D &rhs) const
 
 void BoundingBox::operator+=(const Vector2D &rhs)
 {
-  (*m_lowerRight) += rhs;
-  (*m_upperLeft) += rhs;
+  (*m_lowerLeft) += rhs;
+  (*m_upperRight) += rhs;
 }
 
 BoundingBox BoundingBox::operator-(const Vector2D &rhs) const
@@ -75,38 +79,43 @@ BoundingBox BoundingBox::operator-(const Vector2D &rhs) const
 
 void BoundingBox::operator-=(const Vector2D &rhs)
 {
-  (*m_lowerRight) -= rhs;
-  (*m_upperLeft) -= rhs;
+  (*m_lowerLeft) -= rhs;
+  (*m_upperRight) -= rhs;
 }
 
-Vector2D BoundingBox::getLowerRight() const
+Vector2D BoundingBox::size() const
 {
-  return *m_lowerRight;
+  return *m_upperRight - *m_lowerLeft;
 }
 
-Vector2D BoundingBox::getUpperLeft() const
+Vector2D BoundingBox::getLowerLeft() const
 {
-  return *m_upperLeft;
+  return *m_lowerLeft;
+}
+
+Vector2D BoundingBox::getUpperRight() const
+{
+  return *m_upperRight;
 }
 
 BoxEnclosedState BoundingBox::boundingBoxEnclosed(const BoundingBox &other) const
 {
-  bool lowerRight = (*(other.m_lowerRight) >= *m_lowerRight);
-  bool upperLeft = (*(other.m_upperLeft) <= *m_upperLeft);
+  bool lowerLeft = (*(other.m_lowerLeft) >= *m_lowerLeft);
+  bool upperRight = (*(other.m_upperRight) <= *m_upperRight);
 
-  if (lowerRight && upperLeft)
+  if (lowerLeft && upperRight)
     return BE_FULL;
-  else if (lowerRight && !upperLeft)
-    return BE_UPPERLEFT_OUT;
-  else if (!lowerRight && upperLeft)
-    return BE_LOWERRIGHT_OUT;
+  else if (lowerLeft && !upperRight)
+    return BE_UPPERRIGHT_OUT;
+  else if (!lowerLeft && upperRight)
+    return BE_LOWERLEFT_OUT;
   else
     return BE_LARGER;
 }
 
 std::ostream &operator<<(std::ostream &stream, const BoundingBox &b)
 {
-  stream << "[" << *(b.m_lowerRight) << "," << *(b.m_upperLeft) << "]";
+  stream << "[" << *(b.m_lowerLeft) << "," << *(b.m_upperRight) << "]";
   return stream;
 }
 
