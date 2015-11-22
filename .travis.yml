@@ -26,7 +26,6 @@ script:
   - cmake -DCMAKE_PREFIX_PATH=${PWD}/../../cxxtest/ ..
   - make -j4
   - ctest -VV
-  - make all_cppcheck
   - ./Game
 
 notifications:
