@@ -20,16 +20,18 @@ Vector2D::Vector2D(const Vector2D &other)
 {
 }
 
-Vector2D::Vector2D(Vector2D * other)
+Vector2D::Vector2D(Vector2D *other)
     : m_x(other->m_x)
     , m_y(other->m_y)
 {
 }
 
-void Vector2D::operator=(const Vector2D & other)
+Vector2D &Vector2D::operator=(const Vector2D &other)
 {
   m_x = other.m_x;
   m_y = other.m_y;
+
+  return *this;
 }
 
 bool Vector2D::operator==(const Vector2D &other) const
@@ -49,7 +51,7 @@ Vector2D Vector2D::operator+(const Vector2D &rhs) const
   return result;
 }
 
-void Vector2D::operator+=(const Vector2D & rhs)
+void Vector2D::operator+=(const Vector2D &rhs)
 {
   m_x += rhs.m_x;
   m_y += rhs.m_y;
@@ -62,7 +64,7 @@ Vector2D Vector2D::operator-(const Vector2D &rhs) const
   return result;
 }
 
-void Vector2D::operator-=(const Vector2D & rhs)
+void Vector2D::operator-=(const Vector2D &rhs)
 {
   m_x -= rhs.m_x;
   m_y -= rhs.m_y;

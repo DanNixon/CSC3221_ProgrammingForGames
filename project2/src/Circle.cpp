@@ -22,9 +22,11 @@ Circle::~Circle()
 {
 }
 
-void Circle::operator=(const Circle & other)
+Circle &Circle::operator=(const Circle &other)
 {
   m_radius = other.m_radius;
+
+  return *this;
 }
 
 BoundingBox Circle::getBoundingBox() const

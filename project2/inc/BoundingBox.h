@@ -23,7 +23,7 @@ public:
   BoundingBox(const BoundingBox &other);
   ~BoundingBox();
 
-  void operator=(const BoundingBox &other);
+  BoundingBox &operator=(const BoundingBox &other);
 
   bool operator==(const BoundingBox &other) const;
   bool operator!=(const BoundingBox &other) const;

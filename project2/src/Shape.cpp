@@ -16,9 +16,11 @@ Shape::~Shape()
 {
 }
 
-void Shape::operator=(const Shape &other)
+Shape &Shape::operator=(const Shape &other)
 {
   m_position = other.m_position;
+
+  return *this;
 }
 
 void Shape::setPosition(const Vector2D &position)

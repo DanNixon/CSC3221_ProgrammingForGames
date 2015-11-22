@@ -37,13 +37,18 @@ BoundingBox::~BoundingBox()
   delete m_upperRight;
 }
 
-void BoundingBox::operator=(const BoundingBox &other)
+BoundingBox &BoundingBox::operator=(const BoundingBox &other)
 {
+  if (this == &other)
+    return *this;
+
   delete m_lowerLeft;
   delete m_upperRight;
 
   m_lowerLeft = new Vector2D(other.m_lowerLeft);
   m_upperRight = new Vector2D(other.m_upperRight);
+
+  return *this;
 }
 
 bool BoundingBox::operator==(const BoundingBox &other) const
@@ -98,7 +103,8 @@ Vector2D BoundingBox::getUpperRight() const
   return *m_upperRight;
 }
 
-BoxEnclosedState BoundingBox::boundingBoxEnclosed(const BoundingBox &other) const
+BoxEnclosedState
+BoundingBox::boundingBoxEnclosed(const BoundingBox &other) const
 {
   bool lowerLeft = (*(other.m_lowerLeft) >= *m_lowerLeft);
   bool upperRight = (*(other.m_upperRight) <= *m_upperRight);

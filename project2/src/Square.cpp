@@ -25,10 +25,12 @@ Square::~Square()
 {
 }
 
-void Square::operator=(const Square &other)
+Square &Square::operator=(const Square &other)
 {
   m_width = other.m_width;
   m_height = other.m_height;
+
+  return *this;
 }
 
 BoundingBox Square::getBoundingBox() const
