@@ -27,6 +27,8 @@ Square::~Square()
 
 Square &Square::operator=(const Square &other)
 {
+  Shape::operator=(other);
+
   m_width = other.m_width;
   m_height = other.m_height;
 

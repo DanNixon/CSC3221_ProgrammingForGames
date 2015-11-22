@@ -11,7 +11,7 @@ public:
   Shape(const Shape &other);
   virtual ~Shape();
 
-  Shape &operator=(const Shape &other);
+  virtual Shape &operator=(const Shape &other);
 
   virtual BoundingBox getBoundingBox() const = 0;
 

@@ -24,6 +24,8 @@ Circle::~Circle()
 
 Circle &Circle::operator=(const Circle &other)
 {
+  Shape::operator=(other);
+
   m_radius = other.m_radius;
 
   return *this;

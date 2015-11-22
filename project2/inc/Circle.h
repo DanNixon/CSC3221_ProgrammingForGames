@@ -12,7 +12,7 @@ public:
   Circle(const Circle &other);
   ~Circle();
 
-  Circle &operator=(const Circle &other);
+  virtual Circle &operator=(const Circle &other);
 
   virtual BoundingBox getBoundingBox() const;
 

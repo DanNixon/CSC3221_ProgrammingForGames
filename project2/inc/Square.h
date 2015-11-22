@@ -12,7 +12,7 @@ public:
   Square(const Square &other);
   ~Square();
 
-  Square &operator=(const Square &other);
+  virtual Square &operator=(const Square &other);
 
   virtual BoundingBox getBoundingBox() const;
 
