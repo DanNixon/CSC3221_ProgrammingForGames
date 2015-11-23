@@ -1,6 +1,7 @@
 #include <cxxtest/TestSuite.h>
 
 #include "BoundingBox.h"
+#include "Vector2D.h"
 #include "Shape.h"
 
 class FakeShape : public Shape
@@ -25,6 +26,13 @@ public:
     Vector2D dimensions(0.5, 0.5);
     return BoundingBox(m_position - dimensions, m_position + dimensions);
   }
+
+private:
+  virtual bool compare(const Shape &other) const
+  {
+    (void)other;
+    return true;
+  }
 };
 
 class ShapeTest : public CxxTest::TestSuite
@@ -35,6 +43,54 @@ public:
     FakeShape s;
 
     TS_ASSERT_EQUALS(s.getPosition(), Vector2D(0.0, 0.0));
+  }
+
+  void test_CreateCopy(void)
+  {
+    FakeShape s1;
+    s1.setPosition(Vector2D(5.0, 3.0));
+
+    FakeShape s2(s1);
+
+    TS_ASSERT_EQUALS(s2.getPosition(), Vector2D(5.0, 3.0));
+  }
+
+  void test_Assignment(void)
+  {
+    FakeShape s1;
+    s1.setPosition(Vector2D(5.0, 3.0));
+
+    FakeShape s2;
+
+    s2 = s1;
+
+    TS_ASSERT_EQUALS(s2.getPosition(), Vector2D(5.0, 3.0));
+  }
+
+  void test_Equality(void)
+  {
+    FakeShape s1;
+    s1.setPosition(Vector2D(5.0, 3.0));
+    FakeShape s2;
+    s2.setPosition(Vector2D(5.0, 3.0));
+    FakeShape s3;
+    s3.setPosition(Vector2D(5.7, 2.0));
+
+    TS_ASSERT(s1 == s2);
+    TS_ASSERT(!(s1 == s3));
+  }
+
+  void test_Inequality(void)
+  {
+    FakeShape s1;
+    s1.setPosition(Vector2D(5.0, 3.0));
+    FakeShape s2;
+    s2.setPosition(Vector2D(5.0, 3.0));
+    FakeShape s3;
+    s3.setPosition(Vector2D(5.7, 2.0));
+
+    TS_ASSERT(!(s1 != s2));
+    TS_ASSERT(s1 != s3);
   }
 
   void test_SetPosition(void)

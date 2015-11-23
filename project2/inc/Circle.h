@@ -12,7 +12,7 @@ public:
   Circle(const Circle &other);
   ~Circle();
 
-  virtual Circle &operator=(const Circle &other);
+  Circle &operator=(const Circle &other);
 
   virtual BoundingBox getBoundingBox() const;
 
@@ -21,6 +21,8 @@ public:
   friend std::ostream &operator<<(std::ostream &stream, const Circle &c);
 
 private:
+  virtual bool compare(const Shape &other) const;
+
   double m_radius;
 };
 

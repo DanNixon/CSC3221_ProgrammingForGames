@@ -51,12 +51,40 @@ public:
 
   void test_Equality(void)
   {
-    // TODO
+    Square s1(10.0, 5.0);
+    s1.setPosition(Vector2D(5.0, 3.0));
+    Square s2(10.0, 5.0);
+    s2.setPosition(Vector2D(5.0, 3.0));
+    Square s3(10.0, 5.0);
+    s3.setPosition(Vector2D(5.7, 2.0));
+    Square s4(12.0, 6.0);
+    s4.setPosition(Vector2D(5.0, 3.0));
+    Square s5(10.0, 6.0);
+    s5.setPosition(Vector2D(5.0, 3.0));
+
+    TS_ASSERT(s1 == s2);
+    TS_ASSERT(!(s1 == s3));
+    TS_ASSERT(!(s1 == s4));
+    TS_ASSERT(!(s1 == s5));
   }
 
   void test_Inequality(void)
   {
-    // TODO
+    Square s1(10.0, 5.0);
+    s1.setPosition(Vector2D(5.0, 3.0));
+    Square s2(10.0, 5.0);
+    s2.setPosition(Vector2D(5.0, 3.0));
+    Square s3(10.0, 5.0);
+    s3.setPosition(Vector2D(5.7, 2.0));
+    Square s4(12.0, 5.0);
+    s4.setPosition(Vector2D(5.0, 3.0));
+    Square s5(10.0, 6.0);
+    s5.setPosition(Vector2D(5.0, 3.0));
+
+    TS_ASSERT(!(s1 != s2));
+    TS_ASSERT(s1 != s3);
+    TS_ASSERT(s1 != s4);
+    TS_ASSERT(s1 != s5);
   }
 
   void test_GetBoundingBox(void)

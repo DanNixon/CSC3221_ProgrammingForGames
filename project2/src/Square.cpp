@@ -52,6 +52,15 @@ double Square::getHeight() const
   return m_height;
 }
 
+bool Square::compare(const Shape &other) const
+{
+  const Square *s = dynamic_cast<const Square *>(&other);
+  if (s == NULL)
+    return false;
+
+  return (m_width == s->m_width) && (m_height == s->m_height);
+}
+
 std::ostream &operator<<(std::ostream &stream, const Square &s)
 {
   stream << "[" << s.m_position << "," << s.m_width << "," << s.m_height << "]";

@@ -11,7 +11,10 @@ public:
   Shape(const Shape &other);
   virtual ~Shape();
 
-  virtual Shape &operator=(const Shape &other);
+  Shape &operator=(const Shape &other);
+
+  bool operator==(const Shape &other) const;
+  bool operator!=(const Shape &other) const;
 
   virtual BoundingBox getBoundingBox() const = 0;
 
@@ -23,6 +26,8 @@ public:
   Vector2D getPosition() const;
 
 protected:
+  virtual bool compare(const Shape &other) const = 0;
+
   Vector2D m_position;
 };
 

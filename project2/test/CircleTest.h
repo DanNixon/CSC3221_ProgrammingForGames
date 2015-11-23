@@ -47,12 +47,34 @@ public:
 
   void test_Equality(void)
   {
-    // TODO
+    Circle c1(10.0);
+    c1.setPosition(Vector2D(5.0, 3.0));
+    Circle c2(10.0);
+    c2.setPosition(Vector2D(5.0, 3.0));
+    Circle c3(10.0);
+    c3.setPosition(Vector2D(5.7, 2.0));
+    Circle c4(12.0);
+    c4.setPosition(Vector2D(5.0, 3.0));
+
+    TS_ASSERT(c1 == c2);
+    TS_ASSERT(!(c1 == c3));
+    TS_ASSERT(!(c1 == c4));
   }
 
   void test_Inequality(void)
   {
-    // TODO
+    Circle c1(10.0);
+    c1.setPosition(Vector2D(5.0, 3.0));
+    Circle c2(10.0);
+    c2.setPosition(Vector2D(5.0, 3.0));
+    Circle c3(10.0);
+    c3.setPosition(Vector2D(5.7, 2.0));
+    Circle c4(12.0);
+    c4.setPosition(Vector2D(5.0, 3.0));
+
+    TS_ASSERT(!(c1 != c2));
+    TS_ASSERT(c1 != c3);
+    TS_ASSERT(c1 != c4);
   }
 
   void test_GetBoundingBox(void)

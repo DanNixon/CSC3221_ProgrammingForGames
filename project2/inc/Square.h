@@ -12,7 +12,7 @@ public:
   Square(const Square &other);
   ~Square();
 
-  virtual Square &operator=(const Square &other);
+  Square &operator=(const Square &other);
 
   virtual BoundingBox getBoundingBox() const;
 
@@ -22,6 +22,8 @@ public:
   friend std::ostream &operator<<(std::ostream &stream, const Square &s);
 
 private:
+  virtual bool compare(const Shape &other) const;
+
   double m_width;
   double m_height;
 };

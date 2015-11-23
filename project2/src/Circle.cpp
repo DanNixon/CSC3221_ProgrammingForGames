@@ -43,6 +43,15 @@ double Circle::getRadius() const
   return m_radius;
 }
 
+bool Circle::compare(const Shape &other) const
+{
+  const Circle *c = dynamic_cast<const Circle *>(&other);
+  if (c == NULL)
+    return false;
+
+  return m_radius == c->m_radius;
+}
+
 std::ostream &operator<<(std::ostream &stream, const Circle &c)
 {
   stream << "[" << c.m_position << "," << c.m_radius << "]";

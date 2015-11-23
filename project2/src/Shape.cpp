@@ -23,6 +23,17 @@ Shape &Shape::operator=(const Shape &other)
   return *this;
 }
 
+bool Shape::operator==(const Shape &other) const
+{
+  return (m_position == other.m_position) && this->compare(other) &&
+         other.compare(*this);
+}
+
+bool Shape::operator!=(const Shape &other) const
+{
+  return !(this->operator==(other));
+}
+
 void Shape::setPosition(const Vector2D &position)
 {
   m_position = position;
@@ -48,7 +59,8 @@ void Shape::setPosition(const Vector2D &position, const BoundingBox &clamp)
   }
   case BE_UPPERRIGHT_OUT:
   {
-    Vector2D upperRightClamp = clamp.getUpperRight() - (currentBox.size() / 2.0);
+    Vector2D upperRightClamp =
+        clamp.getUpperRight() - (currentBox.size() / 2.0);
     m_position = Vector2D(std::min(position.getX(), upperRightClamp.getX()),
                           std::min(position.getY(), upperRightClamp.getY()));
     break;
