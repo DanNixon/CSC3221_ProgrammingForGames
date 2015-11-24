@@ -24,9 +24,10 @@ script:
   - cd ../..
   - mkdir -p project2/build
   - cd project2/build
-  - cmake -DCMAKE_PREFIX_PATH=${PWD}/../../cxxtest/ ..
+  - cmake -DCMAKE_PREFIX_PATH=${PWD}/../../cxxtest/ -DCMAKE_BUILD_TYPE=Debug ..
   - make -j4
   - ctest -VV
+  - make coverage
   - ./Game
 
 notifications:
