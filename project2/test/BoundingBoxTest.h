@@ -93,6 +93,18 @@ public:
     TS_ASSERT_EQUALS(b1.getUpperRight().getY(), 9.2);
   }
 
+  void test_SelfAssignment(void)
+  {
+    BoundingBox b(2.5, 3.5, 8.7, 9.2);
+
+    b = b;
+
+    TS_ASSERT_EQUALS(b.getLowerLeft().getX(), 2.5);
+    TS_ASSERT_EQUALS(b.getLowerLeft().getY(), 3.5);
+    TS_ASSERT_EQUALS(b.getUpperRight().getX(), 8.7);
+    TS_ASSERT_EQUALS(b.getUpperRight().getY(), 9.2);
+  }
+
   void testEquality(void)
   {
     BoundingBox b1(2.5, 3.5, 8.7, 9.2);
