@@ -79,12 +79,69 @@ public:
 
   void test_GetBoundingBox(void)
   {
-    Circle c(10.0);
+    Circle c(5.0);
 
     TS_ASSERT_EQUALS(c.getBoundingBox(), BoundingBox(-5.0, -5.0, 5.0, 5.0));
 
     c.setPosition(Vector2D(30.0, 50.0));
     TS_ASSERT_EQUALS(c.getBoundingBox(), BoundingBox(25.0, 45.0, 35.0, 55.0));
+  }
+
+  void test_Intersection_Circle_Out(void)
+  {
+    Circle c1(5.0);
+    c1.setPosition(Vector2D(-5.0, -5.0));
+
+    Circle c2(5.0);
+    c2.setPosition(Vector2D(5.0, 5.0));
+
+    TS_ASSERT(!c1.intersects(c2));
+    TS_ASSERT(!c2.intersects(c1));
+  }
+
+  void test_Intersection_Circle_Equal(void)
+  {
+    Circle c1(5.0);
+    c1.setPosition(Vector2D(0.0, 0.0));
+
+    Circle c2(5.0);
+    c2.setPosition(Vector2D(0.0, 10.0));
+
+    TS_ASSERT(!c1.intersects(c2));
+    TS_ASSERT(!c2.intersects(c1));
+
+    Circle c3(5.0);
+    c3.setPosition(Vector2D(10.0, 0.0));
+
+    TS_ASSERT(!c1.intersects(c3));
+    TS_ASSERT(!c3.intersects(c1));
+  }
+
+  void test_Intersection_Circle_In(void)
+  {
+    Circle c1(5.0);
+    c1.setPosition(Vector2D(-5.0, -5.0));
+
+    Circle c2(5.0);
+    c2.setPosition(Vector2D(1.0, 1.0));
+
+    TS_ASSERT(c1.intersects(c2));
+    TS_ASSERT(c2.intersects(c1));
+  }
+
+  void test_Intersection_Square_Out(void)
+  {
+    // TODO
+  }
+
+  void test_Intersection_Square_Equal(void)
+  {
+    // TODO
+  }
+
+  void test_Intersection_Square_In(void)
+  {
+    // TODO
   }
 
   void test_StreamOutput(void)

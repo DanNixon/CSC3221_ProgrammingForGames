@@ -97,6 +97,153 @@ public:
     TS_ASSERT_EQUALS(s.getBoundingBox(), BoundingBox(25.0, 44.0, 35.0, 56.0));
   }
 
+  void test_Intersection_Square_Out_Top(void)
+  {
+    Square s1(10.0, 10.0);
+
+    Square s2(5.0, 5.0);
+    s2.setPosition(Vector2D(10, 0.0));
+
+    TS_ASSERT(!s1.intersects(s2));
+    TS_ASSERT(!s2.intersects(s1));
+  }
+
+  void test_Intersection_Square_Out_Bottom(void)
+  {
+    Square s1(10.0, 10.0);
+
+    Square s2(5.0, 5.0);
+    s2.setPosition(Vector2D(-10.0, 0.0));
+
+    TS_ASSERT(!s1.intersects(s2));
+    TS_ASSERT(!s2.intersects(s1));
+  }
+
+  void test_Intersection_Square_Out_Left(void)
+  {
+    Square s1(10.0, 10.0);
+
+    Square s2(5.0, 5.0);
+    s2.setPosition(Vector2D(0.0, -10.0));
+
+    TS_ASSERT(!s1.intersects(s2));
+    TS_ASSERT(!s2.intersects(s1));
+  }
+
+  void test_Intersection_Square_Out_Right(void)
+  {
+    Square s1(10.0, 10.0);
+
+    Square s2(5.0, 5.0);
+    s2.setPosition(Vector2D(0.0, 10.0));
+
+    TS_ASSERT(!s1.intersects(s2));
+    TS_ASSERT(!s2.intersects(s1));
+  }
+
+  void test_Intersection_Square_Equal_Top(void)
+  {
+    Square s1(10.0, 10.0);
+
+    Square s2(5.0, 5.0);
+    s2.setPosition(Vector2D(7.5, 0.0));
+
+    TS_ASSERT(!s1.intersects(s2));
+    TS_ASSERT(!s2.intersects(s1));
+  }
+
+  void test_Intersection_Square_Equal_Bottom(void)
+  {
+    Square s1(10.0, 10.0);
+
+    Square s2(5.0, 5.0);
+    s2.setPosition(Vector2D(-7.5, 0.0));
+
+    TS_ASSERT(!s1.intersects(s2));
+    TS_ASSERT(!s2.intersects(s1));
+  }
+
+  void test_Intersection_Square_Equal_Left(void)
+  {
+    Square s1(10.0, 10.0);
+
+    Square s2(5.0, 5.0);
+    s2.setPosition(Vector2D(0.0, -7.5));
+
+    TS_ASSERT(!s1.intersects(s2));
+    TS_ASSERT(!s2.intersects(s1));
+  }
+
+  void test_Intersection_Square_Equal_Right(void)
+  {
+    Square s1(10.0, 10.0);
+
+    Square s2(5.0, 5.0);
+    s2.setPosition(Vector2D(0.0, 7.5));
+
+    TS_ASSERT(!s1.intersects(s2));
+    TS_ASSERT(!s2.intersects(s1));
+  }
+
+  void test_Intersection_Square_In_Top(void)
+  {
+    Square s1(10.0, 10.0);
+
+    Square s2(5.0, 5.0);
+    s2.setPosition(Vector2D(6.5, 0.0));
+
+    TS_ASSERT(s1.intersects(s2));
+    TS_ASSERT(s2.intersects(s1));
+  }
+
+  void test_Intersection_Square_In_Botton(void)
+  {
+    Square s1(10.0, 10.0);
+
+    Square s2(5.0, 5.0);
+    s2.setPosition(Vector2D(-6.5, 0.0));
+
+    TS_ASSERT(s1.intersects(s2));
+    TS_ASSERT(s2.intersects(s1));
+  }
+
+  void test_Intersection_Square_In_Left(void)
+  {
+    Square s1(10.0, 10.0);
+
+    Square s2(5.0, 5.0);
+    s2.setPosition(Vector2D(0.0, -6.5));
+
+    TS_ASSERT(s1.intersects(s2));
+    TS_ASSERT(s2.intersects(s1));
+  }
+
+  void test_Intersection_Square_In_Right(void)
+  {
+    Square s1(10.0, 10.0);
+
+    Square s2(5.0, 5.0);
+    s2.setPosition(Vector2D(0.0, 6.5));
+
+    TS_ASSERT(s1.intersects(s2));
+    TS_ASSERT(s2.intersects(s1));
+  }
+
+  void test_Intersection_Circle_Out(void)
+  {
+    // TODO
+  }
+
+  void test_Intersection_Circle_Equal(void)
+  {
+    // TODO
+  }
+
+  void test_Intersection_Circle_In(void)
+  {
+    // TODO
+  }
+
   void test_StreamOutput(void)
   {
     Square s(12.7, 18.35);

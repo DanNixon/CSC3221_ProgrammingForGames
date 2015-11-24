@@ -1,5 +1,6 @@
 #include "Circle.h"
 
+#include <cmath>
 #include <stdexcept>
 #include <typeinfo>
 #include "Square.h"
@@ -38,7 +39,6 @@ Circle &Circle::operator=(const Circle &other)
 BoundingBox Circle::getBoundingBox() const
 {
   Vector2D dimensions(m_radius, m_radius);
-  dimensions /= 2;
   return BoundingBox(m_position - dimensions, m_position + dimensions);
 }
 
@@ -53,11 +53,17 @@ bool Circle::intersects(const Shape &other) const
 
   if (otherType == typeid(*this))
   {
-    // TODO
+    const Circle * otherCircle = dynamic_cast<const Circle *>(&other);
+    const double r = pow(m_radius + otherCircle->m_radius, 2);
+    const double l = pow(m_position[0] - otherCircle->m_position[0], 2) +
+                     pow(m_position[1] - otherCircle->m_position[1], 2);
+    std::cout << l << "<" << r << std::endl;
+    return l < r;
   }
   else if (otherType == typeid(Square))
   {
     // TODO
+    return false;
   }
   else
   {

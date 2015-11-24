@@ -62,11 +62,20 @@ bool Square::intersects(const Shape &other) const
 
   if (otherType == typeid(*this))
   {
-    // TODO
+    const Square *otherSquare = dynamic_cast<const Square *>(&other);
+
+    const BoundingBox &thisBox = getBoundingBox();
+    const BoundingBox &otherBox = otherSquare->getBoundingBox();
+
+    return !(thisBox.getLowerLeft()[0] >= otherBox.getUpperRight()[0] ||
+             thisBox.getLowerLeft()[1] >= otherBox.getUpperRight()[1] ||
+             thisBox.getUpperRight()[0] <= otherBox.getLowerLeft()[0] ||
+             thisBox.getUpperRight()[1] <= otherBox.getLowerLeft()[1]);
   }
   else if (otherType == typeid(Circle))
   {
     // TODO
+    return false;
   }
   else
   {
