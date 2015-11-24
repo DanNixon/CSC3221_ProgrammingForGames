@@ -1,5 +1,9 @@
 #include "Circle.h"
 
+#include <stdexcept>
+#include <typeinfo>
+#include "Square.h"
+
 Circle::Circle()
     : Shape()
     , m_radius(0.0)
@@ -41,6 +45,25 @@ BoundingBox Circle::getBoundingBox() const
 double Circle::getRadius() const
 {
   return m_radius;
+}
+
+bool Circle::intersects(const Shape &other) const
+{
+  const std::type_info &otherType = typeid(other);
+
+  if (otherType == typeid(*this))
+  {
+    // TODO
+  }
+  else if (otherType == typeid(Square))
+  {
+    // TODO
+  }
+  else
+  {
+    throw std::runtime_error("Cannot check intersection with " +
+                             std::string(otherType.name()));
+  }
 }
 
 bool Circle::compare(const Shape &other) const

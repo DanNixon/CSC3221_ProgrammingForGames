@@ -19,6 +19,8 @@ public:
   double getWidth() const;
   double getHeight() const;
 
+  virtual bool intersects(const Shape &other) const;
+
   friend std::ostream &operator<<(std::ostream &stream, const Square &s);
 
 private:

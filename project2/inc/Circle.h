@@ -18,6 +18,8 @@ public:
 
   double getRadius() const;
 
+  virtual bool intersects(const Shape &other) const;
+
   friend std::ostream &operator<<(std::ostream &stream, const Circle &c);
 
 private:

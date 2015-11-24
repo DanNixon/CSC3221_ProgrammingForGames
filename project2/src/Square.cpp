@@ -1,5 +1,9 @@
 #include "Square.h"
 
+#include <stdexcept>
+#include <typeinfo>
+#include "Circle.h"
+
 Square::Square()
     : Shape()
     , m_width(0.0)
@@ -50,6 +54,25 @@ double Square::getWidth() const
 double Square::getHeight() const
 {
   return m_height;
+}
+
+bool Square::intersects(const Shape &other) const
+{
+  const std::type_info &otherType = typeid(other);
+
+  if (otherType == typeid(*this))
+  {
+    // TODO
+  }
+  else if (otherType == typeid(Circle))
+  {
+    // TODO
+  }
+  else
+  {
+    throw std::runtime_error("Cannot check intersection with " +
+                             std::string(otherType.name()));
+  }
 }
 
 bool Square::compare(const Shape &other) const
