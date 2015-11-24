@@ -6,6 +6,10 @@ set ( CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 
 include ( CppcheckTargets )
 
+include ( CodeCoverage )
+SET ( GCC_COVERAGE_COMPILE_FLAGS "-fprofile-arcs -ftest-coverage" )
+SET ( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${GCC_COVERAGE_COMPILE_FLAGS}" )
+
 include ( EnableExtraCompilerWarnings )
 globally_enable_extra_compiler_warnings()
 
@@ -39,6 +43,11 @@ if (CXXTEST_FOUND)
                      ${test_name}.cpp
                      "${CMAKE_CURRENT_SOURCE_DIR}/test/${test_file}")
   endforeach (test_file)
+
+  # Generate test coverage report
+  SETUP_TARGET_FOR_COVERAGE(coverage
+                            ctest
+                            coverage)
 endif ()
 
 add_executable (Game
