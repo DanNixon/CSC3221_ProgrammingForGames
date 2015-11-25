@@ -89,7 +89,6 @@ bool Circle::intersects(const Shape &other) const
     const double r = pow(m_radius + otherCircle->m_radius, 2);
     const double l = pow(m_position[0] - otherCircle->m_position[0], 2) +
                      pow(m_position[1] - otherCircle->m_position[1], 2);
-    std::cout << l << "<" << r << std::endl;
     return l < r;
   }
   else if (otherType == typeid(Square))
