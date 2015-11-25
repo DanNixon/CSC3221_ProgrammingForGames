@@ -124,8 +124,8 @@ bool Circle::compare(const Shape &other) const
 /**
  * \brief Outputs a Circle to a stream
  *
- * In format "[[x,y],r]" where x and y denote the position and r denotes the
- * radius.
+ * In format "CIRCLE[[x,y],r]" where x and y denote the position and r denotes
+ * the radius.
  *
  * \param stream Reference to the output stream
  * \param c Circle to output
@@ -133,15 +133,15 @@ bool Circle::compare(const Shape &other) const
  */
 std::ostream &operator<<(std::ostream &stream, const Circle &c)
 {
-  stream << "[" << c.m_position << "," << c.m_radius << "]";
+  stream << "CIRCLE[" << c.m_position << "," << c.m_radius << "]";
   return stream;
 }
 
 /**
  * \brief Creates a Circle from input from a stream.
  *
- * In format "[[x,y],r]" where x and y denote the position and r denotes the
- * radius.
+ * In format "CIRCLE[[x,y],r]" where x and y denote the position and r denotes
+ * the radius.
  *
  * \param stream Reference to the input stream
  * \param c Reference to Circle to be created
@@ -149,10 +149,19 @@ std::ostream &operator<<(std::ostream &stream, const Circle &c)
  */
 std::istream &operator>>(std::istream &stream, Circle &c)
 {
+  const int n = 100;
+
   Vector2D p;
   double r;
-  char delim;
-  stream >> delim >> p >> delim >> r >> delim;
+
+  stream.ignore(n, '[');
+  stream >> p;
+
+  stream.ignore(n, ',');
+  stream >> r;
+
+  stream.ignore(n, ']');
+
   c = Circle(r);
   c.setPosition(p);
   return stream;

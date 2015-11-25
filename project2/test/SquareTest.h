@@ -252,13 +252,13 @@ public:
     std::stringstream stream;
     stream << s;
 
-    TS_ASSERT_EQUALS(stream.str(), "[[54.8,83.9],12.7,18.35]");
+    TS_ASSERT_EQUALS(stream.str(), "SQUARE[[54.8,83.9],12.7,18.35]");
   }
 
   void test_StreamInput(void)
   {
     std::stringstream stream;
-    stream << "[[54.8,83.9],12.7,18.35]";
+    stream << "SQUARE[[54.8,83.9],12.7,18.35]";
 
     Square s;
     stream >> s;
@@ -266,5 +266,38 @@ public:
     TS_ASSERT_EQUALS(s.getWidth(), 12.7);
     TS_ASSERT_EQUALS(s.getHeight(), 18.35);
     TS_ASSERT_EQUALS(s.getPosition(), Vector2D(54.8, 83.9));
+  }
+
+  void test_StreamOutput_Multiple(void)
+  {
+    Square s1(12.7, 18.35);
+    s1.setPosition(Vector2D(54.8, 83.9));
+
+    Square s2(15.8, 19.7);
+    s2.setPosition(Vector2D(92.7, 34.3));
+
+    std::stringstream stream;
+    stream << s1 << s2;
+
+    TS_ASSERT_EQUALS(stream.str(),
+                     "SQUARE[[54.8,83.9],12.7,18.35]SQUARE[[92.7,34.3],15.8,19.7]");
+  }
+
+  void test_StreamInput_Multiple(void)
+  {
+    std::stringstream stream;
+    stream << "SQUARE[[54.8,83.9],12.7,18.35]SQUARE[[92.7,34.3],15.8,19.7]";
+
+    Square s1;
+    Square s2;
+    stream >> s1 >> s2;
+
+    TS_ASSERT_EQUALS(s1.getWidth(), 12.7);
+    TS_ASSERT_EQUALS(s1.getHeight(), 18.35);
+    TS_ASSERT_EQUALS(s1.getPosition(), Vector2D(54.8, 83.9));
+
+    TS_ASSERT_EQUALS(s2.getWidth(), 15.8);
+    TS_ASSERT_EQUALS(s2.getHeight(), 19.7);
+    TS_ASSERT_EQUALS(s2.getPosition(), Vector2D(92.7, 34.3));
   }
 };

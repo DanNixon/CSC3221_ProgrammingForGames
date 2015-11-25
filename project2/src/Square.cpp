@@ -145,15 +145,16 @@ bool Square::compare(const Shape &other) const
  */
 std::ostream &operator<<(std::ostream &stream, const Square &s)
 {
-  stream << "[" << s.m_position << "," << s.m_width << "," << s.m_height << "]";
+  stream << "SQUARE[" << s.m_position << "," << s.m_width << "," << s.m_height
+         << "]";
   return stream;
 }
 
 /**
  * \brief Creates a Square from input from a stream.
  *
- * In format "[[x,y],w,h]" where x and y denote the position, w denotes the
- * width and h denotes the height.
+ * In format "SQUARE[[x,y],w,h]" where x and y denote the position, w denotes
+ * the width and h denotes the height.
  *
  * \param stream Reference to the input stream
  * \param s Reference to Square to be created
@@ -161,10 +162,22 @@ std::ostream &operator<<(std::ostream &stream, const Square &s)
  */
 std::istream &operator>>(std::istream &stream, Square &s)
 {
+  const int n = 100;
+
   Vector2D p;
   double w, h;
-  char delim;
-  stream >> delim >> p >> delim >> w >> delim >> h >> delim;
+
+  stream.ignore(n, '[');
+  stream >> p;
+
+  stream.ignore(n, ',');
+  stream >> w;
+
+  stream.ignore(n, ',');
+  stream >> h;
+
+  stream.ignore(n, ']');
+
   s = Square(w, h);
   s.setPosition(p);
   return stream;

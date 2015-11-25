@@ -166,18 +166,48 @@ public:
     std::stringstream stream;
     stream << c;
 
-    TS_ASSERT_EQUALS(stream.str(), "[[54.8,83.9],12.7]");
+    TS_ASSERT_EQUALS(stream.str(), "CIRCLE[[54.8,83.9],12.7]");
   }
 
   void test_StreamInput(void)
   {
     std::stringstream stream;
-    stream << "[[54.8,83.9],12.7]";
+    stream << "CIRCLE[[54.8,83.9],12.7]";
 
     Circle c;
     stream >> c;
 
     TS_ASSERT_EQUALS(c.getRadius(), 12.7);
     TS_ASSERT_EQUALS(c.getPosition(), Vector2D(54.8, 83.9));
+  }
+
+  void test_StreamOutput_Multiple(void)
+  {
+    Circle c1(12.7);
+    c1.setPosition(Vector2D(54.8, 83.9));
+
+    Circle c2(15.8);
+    c2.setPosition(Vector2D(92.7, 34.3));
+
+    std::stringstream stream;
+    stream << c1 << c2;
+
+    TS_ASSERT_EQUALS(stream.str(), "CIRCLE[[54.8,83.9],12.7]CIRCLE[[92.7,34.3],15.8]");
+  }
+
+  void test_StreamInput_Multiple(void)
+  {
+    std::stringstream stream;
+    stream << "CIRCLE[[54.8,83.9],12.7]CIRCLE[[92.7,34.3],15.8]";
+
+    Circle c1;
+    Circle c2;
+    stream >> c1 >> c2;
+
+    TS_ASSERT_EQUALS(c1.getRadius(), 12.7);
+    TS_ASSERT_EQUALS(c1.getPosition(), Vector2D(54.8, 83.9));
+
+    TS_ASSERT_EQUALS(c2.getRadius(), 15.8);
+    TS_ASSERT_EQUALS(c2.getPosition(), Vector2D(92.7, 34.3));
   }
 };
