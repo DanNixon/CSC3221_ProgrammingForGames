@@ -220,9 +220,9 @@ bool BoundingBox::intersects(const BoundingBox &other) const
 /**
  * \brief Outputs a BoundingBox to a stream
  *
- * In format "[[x1,y1],[x2,y2]]" where x1 and y2 denote the position of the
- * lower left hand vertex and x2 and y2 denote the position of the upper right
- * vertex.
+ * In format "BoundingBox[LowerLeft[x1,y1],UpperRight[x2,y2]]" where x1 and y2
+ * denote the position of the lower left hand vertex and x2 and y2 denote the
+ * position of the upper right vertex.
  *
  * \param stream Reference to the output stream
  * \param b BoundingBox to output
@@ -230,16 +230,17 @@ bool BoundingBox::intersects(const BoundingBox &other) const
  */
 std::ostream &operator<<(std::ostream &stream, const BoundingBox &b)
 {
-  stream << "[" << *(b.m_lowerLeft) << "," << *(b.m_upperRight) << "]";
+  stream << "BoundingBox[LowerLeft" << *(b.m_lowerLeft) << ",UpperRight"
+         << *(b.m_upperRight) << "]";
   return stream;
 }
 
 /**
  * \brief Creates a BoundingBox from input from a stream.
  *
- * In format "[[x1,y1],[x2,y2]]" where x1 and y2 denote the position of the
- * lower left hand vertex and x2 and y2 denote the position of the upper right
- * vertex.
+ * In format "BoundingBox[LowerLeft[x1,y1],UpperRight[x2,y2]]" where x1 and y2
+ * denote the position of the lower left hand vertex and x2 and y2 denote the
+ * position of the upper right vertex.
  *
  * \param stream Reference to the input stream
  * \param b Reference to BoundingBox to be created
@@ -247,9 +248,18 @@ std::ostream &operator<<(std::ostream &stream, const BoundingBox &b)
  */
 std::istream &operator>>(std::istream &stream, BoundingBox &b)
 {
+  const int n = 100;
+
   Vector2D lowerRight, upperLeft;
-  char delim;
-  stream >> delim >> lowerRight >> delim >> upperLeft >> delim;
+
+  stream.ignore(n, 't');
+  stream >> lowerRight;
+
+  stream.ignore(n, 't');
+  stream >> upperLeft;
+
+  stream.ignore(n, ']');
+
   b = BoundingBox(lowerRight, upperLeft);
   return stream;
 }

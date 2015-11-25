@@ -222,13 +222,14 @@ public:
     std::stringstream stream;
     stream << b;
 
-    TS_ASSERT_EQUALS(stream.str(), "[[2.5,3.5],[8.7,9.2]]");
+    TS_ASSERT_EQUALS(stream.str(),
+                     "BoundingBox[LowerLeft[2.5,3.5],UpperRight[8.7,9.2]]");
   }
 
   void test_StreamInput(void)
   {
     std::stringstream stream;
-    stream << "[[2.5,3.5],[8.7,9.2]]";
+    stream << "BoundingBox[LowerLeft[2.5,3.5],UpperRight[8.7,9.2]]";
 
     BoundingBox b;
     stream >> b;
