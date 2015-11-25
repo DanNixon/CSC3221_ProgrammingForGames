@@ -25,7 +25,7 @@ public:
 
   Vector2D getPosition() const;
 
-  virtual bool intersects(const Shape &other) const = 0;
+  virtual bool intersects(const Shape &other) const;
 
 protected:
   virtual bool compare(const Shape &other) const = 0;

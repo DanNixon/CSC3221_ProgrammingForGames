@@ -39,6 +39,7 @@ public:
   Vector2D getUpperRight() const;
 
   BoxEnclosedState boundingBoxEnclosed(const BoundingBox &other) const;
+  bool intersects(const BoundingBox &other) const;
 
   friend std::ostream &operator<<(std::ostream &stream, const BoundingBox &b);
 

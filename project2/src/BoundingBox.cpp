@@ -119,6 +119,14 @@ BoundingBox::boundingBoxEnclosed(const BoundingBox &other) const
     return BE_LARGER;
 }
 
+bool BoundingBox::intersects(const BoundingBox &other) const
+{
+  return !(m_lowerLeft->getX() >= other.m_upperRight->getX() ||
+           m_lowerLeft->getY() >= other.m_upperRight->getY() ||
+           m_upperRight->getX() <= other.m_lowerLeft->getX() ||
+           m_upperRight->getY() <= other.m_lowerLeft->getY());
+}
+
 std::ostream &operator<<(std::ostream &stream, const BoundingBox &b)
 {
   stream << "[" << *(b.m_lowerLeft) << "," << *(b.m_upperRight) << "]";

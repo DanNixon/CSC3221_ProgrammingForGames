@@ -129,6 +129,20 @@ public:
     TS_ASSERT(c2.intersects(c1));
   }
 
+  void test_Intersection_Circle_Near(void)
+  {
+    Circle c1(5.0);
+    c1.setPosition(Vector2D(0.0, 0.0));
+
+    Circle c2(5.0);
+    c2.setPosition(Vector2D(9.0, 9.0));
+
+    TS_ASSERT(c1.getBoundingBox().intersects(c2.getBoundingBox()));
+
+    TS_ASSERT(!c1.intersects(c2));
+    TS_ASSERT(!c2.intersects(c1));
+  }
+
   void test_Intersection_Square_Out(void)
   {
     // TODO

@@ -27,12 +27,6 @@ public:
     return BoundingBox(m_position - dimensions, m_position + dimensions);
   }
 
-  bool intersects(const Shape &other) const
-  {
-    (void)other;
-    return false;
-  }
-
 private:
   virtual bool compare(const Shape &other) const
   {

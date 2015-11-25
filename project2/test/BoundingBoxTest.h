@@ -206,6 +206,15 @@ public:
     TS_ASSERT_EQUALS(b1.boundingBoxEnclosed(b2), BE_LARGER);
   }
 
+  void test_Intersects_Fully(void)
+  {
+    BoundingBox b1(0.0, 0.0, 1.0, 1.0);
+    BoundingBox b2(0.1, 0.1, 0.9, 0.9);
+
+    TS_ASSERT(b1.intersects(b2));
+    TS_ASSERT(b2.intersects(b1));
+  }
+
   void test_StreamOutput(void)
   {
     BoundingBox b(2.5, 3.5, 8.7, 9.2);

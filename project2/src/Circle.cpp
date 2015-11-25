@@ -49,6 +49,9 @@ double Circle::getRadius() const
 
 bool Circle::intersects(const Shape &other) const
 {
+  if (!Shape::intersects(other))
+    return false;
+
   const std::type_info &otherType = typeid(other);
 
   if (otherType == typeid(*this))
