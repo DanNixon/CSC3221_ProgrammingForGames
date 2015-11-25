@@ -1,9 +1,11 @@
+/** \file */
+
 #include "Shape.h"
 
 #include <stdexcept>
 
 /**
- * Creates a new shape with its position at origin.
+ * \brief Creates a new shape with its position at origin.
  */
 Shape::Shape()
     : m_position()
@@ -11,9 +13,9 @@ Shape::Shape()
 }
 
 /**
- * Creates a new shape with its position copied from an existing Shape.
+ * \brief Creates a new shape with its position copied from an existing Shape.
  *
- * @param other Shape to copy
+ * \param other Shape to copy
  */
 Shape::Shape(const Shape &other)
     : m_position(other.m_position)
@@ -25,10 +27,10 @@ Shape::~Shape()
 }
 
 /**
- * Assigns the position of another shape to this one.
+ * \brief Assigns the position of another shape to this one.
  *
- * @param other Shape to copy
- * @return this
+ * \param other Shape to copy
+ * \return this
  */
 Shape &Shape::operator=(const Shape &other)
 {
@@ -38,10 +40,10 @@ Shape &Shape::operator=(const Shape &other)
 }
 
 /**
- * Tests for equality between this shape and another.
+ * \brief Tests for equality between this shape and another.
  *
- * @param other Other shape
- * @return True if shapes are equal
+ * \param other Other shape
+ * \return True if shapes are equal
  */
 bool Shape::operator==(const Shape &other) const
 {
@@ -50,10 +52,10 @@ bool Shape::operator==(const Shape &other) const
 }
 
 /**
- * Tests for inequality between this shape and another.
+ * \brief Tests for inequality between this shape and another.
  *
- * @param other Other shape
- * @return True if shapes are not equal
+ * \param other Other shape
+ * \return True if shapes are not equal
  */
 bool Shape::operator!=(const Shape &other) const
 {
@@ -61,9 +63,9 @@ bool Shape::operator!=(const Shape &other) const
 }
 
 /**
- * Sets the position of the shape.
+ * \brief Sets the position of the shape.
  *
- * @param position Vector defining new position.
+ * \param position Vector defining new position.
  */
 void Shape::setPosition(const Vector2D &position)
 {
@@ -71,10 +73,10 @@ void Shape::setPosition(const Vector2D &position)
 }
 
 /**
- * Sets the position of the shape, clamping to within a BoundingBox.
+ * \brief Sets the position of the shape, clamping to within a BoundingBox.
  *
- * @param position Vector defining new position.
- * @param clamp BoundingBox to clamp within
+ * \param position Vector defining new position.
+ * \param clamp BoundingBox to clamp within
  */
 void Shape::setPosition(const Vector2D &position, const BoundingBox &clamp)
 {
@@ -111,9 +113,9 @@ void Shape::setPosition(const Vector2D &position, const BoundingBox &clamp)
 }
 
 /**
- * Adds an offset to the current position vector.
+ * \brief Adds an offset to the current position vector.
  *
- * @param offset Vector defining offset to add
+ * \param offset Vector defining offset to add
  */
 void Shape::offsetPositionBy(const Vector2D &offset)
 {
@@ -121,11 +123,11 @@ void Shape::offsetPositionBy(const Vector2D &offset)
 }
 
 /**
- * Adds an offset to the current position vector, clamping the position to
- * within a BoundingBox.
+ * \brief Adds an offset to the current position vector, clamping the position
+ *        to within a BoundingBox.
  *
- * @param offset Vector defining offset to add
- * @param clamp BoundingBox to clamp within
+ * \param offset Vector defining offset to add
+ * \param clamp BoundingBox to clamp within
  */
 void Shape::offsetPositionBy(const Vector2D &offset, const BoundingBox &clamp)
 {
@@ -134,9 +136,9 @@ void Shape::offsetPositionBy(const Vector2D &offset, const BoundingBox &clamp)
 }
 
 /**
- * Returns a vector describing the position of this shape.
+ * \brief Returns a vector describing the position of this shape.
  *
- * @return Position vector.
+ * \return Position vector.
  */
 Vector2D Shape::getPosition() const
 {
@@ -144,7 +146,7 @@ Vector2D Shape::getPosition() const
 }
 
 /**
- * Tests for basic intersection between two shapes.
+ * \brief Tests for basic intersection between two shapes.
  *
  * Also returns true of one shape is fully enclosed by the other.
  *
@@ -152,8 +154,8 @@ Vector2D Shape::getPosition() const
  * This is performed as the first step for all intersection tests as this is a
  * very inexpensive test.
  *
- * @param other Shape to test intersection with
- * @return True if shapes intersect
+ * \param other Shape to test intersection with
+ * \return True if shapes intersect
  */
 bool Shape::intersects(const Shape &other) const
 {

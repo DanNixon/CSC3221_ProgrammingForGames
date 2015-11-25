@@ -1,8 +1,14 @@
+/** \file */
+
 #ifndef __GEOMETRY_VECTOR2D_H_
 #define __GEOMETRY_VECTOR2D_H_
 
 #include <iostream>
 
+/**
+ * \class Vector2D
+ * \brief Class to represent a 2D vector.
+ */
 class Vector2D
 {
 public:
@@ -10,6 +16,7 @@ public:
   Vector2D(double x, double y);
   Vector2D(const Vector2D &other);
   Vector2D(Vector2D *other);
+  ~Vector2D();
 
   Vector2D &operator=(const Vector2D &other);
 
@@ -38,8 +45,8 @@ public:
   friend std::ostream &operator<<(std::ostream &stream, const Vector2D &v);
 
 private:
-  double m_x;
-  double m_y;
+  double m_x; //!< X component
+  double m_y; //!< Y component
 };
 
 std::istream &operator>>(std::istream &stream, Vector2D &v);

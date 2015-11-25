@@ -1,3 +1,5 @@
+/** \file */
+
 #ifndef __GEOMETRY_BOUNDINGBOX_H_
 #define __GEOMETRY_BOUNDINGBOX_H_
 
@@ -5,14 +7,24 @@
 
 class Vector2D;
 
+/**
+ * \enum BoxEnclosedState
+ * \brief Represents how two BoundingBox objects enclose each other
+ *        geometrically.
+ */
 enum BoxEnclosedState
 {
-  BE_FULL,
-  BE_LOWERLEFT_OUT,
-  BE_UPPERRIGHT_OUT,
-  BE_LARGER
+  BE_FULL, //!< BoundingBox is fully enclosed
+  BE_LOWERLEFT_OUT, //!< Lower left vertex is out of BoundingBox
+  BE_UPPERRIGHT_OUT, //!< Upper right vertex is out of BoundingBox
+  BE_LARGER //!< Both vertices are out of BoundingBox
 };
 
+/**
+ * \class BoundingBox
+ * \brief Represents the box around a shape defined by its maximum and minimum
+ *        dimensions in each axis.
+ */
 class BoundingBox
 {
 public:
@@ -44,8 +56,8 @@ public:
   friend std::ostream &operator<<(std::ostream &stream, const BoundingBox &b);
 
 private:
-  Vector2D *m_lowerLeft;
-  Vector2D *m_upperRight;
+  Vector2D *m_lowerLeft; //!< Lower left hand vertex
+  Vector2D *m_upperRight; //!< Upper right hand vertex
 };
 
 std::istream &operator>>(std::istream &stream, BoundingBox &b);

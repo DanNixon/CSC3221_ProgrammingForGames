@@ -1,9 +1,14 @@
+/** \file */
+
 #include "Square.h"
 
 #include <stdexcept>
 #include <typeinfo>
 #include "Circle.h"
 
+/**
+ * \brief Create a new square of zero area.
+ */
 Square::Square()
     : Shape()
     , m_width(0.0)
@@ -11,6 +16,12 @@ Square::Square()
 {
 }
 
+/**
+ * \brief Create a new square of given dimensions.
+ *
+ * \param width WIdth of square
+ * \param height Height of square
+ */
 Square::Square(double width, double height)
     : Shape()
     , m_width(width)
@@ -18,6 +29,11 @@ Square::Square(double width, double height)
 {
 }
 
+/**
+ * \brief Creates a copy of an existing square.
+ *
+ * \param other Square to copy from
+ */
 Square::Square(const Square &other)
     : Shape(other)
     , m_width(other.m_width)
@@ -29,6 +45,9 @@ Square::~Square()
 {
 }
 
+/**
+ * \copydoc Shape::operator=()
+ */
 Square &Square::operator=(const Square &other)
 {
   Shape::operator=(other);
@@ -39,6 +58,29 @@ Square &Square::operator=(const Square &other)
   return *this;
 }
 
+/**
+ * \brief Returns the width of the square.
+ *
+ * \return Width
+ */
+double Square::getWidth() const
+{
+  return m_width;
+}
+
+/**
+ * \brief Returns the height of the square.
+ *
+ * \return Height
+ */
+double Square::getHeight() const
+{
+  return m_height;
+}
+
+/**
+ * \copydoc Shape::getBoundingBox()
+ */
 BoundingBox Square::getBoundingBox() const
 {
   Vector2D dimensions(m_width, m_height);
@@ -46,16 +88,9 @@ BoundingBox Square::getBoundingBox() const
   return BoundingBox(m_position - dimensions, m_position + dimensions);
 }
 
-double Square::getWidth() const
-{
-  return m_width;
-}
-
-double Square::getHeight() const
-{
-  return m_height;
-}
-
+/**
+ * \copydoc Shape::intersects()
+ */
 bool Square::intersects(const Shape &other) const
 {
   if (!Shape::intersects(other))
@@ -72,7 +107,7 @@ bool Square::intersects(const Shape &other) const
   else if (otherType == typeid(Circle))
   {
     // TODO
-    return false;
+    return true;
   }
   else
   {
@@ -81,6 +116,14 @@ bool Square::intersects(const Shape &other) const
   }
 }
 
+/**
+ * \brief Checks for equality between two Square objects.
+ *
+ * Always returns false for a Shape other than a Circle.
+ *
+ * \param other Other square
+ * \return True if squares are equal
+ */
 bool Square::compare(const Shape &other) const
 {
   const Square *s = dynamic_cast<const Square *>(&other);
@@ -90,12 +133,32 @@ bool Square::compare(const Shape &other) const
   return (m_width == s->m_width) && (m_height == s->m_height);
 }
 
+/**
+ * \brief Outputs a Square to a stream
+ *
+ * In format "[[x,y],w,h]" where x and y denote the position, w denotes the
+ * width and h denotes the height.
+ *
+ * \param stream Reference to the output stream
+ * \param s Square to output
+ * \return Reference to the output stream
+ */
 std::ostream &operator<<(std::ostream &stream, const Square &s)
 {
   stream << "[" << s.m_position << "," << s.m_width << "," << s.m_height << "]";
   return stream;
 }
 
+/**
+ * \brief Creates a Square from input from a stream.
+ *
+ * In format "[[x,y],w,h]" where x and y denote the position, w denotes the
+ * width and h denotes the height.
+ *
+ * \param stream Reference to the input stream
+ * \param s Reference to Square to be created
+ * \return Reference to the input stream
+ */
 std::istream &operator>>(std::istream &stream, Square &s)
 {
   Vector2D p;
