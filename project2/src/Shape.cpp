@@ -3,6 +3,10 @@
 #include "Shape.h"
 
 #include <stdexcept>
+#include <typeinfo>
+
+#include "Square.h"
+#include "Circle.h"
 
 /**
  * \brief Creates a new shape with its position at origin.
@@ -163,4 +167,24 @@ bool Shape::intersects(const Shape &other) const
   const BoundingBox &otherBox = other.getBoundingBox();
 
   return thisBox.intersects(otherBox);
+}
+
+
+/**
+ * \brief Outputs a Shape to a stream.
+ *
+ * \param stream Reference to the output stream
+ * \param s Square to output
+ * \return Reference to the output stream
+ */
+std::ostream &operator<<(std::ostream &stream, const Shape &s)
+{
+  const std::type_info &instanceType = typeid(s);
+
+  if (instanceType == typeid(Square))
+    stream << *((Square *) &s);
+  else if (instanceType == typeid(Circle))
+    stream << *((Circle *) &s);
+
+  return stream;
 }

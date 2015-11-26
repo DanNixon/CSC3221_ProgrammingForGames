@@ -1,8 +1,7 @@
 /** \file */
 
 #include <cstdlib>
-#include <typeinfo>
-#include <vector>
+#include <list>
 
 #include "BoundingBox.h"
 #include "Shape.h"
@@ -10,14 +9,14 @@
 #include "Circle.h"
 
 /**
- * \brief A vector containing pointers to Shape objects.
+ * \brief A list containing pointers to Shape objects.
  */
-typedef std::vector<Shape *> ShapeVect;
+typedef std::list<Shape *> ShapeList;
 
 /**
- * \brief An iterator over a vector containing pointers to Shape objects.
+ * \brief An iterator over a list containing pointers to Shape objects.
  */
-typedef std::vector<Shape *>::iterator ShapeVectIt;
+typedef std::list<Shape *>::iterator ShapeListIt;
 
 /**
  * \brief Generates a random double between two limits.
@@ -28,7 +27,7 @@ typedef std::vector<Shape *>::iterator ShapeVectIt;
  */
 double randomBetween(double lower, double upper)
 {
-  double v = (double) rand() / RAND_MAX;
+  double v = (double)rand() / RAND_MAX;
   return lower + (v * (upper - lower));
 }
 
@@ -45,19 +44,20 @@ double randomBetween(double lower, double upper)
  * \param numShapes Number of shapes to generate
  * \param maxDim Maximum dimension of shapes
  */
-void generateRandomShapes(ShapeVect &shapes, const BoundingBox &clamp,
+void generateRandomShapes(ShapeList &shapes, const BoundingBox &clamp,
                           int numShapes, const double maxDim)
 {
   for (int i = 0; i < numShapes; i++)
   {
-    Shape * s = NULL;
+    Shape *s = NULL;
     if (rand() % 2 == 0)
       s = new Square(randomBetween(0, maxDim), randomBetween(0, maxDim));
     else
       s = new Circle(randomBetween(0, maxDim));
 
-    Vector2D pos(randomBetween(clamp.getLowerLeft()[0], clamp.getUpperRight()[0]),
-                 randomBetween(clamp.getLowerLeft()[1], clamp.getUpperRight()[1]));
+    Vector2D pos(
+        randomBetween(clamp.getLowerLeft()[0], clamp.getUpperRight()[0]),
+        randomBetween(clamp.getLowerLeft()[1], clamp.getUpperRight()[1]));
     s->setPosition(pos, clamp);
 
     shapes.push_back(s);
@@ -67,13 +67,19 @@ void generateRandomShapes(ShapeVect &shapes, const BoundingBox &clamp,
 /**
  * \brief Apply a random positional offset to each shape in a vector.
  *
- * \param shapes Vector of shapes to offset
+ * \param shapes List of shapes to offset
+ * \param clamp BoundingBox to keep shapes within
  */
-void applyRandomOffsets(ShapeVect &shapes)
+void applyRandomOffsets(ShapeList &shapes, const BoundingBox &clamp)
 {
-  for (ShapeVectIt it = shapes.begin(); it != shapes.end(); ++it)
+  const double lower = -2.0;
+  const double upper = 2.0;
+
+  for (ShapeListIt it = shapes.begin(); it != shapes.end(); ++it)
   {
-    // TODO
+    (*it)->offsetPositionBy(
+        Vector2D(randomBetween(lower, upper), randomBetween(lower, upper)),
+        clamp);
   }
 }
 
@@ -81,34 +87,53 @@ void applyRandomOffsets(ShapeVect &shapes)
  * \brief Remove overlapping shapes and output details of shapes removes to a
  *        stream.
  *
- * \param shapes Vector of shapes
+ * \param shapes List of shapes
  * \param stream Stream to output to
  */
-void cullOverlapping(ShapeVect &shapes, std::ostream &stream)
+void cullOverlapping(ShapeList &shapes, std::ostream &stream)
 {
-  // TODO
+  for (ShapeListIt outerIt = shapes.begin(); outerIt != shapes.end();)
+  {
+    bool removeFlag = false;
+
+    for (ShapeListIt innerIt = shapes.begin(); innerIt != shapes.end();)
+    {
+      if (outerIt == innerIt)
+      {
+        ++innerIt;
+        continue;
+      }
+
+      if ((*outerIt)->intersects(*(*innerIt)))
+      {
+        stream << *(*outerIt) << " INTERSETCS " << *(*innerIt) << std::endl;
+        removeFlag = true;
+
+        innerIt = shapes.erase(innerIt);
+      }
+      else
+        ++innerIt;
+    }
+
+    if (removeFlag)
+      outerIt = shapes.erase(outerIt);
+    else
+      ++outerIt;
+  }
 }
 
 /**
  * \brief Prints a vector of shapes to a stream.
  *
- * \param shapes Vector of shapes
+ * \param shapes List of shapes
  * \param stream Stream to output to
  */
-void printAllShapes(ShapeVect &shapes, std::ostream &stream)
+void printAllShapes(ShapeList &shapes, std::ostream &stream)
 {
   unsigned int i = 0;
-  for (ShapeVectIt it = shapes.begin(); it != shapes.end(); ++it)
+  for (ShapeListIt it = shapes.begin(); it != shapes.end(); ++it)
   {
-    stream << i << ": ";
-
-    const std::type_info &instanceType = typeid(*(*it));
-    if (instanceType == typeid(Square))
-      stream << *((Square *) *it);
-    else if (instanceType == typeid(Circle))
-      stream << *((Circle *) *it);
-
-    stream << std::endl;
+    stream << i << ": " << *(*it) << std::endl;
     i++;
   }
 }
@@ -116,15 +141,17 @@ void printAllShapes(ShapeVect &shapes, std::ostream &stream)
 int main(void)
 {
   const unsigned int initialNumShapes = 50;
-  const unsigned int maxIterations = 5;
+  const unsigned int maxIterations = 10;
+
+  // Seed random number generator
+  srand(time(NULL));
 
   // Bounding box for 2D game area
-  BoundingBox box(0, 0, 100, 100);
+  const BoundingBox box(0, 0, 100, 100);
   std::cout << box << std::endl;
 
   // Generate initial list of shapes
-  ShapeVect shapes;
-  shapes.reserve(initialNumShapes);
+  ShapeList shapes;
   generateRandomShapes(shapes, box, initialNumShapes, 5);
   std::cout << "INITIAL SHAPES:" << std::endl;
   printAllShapes(shapes, std::cout);
@@ -133,9 +160,11 @@ int main(void)
   {
     std::cout << std::endl << "ITERATION: " << (i + 1) << std::endl;
 
-    applyRandomOffsets(shapes);
+    applyRandomOffsets(shapes, box);
     cullOverlapping(shapes, std::cout);
+
     /* printAllShapes(shapes, std::cout); */
+    std::cout << "Shapes remaining: " << shapes.size() << std::endl;
   }
 
   return 0;

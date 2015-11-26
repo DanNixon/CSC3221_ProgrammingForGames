@@ -66,4 +66,6 @@ protected:
   Vector2D m_position; //!< Position of the shape
 };
 
+std::ostream &operator<<(std::ostream &stream, const Shape &s);
+
 #endif
