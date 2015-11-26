@@ -1,8 +1,8 @@
 #include <cxxtest/TestSuite.h>
 
-// TODO
+#include "GameImpl.h"
 
-class GameTest : public CxxTest::TestSuite
+class GameImplTest : public CxxTest::TestSuite
 {
 public:
   void test_(void)

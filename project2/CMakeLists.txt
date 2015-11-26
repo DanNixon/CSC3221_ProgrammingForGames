@@ -18,15 +18,23 @@ globally_enable_extra_compiler_warnings()
 
 include ( DoxygenTargets )
 
+include_directories ( ${CMAKE_CURRENT_SOURCE_DIR}/inc )
+
+# Geometry library
 add_library ( Geometry
               ${CMAKE_CURRENT_SOURCE_DIR}/src/Vector2D.cpp
               ${CMAKE_CURRENT_SOURCE_DIR}/src/BoundingBox.cpp
               ${CMAKE_CURRENT_SOURCE_DIR}/src/Shape.cpp
               ${CMAKE_CURRENT_SOURCE_DIR}/src/Circle.cpp
               ${CMAKE_CURRENT_SOURCE_DIR}/src/Square.cpp )
-include_directories ( ${CMAKE_CURRENT_SOURCE_DIR}/inc )
-
 add_cppcheck ( Geometry
+               STYLE POSSIBLE_ERROR
+               FAIL_ON_WARNINGS )
+
+# Game framework library
+add_library ( GameFramework
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/GameImpl.cpp )
+add_cppcheck ( GameFramework
                STYLE POSSIBLE_ERROR
                FAIL_ON_WARNINGS )
 
@@ -34,7 +42,8 @@ add_cppcheck ( Geometry
 find_package ( CxxTest )
 if ( CXXTEST_FOUND )
   include_directories ( ${CXXTEST_INCLUDE_DIR} )
-  link_libraries ( Geometry )
+  link_libraries ( Geometry
+                   GameFramework )
   enable_testing ()
 
   # Find test files
@@ -62,7 +71,8 @@ add_executable ( Game
                  ${CMAKE_CURRENT_SOURCE_DIR}/src/Game.cpp )
 target_link_libraries ( Game
                         LINK_PUBLIC
-                        Geometry )
+                        Geometry
+                        GameFramework )
 add_cppcheck ( Game
                UNUSED_FUNCTIONS STYLE POSSIBLE_ERROR
                FAIL_ON_WARNINGS )
