@@ -2,6 +2,9 @@
 
 #include "GameImpl.h"
 
+#include <algorithm>
+#include <ctime>
+
 #include "BoundingBox.h"
 #include "Shape.h"
 #include "Square.h"

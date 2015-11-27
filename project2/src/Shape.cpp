@@ -2,6 +2,7 @@
 
 #include "Shape.h"
 
+#include <algorithm>
 #include <stdexcept>
 #include <typeinfo>
 
