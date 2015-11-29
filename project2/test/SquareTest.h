@@ -229,21 +229,6 @@ public:
     TS_ASSERT(s2.intersects(s1));
   }
 
-  void test_Intersection_Circle_Out(void)
-  {
-    // TODO
-  }
-
-  void test_Intersection_Circle_Equal(void)
-  {
-    // TODO
-  }
-
-  void test_Intersection_Circle_In(void)
-  {
-    // TODO
-  }
-
   void test_StreamOutput(void)
   {
     Square s(12.7, 18.35);

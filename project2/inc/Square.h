@@ -34,7 +34,7 @@ public:
 private:
   virtual bool compare(const Shape &other) const;
 
-  double m_width; //!< Width of square
+  double m_width;  //!< Width of square
   double m_height; //!< Height of square
 };
 

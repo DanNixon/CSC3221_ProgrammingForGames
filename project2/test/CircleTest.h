@@ -143,17 +143,62 @@ public:
     TS_ASSERT(!c2.intersects(c1));
   }
 
-  void test_Intersection_Square_Out(void)
+  void test_Intersection_Square_Out_UpperLeft(void)
   {
     // TODO
   }
 
-  void test_Intersection_Square_Equal(void)
+  void test_Intersection_Square_Out_LowerLeft(void)
   {
     // TODO
   }
 
-  void test_Intersection_Square_In(void)
+  void test_Intersection_Square_Out_UpperRight(void)
+  {
+    // TODO
+  }
+
+  void test_Intersection_Square_Out_LowerRight(void)
+  {
+    // TODO
+  }
+
+  void test_Intersection_Square_Equal_UpperLeft(void)
+  {
+    // TODO
+  }
+
+  void test_Intersection_Square_Equal_LowerLeft(void)
+  {
+    // TODO
+  }
+
+  void test_Intersection_Square_Equal_UpperRight(void)
+  {
+    // TODO
+  }
+
+  void test_Intersection_Square_Equal_LowerRight(void)
+  {
+    // TODO
+  }
+
+  void test_Intersection_Square_In_UpperLeft(void)
+  {
+    // TODO
+  }
+
+  void test_Intersection_Square_In_LowerLeft(void)
+  {
+    // TODO
+  }
+
+  void test_Intersection_Square_In_UpperRight(void)
+  {
+    // TODO
+  }
+
+  void test_Intersection_Square_In_LowerRight(void)
   {
     // TODO
   }

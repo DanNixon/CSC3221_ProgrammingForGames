@@ -2,6 +2,7 @@
 
 #include "Vector2D.h"
 
+#include <cmath>
 #include <stdexcept>
 
 /**
@@ -250,11 +251,21 @@ double Vector2D::getY() const
   return m_y;
 }
 
+/**
+ * \brief Returns the magnitude of the vector.
+ *
+ * \return Magnitude
+ */
 double Vector2D::length() const
 {
   return sqrt(length2());
 }
 
+/**
+ * \brief Returns the square of the magnitude of the vector.
+ *
+ * \return Magnitude squared
+ */
 double Vector2D::length2() const
 {
   return (m_x * m_x) + (m_y * m_y);

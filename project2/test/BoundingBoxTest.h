@@ -174,6 +174,65 @@ public:
     TS_ASSERT_DELTA(size.getY(), 5.7, TH);
   }
 
+  void test_UpperLeft(void)
+  {
+    BoundingBox b(1.0, 2.0, 9.0, 10.0);
+    Vector2D upperLeft = b.getUpperLeft();
+
+    TS_ASSERT_EQUALS(upperLeft.getX(), 1.0);
+    TS_ASSERT_EQUALS(upperLeft.getY(), 10.0);
+  }
+
+  void test_LowerRight(void)
+  {
+    BoundingBox b(1.0, 2.0, 9.0, 10.0);
+    Vector2D lowerRight = b.getLowerRight();
+
+    TS_ASSERT_EQUALS(lowerRight.getX(), 9.0);
+    TS_ASSERT_EQUALS(lowerRight.getY(), 2.0);
+  }
+
+  void test_Centre(void)
+  {
+    BoundingBox b(1.0, 2.0, 9.0, 10.0);
+    Vector2D centre = b.getCentre();
+
+    TS_ASSERT_EQUALS(centre.getX(), 5.0);
+    TS_ASSERT_EQUALS(centre.getY(), 6.0);
+  }
+
+  void test_RelativePosition_UpperRight(void)
+  {
+    BoundingBox b1(-1.0, -1.0, 1.0, 1.0);
+    BoundingBox b2(0.0, 0.0, 2.1, 2.1);
+
+    TS_ASSERT_EQUALS(b1.getRelativePosition(b2), RP_UPPERRIGHT);
+  }
+
+  void test_RelativePosition_LowerRight(void)
+  {
+    BoundingBox b1(-1.0, -1.0, 1.0, 1.0);
+    BoundingBox b2(0.0, -2.1, 2.1, 0.0);
+
+    TS_ASSERT_EQUALS(b1.getRelativePosition(b2), RP_LOWERRIGHT);
+  }
+
+  void test_RelativePosition_UpperLeft(void)
+  {
+    BoundingBox b1(-1.0, -1.0, 1.0, 1.0);
+    BoundingBox b2(-2.1, 0.0, 0.0, 2.1);
+
+    TS_ASSERT_EQUALS(b1.getRelativePosition(b2), RP_UPPERLEFT);
+  }
+
+  void test_RelativePosition_LowerLeft(void)
+  {
+    BoundingBox b1(-1.0, -1.0, 1.0, 1.0);
+    BoundingBox b2(-2.1, -2.1, 0.0, 0.0);
+
+    TS_ASSERT_EQUALS(b1.getRelativePosition(b2), RP_LOWERLEFT);
+  }
+
   void test_BoundingBoxEnclosed_Fully(void)
   {
     BoundingBox b1(0.0, 0.0, 1.0, 1.0);

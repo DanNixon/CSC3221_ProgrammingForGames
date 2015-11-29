@@ -141,7 +141,8 @@ BoundingBox BoundingBox::operator-(const Vector2D &rhs) const
 }
 
 /**
- * \brief Offsets both vertices of this BoundingBox by the negation of a Vector2D.
+ * \brief Offsets both vertices of this BoundingBox by the negation of a
+ *Vector2D.
  *
  * \param rhs Vector to offset by
  */
@@ -214,18 +215,32 @@ Vector2D BoundingBox::getCentre() const
   return *m_lowerLeft + s;
 }
 
-RelativePosition BoundingBox::getRelativePosition(const BoundingBox &other) const
+/**
+ * \brief Gets the direction of the relative position
+ *        between this BoundingBox and another.
+ *
+ * \param other BoundingBox in direction
+ * \return Relative position of other to this
+ */
+RelativePosition
+BoundingBox::getRelativePosition(const BoundingBox &other) const
 {
   const Vector2D &thisCentre = getCentre();
 
   if (other.getLowerLeft() < thisCentre)
     return RP_LOWERLEFT;
-  else if (other.getLowerRight() < thisCentre)
-    return RP_LOWERRIGHT;
-  else if (other.getUpperLeft() < thisCentre)
-    return RP_UPPERLEFT;
-  else if (other.getUpperRight() < thisCentre)
+  else if (other.getUpperRight() > thisCentre)
     return RP_UPPERRIGHT;
+
+  const Vector2D &lowerRight = other.getLowerRight();
+  if (lowerRight.getX() > thisCentre.getX() &&
+      lowerRight.getY() < thisCentre.getY())
+    return RP_LOWERRIGHT;
+
+  const Vector2D &upperLeft = other.getUpperLeft();
+  if (upperLeft.getX() < thisCentre.getX() &&
+      upperLeft.getY() > thisCentre.getY())
+    return RP_UPPERLEFT;
 
   return RP_UNDEFINED;
 }

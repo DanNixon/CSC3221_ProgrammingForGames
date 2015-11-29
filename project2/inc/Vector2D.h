@@ -24,13 +24,13 @@ public:
   bool operator!=(const Vector2D &other) const;
 
   Vector2D operator+(const Vector2D &rhs) const;
-  void operator +=(const Vector2D &rhs);
+  void operator+=(const Vector2D &rhs);
   Vector2D operator-(const Vector2D &rhs) const;
-  void operator -=(const Vector2D &rhs);
+  void operator-=(const Vector2D &rhs);
   Vector2D operator*(double rhs) const;
-  void operator *=(double rhs);
+  void operator*=(double rhs);
   Vector2D operator/(double rhs) const;
-  void operator /=(double rhs);
+  void operator/=(double rhs);
 
   bool operator<(const Vector2D &other) const;
   bool operator<=(const Vector2D &other) const;

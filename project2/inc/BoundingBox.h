@@ -14,12 +14,16 @@ class Vector2D;
  */
 enum BoxEnclosedState
 {
-  BE_FULL, //!< BoundingBox is fully enclosed
-  BE_LOWERLEFT_OUT, //!< Lower left vertex is out of BoundingBox
+  BE_FULL,           //!< BoundingBox is fully enclosed
+  BE_LOWERLEFT_OUT,  //!< Lower left vertex is out of BoundingBox
   BE_UPPERRIGHT_OUT, //!< Upper right vertex is out of BoundingBox
-  BE_LARGER //!< Both vertices are out of BoundingBox
+  BE_LARGER          //!< Both vertices are out of BoundingBox
 };
 
+/**
+ * \enum RelativePosition
+ * \brief Represents the position of a BoundingBox relative to another.
+ */
 enum RelativePosition
 {
   RP_UNDEFINED,
@@ -70,7 +74,7 @@ public:
   friend std::ostream &operator<<(std::ostream &stream, const BoundingBox &b);
 
 private:
-  Vector2D *m_lowerLeft; //!< Lower left hand vertex
+  Vector2D *m_lowerLeft;  //!< Lower left hand vertex
   Vector2D *m_upperRight; //!< Upper right hand vertex
 };
 

@@ -177,6 +177,18 @@ public:
     TS_ASSERT(!(v5 < v1));
   }
 
+  void test_Length(void)
+  {
+    Vector2D v(5.0, 5.0);
+    TS_ASSERT_DELTA(v.length(), 7.07107, 0.00001);
+  }
+
+  void test_Length2(void)
+  {
+    Vector2D v(5.0, 5.0);
+    TS_ASSERT_EQUALS(v.length2(), 50.0);
+  }
+
   void test_GetByIndex(void)
   {
     Vector2D v(2.5, 8.6);
