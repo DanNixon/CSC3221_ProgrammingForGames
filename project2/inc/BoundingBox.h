@@ -20,6 +20,15 @@ enum BoxEnclosedState
   BE_LARGER //!< Both vertices are out of BoundingBox
 };
 
+enum RelativePosition
+{
+  RP_UNDEFINED,
+  RP_UPPERRIGHT,
+  RP_LOWERRIGHT,
+  RP_LOWERLEFT,
+  RP_UPPERLEFT
+};
+
 /**
  * \class BoundingBox
  * \brief Represents the box around a shape defined by its maximum and minimum
@@ -49,6 +58,11 @@ public:
 
   Vector2D getLowerLeft() const;
   Vector2D getUpperRight() const;
+  Vector2D getUpperLeft() const;
+  Vector2D getLowerRight() const;
+  Vector2D getCentre() const;
+
+  RelativePosition getRelativePosition(const BoundingBox &other) const;
 
   BoxEnclosedState boundingBoxEnclosed(const BoundingBox &other) const;
   bool intersects(const BoundingBox &other) const;

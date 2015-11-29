@@ -250,6 +250,16 @@ double Vector2D::getY() const
   return m_y;
 }
 
+double Vector2D::length() const
+{
+  return sqrt(length2());
+}
+
+double Vector2D::length2() const
+{
+  return (m_x * m_x) + (m_y * m_y);
+}
+
 /**
  * \brief Return elements of the vector by index operator.
  *

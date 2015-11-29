@@ -85,7 +85,7 @@ bool Circle::intersects(const Shape &other) const
 
   if (otherType == typeid(*this))
   {
-    const Circle * otherCircle = dynamic_cast<const Circle *>(&other);
+    const Circle * otherCircle = static_cast<const Circle *>(&other);
     const double r = pow(m_radius + otherCircle->m_radius, 2);
     const double l = pow(m_position[0] - otherCircle->m_position[0], 2) +
                      pow(m_position[1] - otherCircle->m_position[1], 2);
@@ -93,8 +93,32 @@ bool Circle::intersects(const Shape &other) const
   }
   else if (otherType == typeid(Square))
   {
-    // TODO
-    return true;
+    const Square * otherSquare = static_cast<const Square *>(&other);
+    const BoundingBox &squareBounds = otherSquare->getBoundingBox();
+    RelativePosition pos = squareBounds.getRelativePosition(this->getBoundingBox());
+    const double r2 = m_radius * m_radius;
+
+    switch (pos)
+    {
+    case RP_LOWERLEFT:
+      if (squareBounds.getLowerLeft().length2() < r2)
+        return true;
+      break;
+    case RP_LOWERRIGHT:
+      if (squareBounds.getLowerRight().length2() < r2)
+        return true;
+      break;
+    case RP_UPPERLEFT:
+      if (squareBounds.getUpperLeft().length2() < r2)
+        return true;
+      break;
+    case RP_UPPERRIGHT:
+      if (squareBounds.getUpperRight().length2() < r2)
+        return true;
+      break;
+    }
+
+    return false;
   }
   else
   {

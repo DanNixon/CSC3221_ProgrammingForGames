@@ -182,6 +182,55 @@ Vector2D BoundingBox::getUpperRight() const
 }
 
 /**
+ * \brief Gets the upper left hand side vertex of the box.
+ *
+ * \return Position of upper left vertex
+ */
+Vector2D BoundingBox::getUpperLeft() const
+{
+  return Vector2D(m_lowerLeft->getX(), m_upperRight->getY());
+}
+
+/**
+ * \brief Gets the lower right hand side vertex of the box.
+ *
+ * \return Position of lower right vertex
+ */
+Vector2D BoundingBox::getLowerRight() const
+{
+  return Vector2D(m_upperRight->getX(), m_lowerLeft->getY());
+}
+
+/**
+ * \brief Gets the position of the centre of the BoundingBox.
+ *
+ * \return Position of the centre of the box
+ */
+Vector2D BoundingBox::getCentre() const
+{
+  Vector2D s = size();
+  s /= 2;
+
+  return *m_lowerLeft + s;
+}
+
+RelativePosition BoundingBox::getRelativePosition(const BoundingBox &other) const
+{
+  const Vector2D &thisCentre = getCentre();
+
+  if (other.getLowerLeft() < thisCentre)
+    return RP_LOWERLEFT;
+  else if (other.getLowerRight() < thisCentre)
+    return RP_LOWERRIGHT;
+  else if (other.getUpperLeft() < thisCentre)
+    return RP_UPPERLEFT;
+  else if (other.getUpperRight() < thisCentre)
+    return RP_UPPERRIGHT;
+
+  return RP_UNDEFINED;
+}
+
+/**
  * \brief Determines if this BoundingBox is enclosed by another.
  *
  * \param other BoundingBox to test

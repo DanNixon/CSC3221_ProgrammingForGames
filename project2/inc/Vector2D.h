@@ -40,6 +40,9 @@ public:
   double getX() const;
   double getY() const;
 
+  double length() const;
+  double length2() const;
+
   double operator[](const int index) const;
 
   friend std::ostream &operator<<(std::ostream &stream, const Vector2D &v);

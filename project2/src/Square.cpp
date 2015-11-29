@@ -106,8 +106,9 @@ bool Square::intersects(const Shape &other) const
   }
   else if (otherType == typeid(Circle))
   {
-    // TODO
-    return true;
+    // Use the implmentaton from Circle
+    const Circle * otherCircle = static_cast<const Circle *>(&other);
+    return otherCircle->intersects(*this);
   }
   else
   {
