@@ -33,8 +33,11 @@ GameImpl::~GameImpl()
  *
  * Type of shape (Square or Circle) is randomly selected.
  *
- * Generates random values for psoition and size, position is contrained by the
+ * Generates random values for position and size, position is contrained by the
  * BoundingBox passed to the constructor, size is constrained by maxDimension.
+ *
+ * Random positions are chosen until a valid one which keeps the shape within
+ * the game area is found.
  *
  * \param numShapes Number of shapes to generate
  * \param maxDimension Maximum dimension of shapes
@@ -49,9 +52,14 @@ void GameImpl::generateInitialShapes(int numShapes, double maxDimension)
     else
       s = new Circle(random(0, maxDimension));
 
-    Vector2D pos(random(m_clamp.getLowerLeft()[0], m_clamp.getUpperRight()[0]),
-                 random(m_clamp.getLowerLeft()[1], m_clamp.getUpperRight()[1]));
-    s->setPosition(pos, m_clamp);
+    /* Generate random positions until a valid one is found */
+    Vector2D pos;
+    do
+    {
+      pos = Vector2D (random(m_clamp.getLowerLeft()[0], m_clamp.getUpperRight()[0]),
+                      random(m_clamp.getLowerLeft()[1], m_clamp.getUpperRight()[1]));
+    }
+    while(!s->setPosition(pos, m_clamp));
 
     m_shapes.push_back(s);
   }
@@ -59,6 +67,9 @@ void GameImpl::generateInitialShapes(int numShapes, double maxDimension)
 
 /**
  * \brief Apply a random positional offset to each shape in a vector.
+ *
+ * Random offsets are chosen until a valid one which keeps the shape within the
+ * game area is found.
  */
 void GameImpl::applyRandomOffsets()
 {
@@ -67,8 +78,13 @@ void GameImpl::applyRandomOffsets()
 
   for (ShapeListIt it = m_shapes.begin(); it != m_shapes.end(); ++it)
   {
-    (*it)->offsetPositionBy(
-        Vector2D(random(lower, upper), random(lower, upper)), m_clamp);
+    /* Generate random offsets until a valid one is found */
+    Vector2D offset;
+    do
+    {
+      offset = Vector2D(random(lower, upper), random(lower, upper));
+    }
+    while(!(*it)->offsetPositionBy(offset, m_clamp));
   }
 }
 

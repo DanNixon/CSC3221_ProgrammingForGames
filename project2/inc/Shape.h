@@ -25,9 +25,9 @@ public:
   bool operator!=(const Shape &other) const;
 
   void setPosition(const Vector2D &position);
-  void setPosition(const Vector2D &position, const BoundingBox &clamp);
+  bool setPosition(const Vector2D &position, const BoundingBox &clamp);
   void offsetPositionBy(const Vector2D &offset);
-  void offsetPositionBy(const Vector2D &offset, const BoundingBox &clamp);
+  bool offsetPositionBy(const Vector2D &offset, const BoundingBox &clamp);
 
   Vector2D getPosition() const;
 

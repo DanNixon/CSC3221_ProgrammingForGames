@@ -78,40 +78,22 @@ void Shape::setPosition(const Vector2D &position)
 }
 
 /**
- * \brief Sets the position of the shape, clamping to within a BoundingBox.
+ * \brief Sets the position of the shape, checking that the shape remains
+ *        within a BoundingBox.
  *
  * \param position Vector defining new position.
  * \param clamp BoundingBox to clamp within
+ * \return True if the position is valid and was set
  */
-void Shape::setPosition(const Vector2D &position, const BoundingBox &clamp)
+bool Shape::setPosition(const Vector2D &position, const BoundingBox &clamp)
 {
   BoundingBox currentBox = getBoundingBox();
-  BoundingBox candidateBox = currentBox + (position - m_position);
-  Vertex state = candidateBox.boundingBoxEnclosed(clamp);
+  bool enclosed = clamp.encloses(currentBox + (position - m_position));
 
-  switch (state)
-  {
-  case V_UNDEFINED:
+  if (enclosed)
     m_position = position;
-    break;
-  case V_LOWERLEFT:
-  {
-    Vector2D lowerLeftClamp = clamp.getLowerLeft() + (currentBox.size() / 2.0);
-    m_position = Vector2D(std::max(position.getX(), lowerLeftClamp.getX()),
-                          std::max(position.getY(), lowerLeftClamp.getY()));
-    break;
-  }
-  case V_UPPERRIGHT:
-  {
-    Vector2D upperRightClamp =
-        clamp.getUpperRight() - (currentBox.size() / 2.0);
-    m_position = Vector2D(std::min(position.getX(), upperRightClamp.getX()),
-                          std::min(position.getY(), upperRightClamp.getY()));
-    break;
-  }
-  default:
-    throw std::runtime_error("Invalid state");
-  }
+
+  return enclosed;
 }
 
 /**
@@ -125,16 +107,17 @@ void Shape::offsetPositionBy(const Vector2D &offset)
 }
 
 /**
- * \brief Adds an offset to the current position vector, clamping the position
- *        to within a BoundingBox.
+ * \brief Adds an offset to the current position vector, checking that the
+ *        shape remains within a BoundingBox.
  *
  * \param offset Vector defining offset to add
  * \param clamp BoundingBox to clamp within
+ * \return True if the offset is valid and was set
  */
-void Shape::offsetPositionBy(const Vector2D &offset, const BoundingBox &clamp)
+bool Shape::offsetPositionBy(const Vector2D &offset, const BoundingBox &clamp)
 {
   Vector2D newPos = m_position + offset;
-  setPosition(newPos, clamp);
+  return setPosition(newPos, clamp);
 }
 
 /**
@@ -167,6 +150,7 @@ bool Shape::intersects(const Shape &other) const
   return thisBox.intersects(otherBox);
 }
 
+
 /**
  * \brief Outputs a Shape to a stream.
  *
@@ -179,9 +163,9 @@ std::ostream &operator<<(std::ostream &stream, const Shape &s)
   const std::type_info &instanceType = typeid(s);
 
   if (instanceType == typeid(Square))
-    stream << *((Square *)&s);
+    stream << *((Square *) &s);
   else if (instanceType == typeid(Circle))
-    stream << *((Circle *)&s);
+    stream << *((Circle *) &s);
 
   return stream;
 }

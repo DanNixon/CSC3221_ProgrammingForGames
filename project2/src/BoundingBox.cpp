@@ -143,7 +143,7 @@ BoundingBox BoundingBox::operator-(const Vector2D &rhs) const
 
 /**
  * \brief Offsets both vertices of this BoundingBox by the negation of a
- *Vector2D.
+ *        Vector2D.
  *
  * \param rhs Vector to offset by
  */
@@ -217,6 +217,34 @@ Vector2D BoundingBox::getCentre() const
 }
 
 /**
+ * \brief Determines if this BoundingBox is intersected by another.
+ *
+ * \param other BoundingBox to test
+ * \return True if boxes overlap
+ */
+bool BoundingBox::intersects(const BoundingBox &other) const
+{
+  return !(m_lowerLeft->getX() >= other.m_upperRight->getX() ||
+           m_lowerLeft->getY() >= other.m_upperRight->getY() ||
+           m_upperRight->getX() <= other.m_lowerLeft->getX() ||
+           m_upperRight->getY() <= other.m_lowerLeft->getY());
+}
+
+/**
+ * \brief Determines if the BoundingBox encloses another.
+ *
+ * \param other BoundingBox to test
+ * \return True if other is enclosed
+ */
+bool BoundingBox::encloses(const BoundingBox &other) const
+{
+  return (other.m_lowerLeft->getX() > m_lowerLeft->getX() &&
+          other.m_lowerLeft->getY() > m_lowerLeft->getY() &&
+          other.m_upperRight->getX() < m_upperRight->getX() &&
+          other.m_upperRight->getY() < m_upperRight->getY());
+}
+
+/**
  * \brief Gets the direction of the relative position
  *        between this BoundingBox and another.
  *
@@ -237,45 +265,6 @@ Vertex BoundingBox::getRelativePosition(const BoundingBox &other) const
     return V_UPPERRIGHT;
 
   return V_UNDEFINED;
-}
-
-/**
- * \brief Determines if this BoundingBox is enclosed by another.
- *
- * \param other BoundingBox to test
- * \return Extent to which box is enclosed
- */
-Vertex BoundingBox::boundingBoxEnclosed(const BoundingBox &other) const
-{
-  bool lowerLeftOut = vertexOut(V_LOWERLEFT, *(other.m_lowerLeft));
-  bool upperRightOut = vertexOut(V_UPPERRIGHT, *(other.m_upperRight));
-  bool lowerRightOut = vertexOut(V_LOWERRIGHT, other.getLowerRight());
-  bool upperLeftOut = vertexOut(V_UPPERLEFT, other.getUpperLeft());
-
-  if (lowerLeftOut)
-    return V_LOWERLEFT;
-  else if (upperRightOut)
-    return V_UPPERRIGHT;
-  else if (lowerRightOut)
-    return V_LOWERRIGHT;
-  else if (upperLeftOut)
-    return V_UPPERLEFT;
-
-  return V_UNDEFINED;
-}
-
-/**
- * \brief Determines if this BoundingBox is intersected by another.
- *
- * \param other BoundingBox to test
- * \return True if boxes overlap
- */
-bool BoundingBox::intersects(const BoundingBox &other) const
-{
-  return !(m_lowerLeft->getX() >= other.m_upperRight->getX() ||
-           m_lowerLeft->getY() >= other.m_upperRight->getY() ||
-           m_upperRight->getX() <= other.m_lowerLeft->getX() ||
-           m_upperRight->getY() <= other.m_lowerLeft->getY());
 }
 
 bool BoundingBox::vertexOut(Vertex v, const Vector2D &reference) const

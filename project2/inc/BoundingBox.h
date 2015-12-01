@@ -54,10 +54,10 @@ public:
   Vector2D getLowerRight() const;
   Vector2D getCentre() const;
 
-  Vertex getRelativePosition(const BoundingBox &other) const;
-
-  Vertex boundingBoxEnclosed(const BoundingBox &other) const;
   bool intersects(const BoundingBox &other) const;
+  bool encloses(const BoundingBox &other) const;
+
+  Vertex getRelativePosition(const BoundingBox &other) const;
 
   friend std::ostream &operator<<(std::ostream &stream, const BoundingBox &b);
 
