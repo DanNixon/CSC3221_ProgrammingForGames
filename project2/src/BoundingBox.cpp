@@ -141,7 +141,8 @@ BoundingBox BoundingBox::operator-(const Vector2D &rhs) const
 }
 
 /**
- * \brief Offsets both vertices of this BoundingBox by the negation of a Vector2D.
+ * \brief Offsets both vertices of this BoundingBox by the negation of a
+ * Vector2D.
  *
  * \param rhs Vector to offset by
  */
@@ -182,28 +183,6 @@ Vector2D BoundingBox::getUpperRight() const
 }
 
 /**
- * \brief Determines if this BoundingBox is enclosed by another.
- *
- * \param other BoundingBox to test
- * \return Extent to which box is enclosed
- */
-BoxEnclosedState
-BoundingBox::boundingBoxEnclosed(const BoundingBox &other) const
-{
-  bool lowerLeft = (*(other.m_lowerLeft) >= *m_lowerLeft);
-  bool upperRight = (*(other.m_upperRight) <= *m_upperRight);
-
-  if (lowerLeft && upperRight)
-    return BE_FULL;
-  else if (lowerLeft && !upperRight)
-    return BE_UPPERRIGHT_OUT;
-  else if (!lowerLeft && upperRight)
-    return BE_LOWERLEFT_OUT;
-  else
-    return BE_LARGER;
-}
-
-/**
  * \brief Determines if this BoundingBox is intersected by another.
  *
  * \param other BoundingBox to test
@@ -215,6 +194,20 @@ bool BoundingBox::intersects(const BoundingBox &other) const
            m_lowerLeft->getY() >= other.m_upperRight->getY() ||
            m_upperRight->getX() <= other.m_lowerLeft->getX() ||
            m_upperRight->getY() <= other.m_lowerLeft->getY());
+}
+
+/**
+ * \brief Determines if the BoundingBox encloses another.
+ *
+ * \param other BoundingBox to test
+ * \return True if other is enclosed
+ */
+bool BoundingBox::encloses(const BoundingBox &other) const
+{
+  return (other.m_lowerLeft->getX() > m_lowerLeft->getX() &&
+          other.m_lowerLeft->getY() > m_lowerLeft->getY() &&
+          other.m_upperRight->getX() < m_upperRight->getX() &&
+          other.m_upperRight->getY() < m_upperRight->getY());
 }
 
 /**

@@ -8,19 +8,6 @@
 class Vector2D;
 
 /**
- * \enum BoxEnclosedState
- * \brief Represents how two BoundingBox objects enclose each other
- *        geometrically.
- */
-enum BoxEnclosedState
-{
-  BE_FULL, //!< BoundingBox is fully enclosed
-  BE_LOWERLEFT_OUT, //!< Lower left vertex is out of BoundingBox
-  BE_UPPERRIGHT_OUT, //!< Upper right vertex is out of BoundingBox
-  BE_LARGER //!< Both vertices are out of BoundingBox
-};
-
-/**
  * \class BoundingBox
  * \brief Represents the box around a shape defined by its maximum and minimum
  *        dimensions in each axis.
@@ -50,8 +37,8 @@ public:
   Vector2D getLowerLeft() const;
   Vector2D getUpperRight() const;
 
-  BoxEnclosedState boundingBoxEnclosed(const BoundingBox &other) const;
   bool intersects(const BoundingBox &other) const;
+  bool encloses(const BoundingBox &other) const;
 
   friend std::ostream &operator<<(std::ostream &stream, const BoundingBox &b);
 

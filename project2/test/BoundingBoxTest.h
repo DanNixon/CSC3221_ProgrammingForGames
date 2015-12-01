@@ -179,7 +179,7 @@ public:
     BoundingBox b1(0.0, 0.0, 1.0, 1.0);
     BoundingBox b2(0.25, 0.25, 0.75, 0.75);
 
-    TS_ASSERT_EQUALS(b1.boundingBoxEnclosed(b2), BE_FULL);
+    TS_ASSERT(b1.encloses(b2));
   }
 
   void test_BoundingBoxEnclosed_PartiallyLowerLeft(void)
@@ -187,7 +187,7 @@ public:
     BoundingBox b1(0.0, 0.0, 1.0, 1.0);
     BoundingBox b2(-0.25, -0.25, 0.25, 0.25);
 
-    TS_ASSERT_EQUALS(b1.boundingBoxEnclosed(b2), BE_LOWERLEFT_OUT);
+    TS_ASSERT(!b1.encloses(b2));
   }
 
   void test_BoundingBoxEnclosed_PartiallyUpperRight(void)
@@ -195,7 +195,7 @@ public:
     BoundingBox b1(0.0, 0.0, 1.0, 1.0);
     BoundingBox b2(0.75, 0.75, 1.25, 1.25);
 
-    TS_ASSERT_EQUALS(b1.boundingBoxEnclosed(b2), BE_UPPERRIGHT_OUT);
+    TS_ASSERT(!b1.encloses(b2));
   }
 
   void test_BoundingBoxEnclosed_Larger(void)
@@ -203,7 +203,7 @@ public:
     BoundingBox b1(0.0, 0.0, 1.0, 1.0);
     BoundingBox b2(-0.25, -0.25, 1.25, 1.25);
 
-    TS_ASSERT_EQUALS(b1.boundingBoxEnclosed(b2), BE_LARGER);
+    TS_ASSERT(!b1.encloses(b2));
   }
 
   void test_Intersects_Fully(void)

@@ -78,43 +78,22 @@ void Shape::setPosition(const Vector2D &position)
 }
 
 /**
- * \brief Sets the position of the shape, clamping to within a BoundingBox.
+ * \brief Sets the position of the shape, checking that the shape remains
+ *        within a BoundingBox.
  *
  * \param position Vector defining new position.
  * \param clamp BoundingBox to clamp within
+ * \return True if the position is valid and was set
  */
-void Shape::setPosition(const Vector2D &position, const BoundingBox &clamp)
+bool Shape::setPosition(const Vector2D &position, const BoundingBox &clamp)
 {
   BoundingBox currentBox = getBoundingBox();
-  BoxEnclosedState state =
-      clamp.boundingBoxEnclosed(currentBox + (position - m_position));
+  bool enclosed = clamp.encloses(currentBox + (position - m_position));
 
-  switch (state)
-  {
-  case BE_FULL:
+  if (enclosed)
     m_position = position;
-    break;
-  case BE_LOWERLEFT_OUT:
-  {
-    Vector2D lowerLeftClamp = clamp.getLowerLeft() + (currentBox.size() / 2.0);
-    m_position = Vector2D(std::max(position.getX(), lowerLeftClamp.getX()),
-                          std::max(position.getY(), lowerLeftClamp.getY()));
-    break;
-  }
-  case BE_UPPERRIGHT_OUT:
-  {
-    Vector2D upperRightClamp =
-        clamp.getUpperRight() - (currentBox.size() / 2.0);
-    m_position = Vector2D(std::min(position.getX(), upperRightClamp.getX()),
-                          std::min(position.getY(), upperRightClamp.getY()));
-    break;
-  }
-  case BE_LARGER:
-    throw std::runtime_error("Shape is larger than bounding box");
-    break;
-  default:
-    throw std::runtime_error("Invalid state");
-  }
+
+  return enclosed;
 }
 
 /**
@@ -128,16 +107,17 @@ void Shape::offsetPositionBy(const Vector2D &offset)
 }
 
 /**
- * \brief Adds an offset to the current position vector, clamping the position
- *        to within a BoundingBox.
+ * \brief Adds an offset to the current position vector, checking that the
+ *        shape remains within a BoundingBox.
  *
  * \param offset Vector defining offset to add
  * \param clamp BoundingBox to clamp within
+ * \return True if the offset is valid and was set
  */
-void Shape::offsetPositionBy(const Vector2D &offset, const BoundingBox &clamp)
+bool Shape::offsetPositionBy(const Vector2D &offset, const BoundingBox &clamp)
 {
   Vector2D newPos = m_position + offset;
-  setPosition(newPos, clamp);
+  return setPosition(newPos, clamp);
 }
 
 /**
