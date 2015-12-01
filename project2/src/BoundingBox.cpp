@@ -249,47 +249,25 @@ bool BoundingBox::encloses(const BoundingBox &other) const
  *        between this BoundingBox and another.
  *
  * \param other BoundingBox in direction
- * \return Relative position of other to this
+ * \return Direction from this to other
  */
-Vertex BoundingBox::getRelativePosition(const BoundingBox &other) const
+Direction BoundingBox::getRelativePosition(const BoundingBox &other) const
 {
   const Vector2D &thisCentre = getCentre();
+  const Vector2D &otherCentre = other.getCentre();
 
-  if (other.vertexOut(V_LOWERLEFT, thisCentre))
-    return V_LOWERLEFT;
-  else if (other.vertexOut(V_LOWERRIGHT, thisCentre))
-    return V_LOWERRIGHT;
-  else if (other.vertexOut(V_UPPERLEFT, thisCentre))
-    return V_UPPERLEFT;
-  else if (other.vertexOut(V_UPPERRIGHT, thisCentre))
-    return V_UPPERRIGHT;
+  if (thisCentre < otherCentre)
+    return D_UPPERRIGHT;
+  else if (thisCentre > otherCentre)
+    return D_LOWERLEFT;
+  else if(thisCentre.getX() > otherCentre.getX() &&
+          thisCentre.getY() < otherCentre.getY())
+    return D_UPPERLEFT;
+  else if(thisCentre.getX() < otherCentre.getX() &&
+          thisCentre.getY() > otherCentre.getY())
+    return D_LOWERRIGHT;
 
-  return V_UNDEFINED;
-}
-
-bool BoundingBox::vertexOut(Vertex v, const Vector2D &reference) const
-{
-  switch (v)
-  {
-  case V_LOWERLEFT:
-    return *m_lowerLeft <= reference;
-  case V_UPPERRIGHT:
-    return *m_upperRight >= reference;
-  case V_LOWERRIGHT:
-  {
-    const Vector2D &lowerRight = getLowerRight();
-    return (lowerRight.getX() >= reference.getX() &&
-            lowerRight.getY() <= reference.getY());
-  }
-  case V_UPPERLEFT:
-  {
-    const Vector2D &upperLeft = getUpperLeft();
-    return (upperLeft.getX() <= reference.getX() &&
-            upperLeft.getY() >= reference.getY());
-  }
-  default:
-    throw std::runtime_error("Invalid vertex parameter");
-  }
+  return D_UNDEFINED;
 }
 
 /**

@@ -8,17 +8,16 @@
 class Vector2D;
 
 /**
- * \enum Vertex
- * \brief Represents a vertex in a BoundingBox.
+ * \enum Direction
+ * \brief Represents a direction.
  */
-enum Vertex
+enum Direction
 {
-  V_UNDEFINED,
-  V_MULTIPLE,
-  V_UPPERRIGHT,
-  V_LOWERRIGHT,
-  V_LOWERLEFT,
-  V_UPPERLEFT
+  D_UNDEFINED,
+  D_UPPERRIGHT,
+  D_LOWERRIGHT,
+  D_LOWERLEFT,
+  D_UPPERLEFT
 };
 
 /**
@@ -57,13 +56,11 @@ public:
   bool intersects(const BoundingBox &other) const;
   bool encloses(const BoundingBox &other) const;
 
-  Vertex getRelativePosition(const BoundingBox &other) const;
+  Direction getRelativePosition(const BoundingBox &other) const;
 
   friend std::ostream &operator<<(std::ostream &stream, const BoundingBox &b);
 
 private:
-  bool vertexOut(Vertex v, const Vector2D& reference) const;
-
   Vector2D *m_lowerLeft;  //!< Lower left hand vertex
   Vector2D *m_upperRight; //!< Upper right hand vertex
 };

@@ -1,6 +1,7 @@
 #include <cxxtest/TestSuite.h>
 
 #include "Circle.h"
+#include "Square.h"
 
 class CircleTest : public CxxTest::TestSuite
 {
@@ -143,64 +144,160 @@ public:
     TS_ASSERT(!c2.intersects(c1));
   }
 
-  void test_Intersection_Square_Out_UpperLeft(void)
-  {
-    // TODO
-  }
-
   void test_Intersection_Square_Out_LowerLeft(void)
   {
-    // TODO
+    Circle c(10.0);
+    c.setPosition(Vector2D(20.0, 20.0));
+
+    Square s(10.0, 10.0);
+    s.setPosition(Vector2D(7.0, 7.0));
+
+    TS_ASSERT(!c.intersects(s));
+    TS_ASSERT(!s.intersects(c));
   }
 
   void test_Intersection_Square_Out_UpperRight(void)
   {
-    // TODO
+    Circle c(10.0);
+    c.setPosition(Vector2D(20.0, 20.0));
+
+    Square s(10.0, 10.0);
+    s.setPosition(Vector2D(33.0, 33.0));
+
+    TS_ASSERT(!c.intersects(s));
+    TS_ASSERT(!s.intersects(c));
+  }
+
+  void test_Intersection_Square_Out_UpperLeft(void)
+  {
+    Circle c(10.0);
+    c.setPosition(Vector2D(20.0, 20.0));
+
+    Square s(10.0, 10.0);
+    s.setPosition(Vector2D(7.0, 33.0));
+
+    TS_ASSERT(!c.intersects(s));
+    TS_ASSERT(!s.intersects(c));
   }
 
   void test_Intersection_Square_Out_LowerRight(void)
   {
-    // TODO
-  }
+    Circle c(10.0);
+    c.setPosition(Vector2D(20.0, 20.0));
 
-  void test_Intersection_Square_Equal_UpperLeft(void)
-  {
-    // TODO
+    Square s(10.0, 10.0);
+    s.setPosition(Vector2D(33.0, 7.0));
+
+    TS_ASSERT(!c.intersects(s));
+    TS_ASSERT(!s.intersects(c));
   }
 
   void test_Intersection_Square_Equal_LowerLeft(void)
   {
-    // TODO
+    Circle c(10.0);
+    c.setPosition(Vector2D(20.0, 20.0));
+
+    Square s(10.0, 10.0);
+    s.setPosition(Vector2D(7.9289, 7.9289));
+
+    TS_ASSERT(!c.intersects(s));
+    TS_ASSERT(!s.intersects(c));
   }
 
   void test_Intersection_Square_Equal_UpperRight(void)
   {
-    // TODO
+    Circle c(10.0);
+    c.setPosition(Vector2D(20.0, 20.0));
+
+    Square s(10.0, 10.0);
+    s.setPosition(Vector2D(32.0711, 32.0711));
+
+    TS_ASSERT(!c.intersects(s));
+    TS_ASSERT(!s.intersects(c));
+  }
+
+  void test_Intersection_Square_Equal_UpperLeft(void)
+  {
+    Circle c(10.0);
+    c.setPosition(Vector2D(20.0, 20.0));
+
+    Square s(10.0, 10.0);
+    s.setPosition(Vector2D(7.9289, 32.0711));
+
+    TS_ASSERT(!c.intersects(s));
+    TS_ASSERT(!s.intersects(c));
   }
 
   void test_Intersection_Square_Equal_LowerRight(void)
   {
-    // TODO
-  }
+    Circle c(10.0);
+    c.setPosition(Vector2D(20.0, 20.0));
 
-  void test_Intersection_Square_In_UpperLeft(void)
-  {
-    // TODO
+    Square s(10.0, 10.0);
+    s.setPosition(Vector2D(32.0711, 7.9289));
+
+    TS_ASSERT(!c.intersects(s));
+    TS_ASSERT(!s.intersects(c));
   }
 
   void test_Intersection_Square_In_LowerLeft(void)
   {
-    // TODO
+    Circle c(10.0);
+    c.setPosition(Vector2D(20.0, 20.0));
+
+    Square s(10.0, 10.0);
+    s.setPosition(Vector2D(9.0, 9.0));
+
+    TS_ASSERT(c.intersects(s));
+    TS_ASSERT(s.intersects(c));
   }
 
   void test_Intersection_Square_In_UpperRight(void)
   {
-    // TODO
+    Circle c(10.0);
+    c.setPosition(Vector2D(20.0, 20.0));
+
+    Square s(10.0, 10.0);
+    s.setPosition(Vector2D(31.0, 31.0));
+
+    TS_ASSERT(c.intersects(s));
+    TS_ASSERT(s.intersects(c));
+  }
+
+  void test_Intersection_Square_In_UpperLeft(void)
+  {
+    Circle c(10.0);
+    c.setPosition(Vector2D(20.0, 20.0));
+
+    Square s(10.0, 10.0);
+    s.setPosition(Vector2D(9.0, 31.0));
+
+    TS_ASSERT(c.intersects(s));
+    TS_ASSERT(s.intersects(c));
   }
 
   void test_Intersection_Square_In_LowerRight(void)
   {
-    // TODO
+    Circle c(10.0);
+    c.setPosition(Vector2D(20.0, 20.0));
+
+    Square s(10.0, 10.0);
+    s.setPosition(Vector2D(31.0, 9.0));
+
+    TS_ASSERT(c.intersects(s));
+    TS_ASSERT(s.intersects(c));
+  }
+
+  void test_Intersection_Square_In_Centre(void)
+  {
+    Circle c(5.0);
+    c.setPosition(Vector2D(15.0, 15.0));
+
+    Square s(5.0, 6.0);
+    s.setPosition(Vector2D(15.0, 15.0));
+
+    TS_ASSERT(c.intersects(s));
+    TS_ASSERT(s.intersects(c));
   }
 
   void test_StreamOutput(void)
