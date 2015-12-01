@@ -2,6 +2,7 @@
 
 #include "BoundingBox.h"
 
+#include <stdexcept>
 #include "Vector2D.h"
 
 /**
@@ -222,27 +223,20 @@ Vector2D BoundingBox::getCentre() const
  * \param other BoundingBox in direction
  * \return Relative position of other to this
  */
-RelativePosition
-BoundingBox::getRelativePosition(const BoundingBox &other) const
+Vertex BoundingBox::getRelativePosition(const BoundingBox &other) const
 {
   const Vector2D &thisCentre = getCentre();
 
-  if (other.getLowerLeft() < thisCentre)
-    return RP_LOWERLEFT;
-  else if (other.getUpperRight() > thisCentre)
-    return RP_UPPERRIGHT;
+  if (other.vertexOut(V_LOWERLEFT, thisCentre))
+    return V_LOWERLEFT;
+  else if (other.vertexOut(V_LOWERRIGHT, thisCentre))
+    return V_LOWERRIGHT;
+  else if (other.vertexOut(V_UPPERLEFT, thisCentre))
+    return V_UPPERLEFT;
+  else if (other.vertexOut(V_UPPERRIGHT, thisCentre))
+    return V_UPPERRIGHT;
 
-  const Vector2D &lowerRight = other.getLowerRight();
-  if (lowerRight.getX() > thisCentre.getX() &&
-      lowerRight.getY() < thisCentre.getY())
-    return RP_LOWERRIGHT;
-
-  const Vector2D &upperLeft = other.getUpperLeft();
-  if (upperLeft.getX() < thisCentre.getX() &&
-      upperLeft.getY() > thisCentre.getY())
-    return RP_UPPERLEFT;
-
-  return RP_UNDEFINED;
+  return V_UNDEFINED;
 }
 
 /**
@@ -251,20 +245,23 @@ BoundingBox::getRelativePosition(const BoundingBox &other) const
  * \param other BoundingBox to test
  * \return Extent to which box is enclosed
  */
-BoxEnclosedState
-BoundingBox::boundingBoxEnclosed(const BoundingBox &other) const
+Vertex BoundingBox::boundingBoxEnclosed(const BoundingBox &other) const
 {
-  bool lowerLeft = (*(other.m_lowerLeft) >= *m_lowerLeft);
-  bool upperRight = (*(other.m_upperRight) <= *m_upperRight);
+  bool lowerLeftOut = vertexOut(V_LOWERLEFT, *(other.m_lowerLeft));
+  bool upperRightOut = vertexOut(V_UPPERRIGHT, *(other.m_upperRight));
+  bool lowerRightOut = vertexOut(V_LOWERRIGHT, other.getLowerRight());
+  bool upperLeftOut = vertexOut(V_UPPERLEFT, other.getUpperLeft());
 
-  if (lowerLeft && upperRight)
-    return BE_FULL;
-  else if (lowerLeft && !upperRight)
-    return BE_UPPERRIGHT_OUT;
-  else if (!lowerLeft && upperRight)
-    return BE_LOWERLEFT_OUT;
-  else
-    return BE_LARGER;
+  if (lowerLeftOut)
+    return V_LOWERLEFT;
+  else if (upperRightOut)
+    return V_UPPERRIGHT;
+  else if (lowerRightOut)
+    return V_LOWERRIGHT;
+  else if (upperLeftOut)
+    return V_UPPERLEFT;
+
+  return V_UNDEFINED;
 }
 
 /**
@@ -279,6 +276,31 @@ bool BoundingBox::intersects(const BoundingBox &other) const
            m_lowerLeft->getY() >= other.m_upperRight->getY() ||
            m_upperRight->getX() <= other.m_lowerLeft->getX() ||
            m_upperRight->getY() <= other.m_lowerLeft->getY());
+}
+
+bool BoundingBox::vertexOut(Vertex v, const Vector2D &reference) const
+{
+  switch (v)
+  {
+  case V_LOWERLEFT:
+    return *m_lowerLeft <= reference;
+  case V_UPPERRIGHT:
+    return *m_upperRight >= reference;
+  case V_LOWERRIGHT:
+  {
+    const Vector2D &lowerRight = getLowerRight();
+    return (lowerRight.getX() >= reference.getX() &&
+            lowerRight.getY() <= reference.getY());
+  }
+  case V_UPPERLEFT:
+  {
+    const Vector2D &upperLeft = getUpperLeft();
+    return (upperLeft.getX() <= reference.getX() &&
+            upperLeft.getY() >= reference.getY());
+  }
+  default:
+    throw std::runtime_error("Invalid vertex parameter");
+  }
 }
 
 /**

@@ -206,7 +206,12 @@ public:
     BoundingBox b1(-1.0, -1.0, 1.0, 1.0);
     BoundingBox b2(0.0, 0.0, 2.1, 2.1);
 
-    TS_ASSERT_EQUALS(b1.getRelativePosition(b2), RP_UPPERRIGHT);
+    std::cout << V_UPPERRIGHT << " upperright" << std::endl;
+    std::cout << V_LOWERRIGHT << " upperleft" << std::endl;
+    std::cout << V_UPPERLEFT << " lowerleft" << std::endl;
+    std::cout << V_LOWERLEFT << " lowerright" << std::endl;
+
+    TS_ASSERT_EQUALS(b1.getRelativePosition(b2), V_UPPERRIGHT);
   }
 
   void test_RelativePosition_LowerRight(void)
@@ -214,7 +219,7 @@ public:
     BoundingBox b1(-1.0, -1.0, 1.0, 1.0);
     BoundingBox b2(0.0, -2.1, 2.1, 0.0);
 
-    TS_ASSERT_EQUALS(b1.getRelativePosition(b2), RP_LOWERRIGHT);
+    TS_ASSERT_EQUALS(b1.getRelativePosition(b2), V_LOWERRIGHT);
   }
 
   void test_RelativePosition_UpperLeft(void)
@@ -222,7 +227,7 @@ public:
     BoundingBox b1(-1.0, -1.0, 1.0, 1.0);
     BoundingBox b2(-2.1, 0.0, 0.0, 2.1);
 
-    TS_ASSERT_EQUALS(b1.getRelativePosition(b2), RP_UPPERLEFT);
+    TS_ASSERT_EQUALS(b1.getRelativePosition(b2), V_UPPERLEFT);
   }
 
   void test_RelativePosition_LowerLeft(void)
@@ -230,7 +235,7 @@ public:
     BoundingBox b1(-1.0, -1.0, 1.0, 1.0);
     BoundingBox b2(-2.1, -2.1, 0.0, 0.0);
 
-    TS_ASSERT_EQUALS(b1.getRelativePosition(b2), RP_LOWERLEFT);
+    TS_ASSERT_EQUALS(b1.getRelativePosition(b2), V_LOWERLEFT);
   }
 
   void test_BoundingBoxEnclosed_Fully(void)
@@ -238,7 +243,7 @@ public:
     BoundingBox b1(0.0, 0.0, 1.0, 1.0);
     BoundingBox b2(0.25, 0.25, 0.75, 0.75);
 
-    TS_ASSERT_EQUALS(b1.boundingBoxEnclosed(b2), BE_FULL);
+    TS_ASSERT_EQUALS(b2.boundingBoxEnclosed(b1), V_UNDEFINED);
   }
 
   void test_BoundingBoxEnclosed_PartiallyLowerLeft(void)
@@ -246,7 +251,7 @@ public:
     BoundingBox b1(0.0, 0.0, 1.0, 1.0);
     BoundingBox b2(-0.25, -0.25, 0.25, 0.25);
 
-    TS_ASSERT_EQUALS(b1.boundingBoxEnclosed(b2), BE_LOWERLEFT_OUT);
+    TS_ASSERT_EQUALS(b2.boundingBoxEnclosed(b1), V_LOWERLEFT);
   }
 
   void test_BoundingBoxEnclosed_PartiallyUpperRight(void)
@@ -254,7 +259,7 @@ public:
     BoundingBox b1(0.0, 0.0, 1.0, 1.0);
     BoundingBox b2(0.75, 0.75, 1.25, 1.25);
 
-    TS_ASSERT_EQUALS(b1.boundingBoxEnclosed(b2), BE_UPPERRIGHT_OUT);
+    TS_ASSERT_EQUALS(b2.boundingBoxEnclosed(b1), V_UPPERRIGHT);
   }
 
   void test_BoundingBoxEnclosed_Larger(void)
@@ -262,7 +267,7 @@ public:
     BoundingBox b1(0.0, 0.0, 1.0, 1.0);
     BoundingBox b2(-0.25, -0.25, 1.25, 1.25);
 
-    TS_ASSERT_EQUALS(b1.boundingBoxEnclosed(b2), BE_LARGER);
+    TS_ASSERT_EQUALS(b2.boundingBoxEnclosed(b1), V_MULTIPLE);
   }
 
   void test_Intersects_Fully(void)

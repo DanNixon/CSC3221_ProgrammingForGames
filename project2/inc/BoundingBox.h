@@ -8,29 +8,17 @@
 class Vector2D;
 
 /**
- * \enum BoxEnclosedState
- * \brief Represents how two BoundingBox objects enclose each other
- *        geometrically.
+ * \enum Vertex
+ * \brief Represents a vertex in a BoundingBox.
  */
-enum BoxEnclosedState
+enum Vertex
 {
-  BE_FULL,           //!< BoundingBox is fully enclosed
-  BE_LOWERLEFT_OUT,  //!< Lower left vertex is out of BoundingBox
-  BE_UPPERRIGHT_OUT, //!< Upper right vertex is out of BoundingBox
-  BE_LARGER          //!< Both vertices are out of BoundingBox
-};
-
-/**
- * \enum RelativePosition
- * \brief Represents the position of a BoundingBox relative to another.
- */
-enum RelativePosition
-{
-  RP_UNDEFINED,
-  RP_UPPERRIGHT,
-  RP_LOWERRIGHT,
-  RP_LOWERLEFT,
-  RP_UPPERLEFT
+  V_UNDEFINED,
+  V_MULTIPLE,
+  V_UPPERRIGHT,
+  V_LOWERRIGHT,
+  V_LOWERLEFT,
+  V_UPPERLEFT
 };
 
 /**
@@ -66,14 +54,16 @@ public:
   Vector2D getLowerRight() const;
   Vector2D getCentre() const;
 
-  RelativePosition getRelativePosition(const BoundingBox &other) const;
+  Vertex getRelativePosition(const BoundingBox &other) const;
 
-  BoxEnclosedState boundingBoxEnclosed(const BoundingBox &other) const;
+  Vertex boundingBoxEnclosed(const BoundingBox &other) const;
   bool intersects(const BoundingBox &other) const;
 
   friend std::ostream &operator<<(std::ostream &stream, const BoundingBox &b);
 
 private:
+  bool vertexOut(Vertex v, const Vector2D& reference) const;
+
   Vector2D *m_lowerLeft;  //!< Lower left hand vertex
   Vector2D *m_upperRight; //!< Upper right hand vertex
 };

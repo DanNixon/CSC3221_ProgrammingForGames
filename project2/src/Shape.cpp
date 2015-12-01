@@ -86,22 +86,22 @@ void Shape::setPosition(const Vector2D &position)
 void Shape::setPosition(const Vector2D &position, const BoundingBox &clamp)
 {
   BoundingBox currentBox = getBoundingBox();
-  BoxEnclosedState state =
-      clamp.boundingBoxEnclosed(currentBox + (position - m_position));
+  BoundingBox candidateBox = currentBox + (position - m_position);
+  Vertex state = candidateBox.boundingBoxEnclosed(clamp);
 
   switch (state)
   {
-  case BE_FULL:
+  case V_UNDEFINED:
     m_position = position;
     break;
-  case BE_LOWERLEFT_OUT:
+  case V_LOWERLEFT:
   {
     Vector2D lowerLeftClamp = clamp.getLowerLeft() + (currentBox.size() / 2.0);
     m_position = Vector2D(std::max(position.getX(), lowerLeftClamp.getX()),
                           std::max(position.getY(), lowerLeftClamp.getY()));
     break;
   }
-  case BE_UPPERRIGHT_OUT:
+  case V_UPPERRIGHT:
   {
     Vector2D upperRightClamp =
         clamp.getUpperRight() - (currentBox.size() / 2.0);
@@ -109,9 +109,6 @@ void Shape::setPosition(const Vector2D &position, const BoundingBox &clamp)
                           std::min(position.getY(), upperRightClamp.getY()));
     break;
   }
-  case BE_LARGER:
-    throw std::runtime_error("Shape is larger than bounding box");
-    break;
   default:
     throw std::runtime_error("Invalid state");
   }
@@ -170,7 +167,6 @@ bool Shape::intersects(const Shape &other) const
   return thisBox.intersects(otherBox);
 }
 
-
 /**
  * \brief Outputs a Shape to a stream.
  *
@@ -183,9 +179,9 @@ std::ostream &operator<<(std::ostream &stream, const Shape &s)
   const std::type_info &instanceType = typeid(s);
 
   if (instanceType == typeid(Square))
-    stream << *((Square *) &s);
+    stream << *((Square *)&s);
   else if (instanceType == typeid(Circle))
-    stream << *((Circle *) &s);
+    stream << *((Circle *)&s);
 
   return stream;
 }

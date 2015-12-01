@@ -95,24 +95,24 @@ bool Circle::intersects(const Shape &other) const
   {
     const Square * otherSquare = static_cast<const Square *>(&other);
     const BoundingBox &squareBounds = otherSquare->getBoundingBox();
-    RelativePosition pos = squareBounds.getRelativePosition(this->getBoundingBox());
+    Vertex pos = squareBounds.getRelativePosition(this->getBoundingBox());
     const double r2 = m_radius * m_radius;
 
     switch (pos)
     {
-    case RP_LOWERLEFT:
+    case V_LOWERLEFT:
       if (squareBounds.getLowerLeft().length2() < r2)
         return true;
       break;
-    case RP_LOWERRIGHT:
+    case V_LOWERRIGHT:
       if (squareBounds.getLowerRight().length2() < r2)
         return true;
       break;
-    case RP_UPPERLEFT:
+    case V_UPPERLEFT:
       if (squareBounds.getUpperLeft().length2() < r2)
         return true;
       break;
-    case RP_UPPERRIGHT:
+    case V_UPPERRIGHT:
       if (squareBounds.getUpperRight().length2() < r2)
         return true;
       break;
