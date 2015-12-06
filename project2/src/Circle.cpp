@@ -86,6 +86,9 @@ bool Circle::intersects(const Shape &other) const
   if (otherType == typeid(*this))
   {
     const Circle * otherCircle = static_cast<const Circle *>(&other);
+
+    /* Compare distance between centres of both circles to the sum of their
+     * radii */
     const double r = pow(m_radius + otherCircle->m_radius, 2);
     const double l = pow(m_position[0] - otherCircle->m_position[0], 2) +
                      pow(m_position[1] - otherCircle->m_position[1], 2);
@@ -95,9 +98,15 @@ bool Circle::intersects(const Shape &other) const
   {
     const Square * otherSquare = static_cast<const Square *>(&other);
     const BoundingBox &squareBounds = otherSquare->getBoundingBox();
-    Direction pos = squareBounds.getRelativePosition(this->getBoundingBox());
+
+    /* Determine the vertex of the square that is closest to the centre of the
+     * circle */
+    Direction pos = squareBounds.getRelativePosition(getBoundingBox());
+
     const double r2 = m_radius * m_radius;
 
+    /* Compare the distance between the centre of the circle and the closest
+     * vertex of the square with the circle radius */
     switch (pos)
     {
     case D_LOWERLEFT:

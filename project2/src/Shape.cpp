@@ -136,6 +136,7 @@ Vector2D Shape::getPosition() const
  * Also returns true of one shape is fully enclosed by the other.
  *
  * Tests by testing for intersection between the bounding boxes.
+ *
  * This is performed as the first step for all intersection tests as this is a
  * very inexpensive test.
  *
