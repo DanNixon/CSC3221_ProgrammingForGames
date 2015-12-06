@@ -32,8 +32,8 @@ class GameImpl
     ~GameImpl();
 
     void generateInitialShapes(int numShapes, double maxDimension);
-    void applyRandomOffsets();
-    void cullOverlapping();
+    void applyRandomOffsets(double maxOffset);
+    bool cullOverlapping();
 
     void printAllShapes();
     double random(double lower, double upper) const;

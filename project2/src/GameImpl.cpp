@@ -72,19 +72,19 @@ void GameImpl::generateInitialShapes(int numShapes, double maxDimension)
  *
  * Random offsets are chosen until a valid one which keeps the shape within the
  * game area is found.
+ *
+ * \param maxOffset Maximum offset to apply
  */
-void GameImpl::applyRandomOffsets()
+void GameImpl::applyRandomOffsets(double maxOffset)
 {
-  const double lower = -2.0;
-  const double upper = 2.0;
-
   for (ShapeListIt it = m_shapes.begin(); it != m_shapes.end(); ++it)
   {
     /* Generate random offsets until a valid one is found */
     Vector2D offset;
     do
     {
-      offset = Vector2D(random(lower, upper), random(lower, upper));
+      offset = Vector2D(random(-maxOffset, maxOffset),
+                        random(-maxOffset, maxOffset));
     }
     while(!(*it)->offsetPositionBy(offset, m_clamp));
   }
@@ -97,9 +97,13 @@ void GameImpl::applyRandomOffsets()
  * Note that std::list::erase only invalidates iterators, pointers and
  * references to the item it removes, hence the use of erase within two nested
  * iterations is safe.
+ *
+ * \return True if any shapes were removed
  */
-void GameImpl::cullOverlapping()
+bool GameImpl::cullOverlapping()
 {
+  bool shapesRemoved = false;
+
   /* Iterate over all shapes */
   for (ShapeListIt outerIt = m_shapes.begin(); outerIt != m_shapes.end();)
   {
@@ -119,7 +123,8 @@ void GameImpl::cullOverlapping()
       if ((*outerIt)->intersects(*(*innerIt)))
       {
         /* Show details of intersection */
-        m_stream << *(*outerIt) << " INTERSETCS " << *(*innerIt) << std::endl;
+        m_stream << *(*outerIt) << " intersects " << *(*innerIt) << std::endl;
+        shapesRemoved = true;
 
         /* Mark the shape selected by outerIt for removal */
         removeFlag = true;
@@ -138,6 +143,8 @@ void GameImpl::cullOverlapping()
     else
       ++outerIt;
   }
+
+  return shapesRemoved;
 }
 
 /**

@@ -7,12 +7,11 @@
 /**
  * \brief Entry point.
  *
- * Usage: [num shapes] [max num parameters]
+ * Usage: [num shapes]
  */
 int main(int argc, char *argv[])
 {
   int numShapes = 50;
-  int maxIterations = 10;
 
   /* Parse number of shapes from command line */
   if (argc > 1)
@@ -23,25 +22,11 @@ int main(int argc, char *argv[])
     {
       std::cerr << "Failed to parse number of shapes: " << argv[1]
                 << std::endl;
-      return 2;
+      return 1;
     }
   }
 
-  /* Parse max iteration limit form command line */
-  if (argc > 2)
-  {
-    std::stringstream maxIterationsStr(argv[2]);
-    maxIterationsStr >> maxIterations;
-    if (!maxIterationsStr)
-    {
-      std::cerr << "Failed to parse maximum iteration: " << argv[2]
-                << std::endl;
-      return 2;
-    }
-  }
-
-  std::cout << "Num. shapes: " << numShapes << std::endl
-            << "Max. iterations: " << maxIterations << std::endl;
+  std::cout << "Num. shapes: " << numShapes << std::endl;
 
   /* Bounding box for 2D game area */
   const BoundingBox box(0, 0, 100, 100);
@@ -54,18 +39,23 @@ int main(int argc, char *argv[])
   std::cout << "INITIAL SHAPES:" << std::endl;
   game.printAllShapes();
 
-  for (int i = 0; i < maxIterations; i++)
+  std::cout << std::endl;
+  unsigned int iteration = 1;
+
+  /* Iterate while more than one shape remains */
+  while (game.numShapes() > 1)
   {
-    std::cout << std::endl << "ITERATION: " << (i + 1) << std::endl;
+    game.applyRandomOffsets(2.0);
 
-    game.applyRandomOffsets();
-    game.cullOverlapping();
+    if (game.cullOverlapping())
+    {
+      /* Output details if shapes were removed this iteration */
+      std::cout << "After iteration " << iteration
+                << ", " << game.numShapes() << " shape(s) remaining"
+                << std::endl << std::endl;
+    }
 
-    std::cout << "Shapes remaining: " << game.numShapes() << std::endl;
-
-    /* Exit if all shapes removed */
-    if (game.numShapes() == 0)
-      break;
+    iteration++;
   }
 
   return 0;
