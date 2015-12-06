@@ -40,6 +40,9 @@ class GameImpl
     size_t numShapes() const;
 
   private:
+    /* Do not allow assignment */
+    GameImpl operator=(const GameImpl &) {}
+  
     ShapeList m_shapes;
     const BoundingBox &m_clamp;
     std::ostream &m_stream;

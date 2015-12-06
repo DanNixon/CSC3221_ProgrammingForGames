@@ -21,7 +21,7 @@ GameImpl::GameImpl(const BoundingBox &clamp, std::ostream &stream)
     , m_stream(stream)
 {
   // Seed random number generator
-  srand(time(NULL));
+  srand(static_cast<unsigned int>(time(NULL)));
 }
 
 GameImpl::~GameImpl()
