@@ -9,6 +9,7 @@ addons:
     packages:
       - cmake
       - cppcheck
+      - doxygen
       - lcov
 
 before_install:
