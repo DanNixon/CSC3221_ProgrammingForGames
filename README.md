@@ -1,6 +1,8 @@
 Programming for Games
 =====================
 
+[![Build Status](https://travis-ci.org/DanNixon/CSC3221_ProgrammingForGames.svg?branch=master)](https://travis-ci.org/DanNixon/CSC3221_ProgrammingForGames)
+
 Coursework for the
 [CSC3221](http://www.ncl.ac.uk/module-catalogue/module.php?code=CSC3221)
 Programming for Games module at Newcastle University.
